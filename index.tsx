@@ -2,39 +2,45 @@ import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
 
 import { OGImageService } from './services/og-generator/OGImageService'
+import { OGImageShopSchema } from './services/og-generator/types'
 
 const app = new Hono()
 
-app.get('/og/shop', async (c) => {
+app.post('/og/shop', async (c) => {
   try {
-    const url = new URL(c.req.url)
-    const offerImagesUrls = url.searchParams.getAll('offerImagesUrls')
-    const stylesUrl = c.req.query('stylesUrl') || ''
-    const logoUrl = c.req.query('logoUrl') || ''
-    const shopName = c.req.query('shopName')
-    const poweredBy = c.req.query('poweredBy') === 'true'
+    const body = await c.req.json()
+    
 
-    if (!shopName) {
-      return c.json({ error: 'shopName is required' }, 400)
+    const validationResult = OGImageShopSchema.safeParse(body)
+    
+    if (!validationResult.success) {
+      return c.json(
+        { 
+          error: 'Validation failed', 
+          issues: validationResult.error.issues.map(issue => ({
+            path: issue.path.join('.'),
+            message: issue.message
+          }))
+        }, 
+        400
+      )
     }
 
-    if (offerImagesUrls.length === 0) {
-      return c.json({ error: 'At least one offerImagesUrls is required' }, 400)
-    }
+    const validatedData = validationResult.data
 
-    const buffer = await OGImageService.generateShopImageBuffer({
-      offerImagesUrls,
-      stylesUrl,
-      logoUrl,
-      shopName,
-      poweredBy,
-    })
+    const buffer = await OGImageService.generateShopImageBuffer(validatedData)
 
     return c.body(new Uint8Array(buffer), 200, {
       'Content-Type': 'image/png',
     })
   } catch (error) {
     console.error('Error generating shop OG image:', error)
+    
+    // Check if it's a JSON parsing error
+    if (error instanceof SyntaxError) {
+      return c.json({ error: 'Invalid JSON in request body' }, 400)
+    }
+    
     return c.json({ error: 'Failed to generate shop OG image' }, 500)
   }
 })

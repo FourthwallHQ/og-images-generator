@@ -1,10 +1,12 @@
-export interface OGImageShopParameters {
-    offerImagesUrls: string[];
-    stylesUrl: string;
-    logoUrl: string;
-    shopName: string;
-    poweredBy: boolean;
-}
+import { z } from 'zod';
+export declare const OGImageShopSchema: z.ZodObject<{
+    offerImagesUrls: z.ZodArray<z.ZodString>;
+    stylesUrl: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLiteral<"">]>>>;
+    logoUrl: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLiteral<"">]>>>;
+    shopName: z.ZodString;
+    poweredBy: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+}, z.core.$strip>;
+export type OGImageShopParameters = z.infer<typeof OGImageShopSchema>;
 export interface ParsedStyles {
     primaryColor: string;
     backgroundColor: string;
