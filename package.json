@@ -1,0 +1,33 @@
+{
+  "name": "og-images-generator",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:prod": "node dist/index.js",
+    "dev": "tsx watch index.tsx",
+    "dev:tsx": "tsx index.tsx",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hono/node-server": "^1.19.2",
+    "@kitajs/html": "^4.2.9",
+    "@vercel/og": "^0.8.5",
+    "dotenv": "^17.2.2",
+    "hono": "^4.9.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tsx": "^4.20.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "typescript": "^5.9.2"
+  }
+}
