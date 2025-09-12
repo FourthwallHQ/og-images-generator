@@ -8,7 +8,9 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsx watch index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,9 @@
   "devDependencies": {
     "@types/node": "24.3.1",
     "@types/react": "18.0.0",
-    "typescript": "5.9.2"
+    "@vitest/ui": "^3.2.4",
+    "happy-dom": "^18.0.1",
+    "typescript": "5.9.2",
+    "vitest": "^3.2.4"
   }
 }

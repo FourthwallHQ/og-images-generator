@@ -13,9 +13,7 @@
     "allowJs": true,
     "outDir": "./dist",
     "rootDir": "./",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "declaration": false
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "dist"]
