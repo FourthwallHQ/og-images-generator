@@ -1,6 +1,5 @@
 import { createRoute } from '@hono/zod-openapi';
 import { OGImageShopRequestSchema, ErrorResponseSchema } from './schemas';
-// Route definition for shop OG image generation
 export const createShopOGImageRoute = createRoute({
     method: 'post',
     path: '/og/shop',
@@ -35,35 +34,6 @@ export const createShopOGImageRoute = createRoute({
             content: {
                 'application/json': {
                     schema: ErrorResponseSchema,
-                },
-            },
-        },
-        500: {
-            description: 'Internal server error',
-            content: {
-                'application/json': {
-                    schema: ErrorResponseSchema,
-                },
-            },
-        },
-    },
-});
-// Test endpoint route (simplified for testing)
-export const testShopOGImageRoute = createRoute({
-    method: 'get',
-    path: '/og/shop/test',
-    tags: ['OG Image Generation', 'Testing'],
-    summary: 'Test shop OG image generation',
-    description: 'Test endpoint with pre-configured sandbox data.',
-    responses: {
-        200: {
-            description: 'Generated test OG image',
-            content: {
-                'image/png': {
-                    schema: {
-                        type: 'string',
-                        format: 'binary',
-                    },
                 },
             },
         },

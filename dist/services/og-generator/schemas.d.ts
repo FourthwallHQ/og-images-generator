@@ -7,9 +7,9 @@ export declare const ErrorResponseSchema: z.ZodObject<{
     }, z.core.$strip>>>;
 }, z.core.$strip>;
 export declare const OGImageShopRequestSchema: z.ZodObject<{
-    offerImagesUrls: z.ZodArray<z.ZodString>;
-    stylesUrl: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLiteral<"">]>>>;
-    logoUrl: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLiteral<"">]>>>;
+    offerImagesUrls: z.ZodArray<z.ZodURL>;
+    stylesUrl: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodURL, z.ZodLiteral<"">]>>>;
+    logoUrl: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodURL, z.ZodLiteral<"">]>>>;
     shopName: z.ZodString;
     poweredBy: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
 }, z.core.$strip>;

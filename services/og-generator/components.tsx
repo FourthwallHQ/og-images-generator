@@ -1,11 +1,33 @@
 import React from 'react'
-import {
-  ShopLogoProps,
-  ShopInfoProps,
-  PoweredBySectionProps,
-  LeftColumnProps,
-  RightColumnProps,
-} from './types'
+
+
+interface ShopLogoProps {
+  logoUrl: string
+}
+
+interface ShopInfoProps {
+  shopName: string
+  primaryColor: string
+  fontFamily: string
+}
+
+interface PoweredBySectionProps {
+  primaryColor: string
+}
+
+interface LeftColumnProps {
+  logoUrl: string
+  shopName: string
+  poweredBy: boolean
+  primaryColor: string
+  backgroundColor: string
+  fontFamily: string
+}
+
+interface RightColumnProps {
+  mainImage: string
+  backgroundColor: string
+}
 
 export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
   if (!logoUrl) return null

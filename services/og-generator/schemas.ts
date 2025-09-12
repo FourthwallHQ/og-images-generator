@@ -1,6 +1,6 @@
 import { z } from '@hono/zod-openapi'
 
-// Response schema for error messages
+
 export const ErrorResponseSchema = z.object({
   error: z.string(),
   issues: z.array(z.object({
@@ -9,7 +9,7 @@ export const ErrorResponseSchema = z.object({
   })).optional()
 }).openapi('ErrorResponse')
 
-// Shop OG Image request schema with OpenAPI metadata
+
 export const OGImageShopRequestSchema = z.object({
   offerImagesUrls: z.array(z.url()).min(1).openapi({
     example: [
@@ -37,5 +37,5 @@ export const OGImageShopRequestSchema = z.object({
   }),
 }).openapi('OGImageShopRequest')
 
-// Export the type for TypeScript usage
+
 export type OGImageShopRequest = z.infer<typeof OGImageShopRequestSchema>
