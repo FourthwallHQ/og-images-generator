@@ -6,6 +6,10 @@ interface ParsedStyles {
 
 export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> {
   try {
+    if (!stylesUrl) {
+      throw new Error('Empty styles URL')
+    }
+    
     const response = await fetch(stylesUrl)
     if (!response.ok) {
       throw new Error('Failed to fetch styles')
@@ -52,12 +56,6 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
     )
 
     const cleanFontFamily = fontFamily.replace(/["']/g, '')
-
-    // console.log('Parsed styles:', {
-    //   primaryColor,
-    //   backgroundColor,
-    //   fontFamily: cleanFontFamily,
-    // })
 
     return {
       primaryColor,
