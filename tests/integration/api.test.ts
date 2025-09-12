@@ -3,12 +3,11 @@ import { app } from '../../app'
 
 vi.mock('../../services/og-generator/OGImageService', () => ({
   OGImageService: {
-    generateShopImageBuffer: vi.fn().mockResolvedValue(Buffer.from('fake-image-data'))
-  }
+    generateShopImageBuffer: vi.fn().mockResolvedValue(Buffer.from('fake-image-data')),
+  },
 }))
 
 describe('API Endpoints', () => {
-
   describe('POST /og/shop - Strategy Tests', () => {
     it('should generate COMING_SOON image', async () => {
       const response = await app.request('/og/shop', {
@@ -18,8 +17,8 @@ describe('API Endpoints', () => {
           strategy: 'COMING_SOON',
           shopName: 'Test Shop',
           siteUrl: 'testshop.com',
-          logoUrl: 'https://example.com/logo.png'
-        })
+          logoUrl: 'https://example.com/logo.png',
+        }),
       })
 
       expect(response.status).toBe(200)
@@ -35,8 +34,8 @@ describe('API Endpoints', () => {
           shopName: 'Test Shop',
           siteUrl: 'testshop.com',
           launchDate: '2024-12-25T00:00:00Z',
-          logoUrl: 'https://example.com/logo.png'
-        })
+          logoUrl: 'https://example.com/logo.png',
+        }),
       })
 
       expect(response.status).toBe(200)
@@ -51,8 +50,8 @@ describe('API Endpoints', () => {
           strategy: 'EMPTY_SHOP',
           shopName: 'Test Shop',
           siteUrl: 'testshop.com',
-          logoUrl: 'https://example.com/logo.png'
-        })
+          logoUrl: 'https://example.com/logo.png',
+        }),
       })
 
       expect(response.status).toBe(200)
@@ -67,8 +66,8 @@ describe('API Endpoints', () => {
           strategy: 'LIVE_WITH_PRODUCTS',
           shopName: 'Test Shop',
           offerImagesUrls: ['https://example.com/product.jpg'],
-          logoUrl: 'https://example.com/logo.png'
-        })
+          logoUrl: 'https://example.com/logo.png',
+        }),
       })
 
       expect(response.status).toBe(200)
@@ -80,12 +79,12 @@ describe('API Endpoints', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          shopName: 'Test Shop'
-        })
+          shopName: 'Test Shop',
+        }),
       })
 
       expect(response.status).toBe(400)
-      const json = await response.json() as any
+      const json = (await response.json()) as any
       expect(json.error).toBeDefined()
     })
 
@@ -95,12 +94,12 @@ describe('API Endpoints', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           strategy: 'invalid_strategy',
-          shopName: 'Test Shop'
-        })
+          shopName: 'Test Shop',
+        }),
       })
 
       expect(response.status).toBe(400)
-      const json = await response.json() as any
+      const json = (await response.json()) as any
       expect(json.error).toBeDefined()
     })
 
@@ -110,12 +109,12 @@ describe('API Endpoints', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           strategy: 'LIVE_WITH_PRODUCTS',
-          shopName: 'Test Shop'
-        })
+          shopName: 'Test Shop',
+        }),
       })
 
       expect(response.status).toBe(400)
-      const json = await response.json() as any
+      const json = (await response.json()) as any
       expect(json.error).toBeDefined()
     })
 
@@ -125,12 +124,12 @@ describe('API Endpoints', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           strategy: 'COMING_SOON_WITH_DATE',
-          shopName: 'Test Shop'
-        })
+          shopName: 'Test Shop',
+        }),
       })
 
       expect(response.status).toBe(400)
-      const json = await response.json() as any
+      const json = (await response.json()) as any
       expect(json.error).toBeDefined()
     })
 
@@ -139,12 +138,12 @@ describe('API Endpoints', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          strategy: 'COMING_SOON'
-        })
+          strategy: 'COMING_SOON',
+        }),
       })
 
       expect(response.status).toBe(400)
-      const json = await response.json() as any
+      const json = (await response.json()) as any
       expect(json.error).toBeDefined()
     })
 
@@ -154,12 +153,12 @@ describe('API Endpoints', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           strategy: 'COMING_SOON',
-          shopName: ''
-        })
+          shopName: '',
+        }),
       })
 
       expect(response.status).toBe(400)
-      const json = await response.json() as any
+      const json = (await response.json()) as any
       expect(json.error).toBeDefined()
     })
 
@@ -167,7 +166,7 @@ describe('API Endpoints', () => {
       const response = await app.request('/og/shop', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: 'invalid json'
+        body: 'invalid json',
       })
 
       expect(response.status).toBe(400)
@@ -184,8 +183,8 @@ describe('API Endpoints', () => {
           stylesUrl: 'https://example.com/styles.css',
           logoUrl: 'https://example.com/logo.png',
           siteUrl: 'testshop.com',
-          poweredBy: false
-        })
+          poweredBy: false,
+        }),
       })
 
       expect(response.status).toBe(200)
@@ -196,11 +195,11 @@ describe('API Endpoints', () => {
   describe('GET /doc', () => {
     it('should return OpenAPI specification', async () => {
       const response = await app.request('/doc')
-      
+
       expect(response.status).toBe(200)
       expect(response.headers.get('content-type')).toContain('application/json')
-      
-      const json = await response.json() as any
+
+      const json = (await response.json()) as any
       expect(json.openapi).toBe('3.0.0')
       expect(json.info.title).toBe('OG Image Generator API')
       expect(json.paths['/og/shop']).toBeDefined()
@@ -208,8 +207,8 @@ describe('API Endpoints', () => {
 
     it('should include proper schema definitions', async () => {
       const response = await app.request('/doc')
-      const json = await response.json() as any
-      
+      const json = (await response.json()) as any
+
       expect(json.components.schemas).toBeDefined()
       expect(json.components.schemas['OGImageShopRequest']).toBeDefined()
       expect(json.components.schemas['ErrorResponse']).toBeDefined()

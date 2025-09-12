@@ -8,9 +8,8 @@ export class OGImageService {
   static async generateShopImageBuffer(params: OGImageShopRequest): Promise<Buffer> {
     const finalParams = {
       ...params,
-      poweredBy: params.poweredBy !== undefined 
-        ? params.poweredBy 
-        : params.strategy !== 'EMPTY_SHOP'
+      poweredBy:
+        params.poweredBy !== undefined ? params.poweredBy : params.strategy !== 'EMPTY_SHOP',
     }
 
     let imageResponse: ImageResponse
@@ -67,7 +66,7 @@ export class OGImageService {
       {
         width: 1200,
         height: 630,
-      }
+      },
     )
   }
 
@@ -99,10 +98,10 @@ export class OGImageService {
             fontFamily={fontFamily}
           />
           <RightColumn backgroundColor={backgroundColor}>
-            <LaunchDateBanner 
-              launchDate={params.launchDate} 
-              primaryColor={primaryColor} 
-              fontFamily={fontFamily} 
+            <LaunchDateBanner
+              launchDate={params.launchDate}
+              primaryColor={primaryColor}
+              fontFamily={fontFamily}
             />
           </RightColumn>
         </div>
@@ -110,7 +109,7 @@ export class OGImageService {
       {
         width: 1200,
         height: 630,
-      }
+      },
     )
   }
 
@@ -143,7 +142,7 @@ export class OGImageService {
       {
         width: 1200,
         height: 630,
-      }
+      },
     )
   }
 
@@ -176,16 +175,13 @@ export class OGImageService {
             backgroundColor={backgroundColor}
             fontFamily={fontFamily}
           />
-          <RightColumn
-            mainImage={mainImage}
-            backgroundColor={backgroundColor}
-          />
+          <RightColumn mainImage={mainImage} backgroundColor={backgroundColor} />
         </div>
       ),
       {
         width: 1200,
         height: 630,
-      }
+      },
     )
   }
 }

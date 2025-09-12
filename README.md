@@ -72,12 +72,14 @@ npm run test:run
 Generate an OG image for a shop based on its current status.
 
 **Strategies:**
+
 - `COMING_SOON` - Password/coming soon state with "Coming Soon" banner
 - `COMING_SOON_WITH_DATE` - Coming soon with launch date display
 - `EMPTY_SHOP` - Live shop with no products (no "Powered by Fourthwall")
 - `LIVE_WITH_PRODUCTS` - Live shop with products showing first product image
 
 **Request Body:**
+
 ```json
 {
   "strategy": "LIVE_WITH_PRODUCTS",
@@ -85,13 +87,13 @@ Generate an OG image for a shop based on its current status.
   "siteUrl": "myshop.com",
   "logoUrl": "https://example.com/logo.png",
   "stylesUrl": "https://example.com/styles.css",
-  
+
   // Required for 'LIVE_WITH_PRODUCTS' strategy
   "offerImagesUrls": ["https://example.com/product.jpg"],
-  
+
   // Required for 'COMING_SOON_WITH_DATE' strategy
   "launchDate": "2024-12-25T00:00:00Z",
-  
+
   // Optional - auto-set based on strategy if not provided
   "poweredBy": true
 }
@@ -100,6 +102,7 @@ Generate an OG image for a shop based on its current status.
 **Response:** PNG image
 
 **Strategy-specific requirements:**
+
 - `LIVE_WITH_PRODUCTS`: Requires `offerImagesUrls` array with at least one product image
 - `COMING_SOON_WITH_DATE`: Requires `launchDate` in ISO 8601 format
 - `EMPTY_SHOP`: Automatically sets `poweredBy` to false

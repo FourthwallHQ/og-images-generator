@@ -7,9 +7,9 @@ describe('OGImageShopRequestSchema', () => {
       const input = {
         strategy: 'LIVE_WITH_PRODUCTS',
         shopName: 'Test Shop',
-        offerImagesUrls: ['https://example.com/image.jpg']
+        offerImagesUrls: ['https://example.com/image.jpg'],
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(true)
       if (result.success) {
@@ -27,14 +27,14 @@ describe('OGImageShopRequestSchema', () => {
         offerImagesUrls: [
           'https://example.com/image1.jpg',
           'https://example.com/image2.jpg',
-          'https://example.com/image3.jpg'
+          'https://example.com/image3.jpg',
         ],
         stylesUrl: 'https://example.com/styles.css',
         logoUrl: 'https://example.com/logo.png',
         siteUrl: 'myshop.com',
-        poweredBy: true
+        poweredBy: true,
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(true)
       if (result.success) {
@@ -52,9 +52,9 @@ describe('OGImageShopRequestSchema', () => {
         shopName: 'Test Shop',
         siteUrl: 'testshop.com',
         stylesUrl: '',
-        logoUrl: ''
+        logoUrl: '',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(true)
     })
@@ -64,9 +64,9 @@ describe('OGImageShopRequestSchema', () => {
         strategy: 'COMING_SOON_WITH_DATE',
         shopName: 'Test Shop',
         launchDate: '2024-12-25T00:00:00Z',
-        siteUrl: 'testshop.com'
+        siteUrl: 'testshop.com',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(true)
     })
@@ -75,9 +75,9 @@ describe('OGImageShopRequestSchema', () => {
       const input = {
         strategy: 'EMPTY_SHOP',
         shopName: 'Test Shop',
-        siteUrl: 'testshop.com'
+        siteUrl: 'testshop.com',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(true)
     })
@@ -87,13 +87,13 @@ describe('OGImageShopRequestSchema', () => {
     it('should reject missing shopName', () => {
       const input = {
         strategy: 'LIVE_WITH_PRODUCTS',
-        offerImagesUrls: ['https://example.com/image.jpg']
+        offerImagesUrls: ['https://example.com/image.jpg'],
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        const shopNameError = result.error.issues.find(issue => issue.path.includes('shopName'))
+        const shopNameError = result.error.issues.find((issue) => issue.path.includes('shopName'))
         expect(shopNameError).toBeDefined()
       }
     })
@@ -101,18 +101,18 @@ describe('OGImageShopRequestSchema', () => {
     it('should reject empty shopName', () => {
       const input = {
         strategy: 'COMING_SOON',
-        shopName: ''
+        shopName: '',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
 
     it('should reject missing strategy', () => {
       const input = {
-        shopName: 'Test Shop'
+        shopName: 'Test Shop',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
@@ -120,9 +120,9 @@ describe('OGImageShopRequestSchema', () => {
     it('should reject LIVE_WITH_PRODUCTS strategy without offerImagesUrls', () => {
       const input = {
         strategy: 'LIVE_WITH_PRODUCTS',
-        shopName: 'Test Shop'
+        shopName: 'Test Shop',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -134,9 +134,9 @@ describe('OGImageShopRequestSchema', () => {
     it('should reject COMING_SOON_WITH_DATE without launchDate', () => {
       const input = {
         strategy: 'COMING_SOON_WITH_DATE',
-        shopName: 'Test Shop'
+        shopName: 'Test Shop',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -149,9 +149,9 @@ describe('OGImageShopRequestSchema', () => {
       const input = {
         strategy: 'LIVE_WITH_PRODUCTS',
         shopName: 'Test Shop',
-        offerImagesUrls: ['not-a-url', 'also-not-a-url']
+        offerImagesUrls: ['not-a-url', 'also-not-a-url'],
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
@@ -160,9 +160,9 @@ describe('OGImageShopRequestSchema', () => {
       const input = {
         strategy: 'COMING_SOON',
         shopName: 'Test Shop',
-        stylesUrl: 'not-a-url'
+        stylesUrl: 'not-a-url',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
@@ -171,9 +171,9 @@ describe('OGImageShopRequestSchema', () => {
       const input = {
         strategy: 'COMING_SOON',
         shopName: 'Test Shop',
-        logoUrl: 'not-a-url'
+        logoUrl: 'not-a-url',
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
@@ -182,9 +182,9 @@ describe('OGImageShopRequestSchema', () => {
       const input = {
         strategy: 'COMING_SOON',
         shopName: 'Test Shop',
-        poweredBy: 'yes' // should be boolean
+        poweredBy: 'yes', // should be boolean
       }
-      
+
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
@@ -197,28 +197,28 @@ describe('ErrorResponseSchema', () => {
       error: 'Validation failed',
       issues: [
         { path: 'shopName', message: 'Required' },
-        { path: 'offerImagesUrls', message: 'At least one URL required' }
-      ]
+        { path: 'offerImagesUrls', message: 'At least one URL required' },
+      ],
     }
-    
+
     const result = ErrorResponseSchema.safeParse(input)
     expect(result.success).toBe(true)
   })
 
   it('should validate error response without issues', () => {
     const input = {
-      error: 'Internal server error'
+      error: 'Internal server error',
     }
-    
+
     const result = ErrorResponseSchema.safeParse(input)
     expect(result.success).toBe(true)
   })
 
   it('should reject missing error field', () => {
     const input = {
-      issues: [{ path: 'test', message: 'test' }]
+      issues: [{ path: 'test', message: 'test' }],
     }
-    
+
     const result = ErrorResponseSchema.safeParse(input)
     expect(result.success).toBe(false)
   })
