@@ -3,8 +3,9 @@ import { OGImageShopRequestSchema, ErrorResponseSchema } from '../../services/og
 
 describe('OGImageShopRequestSchema', () => {
   describe('valid inputs', () => {
-    it('should accept minimal valid input', () => {
+    it('should accept minimal valid input for LIVE_WITH_PRODUCTS strategy', () => {
       const input = {
+        strategy: 'LIVE_WITH_PRODUCTS',
         shopName: 'Test Shop',
         offerImagesUrls: ['https://example.com/image.jpg']
       }
@@ -14,7 +15,6 @@ describe('OGImageShopRequestSchema', () => {
       if (result.success) {
         expect(result.data.shopName).toBe('Test Shop')
         expect(result.data.offerImagesUrls).toHaveLength(1)
-        expect(result.data.poweredBy).toBe(false) // default value
         expect(result.data.stylesUrl).toBe('') // default value
         expect(result.data.logoUrl).toBe('') // default value
       }
@@ -22,6 +22,7 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should accept full valid input', () => {
       const input = {
+        strategy: 'LIVE_WITH_PRODUCTS',
         shopName: 'My Awesome Shop',
         offerImagesUrls: [
           'https://example.com/image1.jpg',
@@ -30,6 +31,7 @@ describe('OGImageShopRequestSchema', () => {
         ],
         stylesUrl: 'https://example.com/styles.css',
         logoUrl: 'https://example.com/logo.png',
+        siteUrl: 'myshop.com',
         poweredBy: true
       }
       
@@ -44,12 +46,36 @@ describe('OGImageShopRequestSchema', () => {
       }
     })
 
-    it('should accept empty strings for optional URL fields', () => {
+    it('should accept COMING_SOON strategy', () => {
       const input = {
+        strategy: 'COMING_SOON',
         shopName: 'Test Shop',
-        offerImagesUrls: ['https://example.com/image.jpg'],
+        siteUrl: 'testshop.com',
         stylesUrl: '',
         logoUrl: ''
+      }
+      
+      const result = OGImageShopRequestSchema.safeParse(input)
+      expect(result.success).toBe(true)
+    })
+
+    it('should accept COMING_SOON_WITH_DATE strategy', () => {
+      const input = {
+        strategy: 'COMING_SOON_WITH_DATE',
+        shopName: 'Test Shop',
+        launchDate: '2024-12-25T00:00:00Z',
+        siteUrl: 'testshop.com'
+      }
+      
+      const result = OGImageShopRequestSchema.safeParse(input)
+      expect(result.success).toBe(true)
+    })
+
+    it('should accept EMPTY_SHOP strategy', () => {
+      const input = {
+        strategy: 'EMPTY_SHOP',
+        shopName: 'Test Shop',
+        siteUrl: 'testshop.com'
       }
       
       const result = OGImageShopRequestSchema.safeParse(input)
@@ -60,6 +86,7 @@ describe('OGImageShopRequestSchema', () => {
   describe('invalid inputs', () => {
     it('should reject missing shopName', () => {
       const input = {
+        strategy: 'LIVE_WITH_PRODUCTS',
         offerImagesUrls: ['https://example.com/image.jpg']
       }
       
@@ -73,15 +100,15 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should reject empty shopName', () => {
       const input = {
-        shopName: '',
-        offerImagesUrls: ['https://example.com/image.jpg']
+        strategy: 'COMING_SOON',
+        shopName: ''
       }
       
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
 
-    it('should reject missing offerImagesUrls', () => {
+    it('should reject missing strategy', () => {
       const input = {
         shopName: 'Test Shop'
       }
@@ -90,22 +117,37 @@ describe('OGImageShopRequestSchema', () => {
       expect(result.success).toBe(false)
     })
 
-    it('should reject empty offerImagesUrls array', () => {
+    it('should reject LIVE_WITH_PRODUCTS strategy without offerImagesUrls', () => {
       const input = {
-        shopName: 'Test Shop',
-        offerImagesUrls: []
+        strategy: 'LIVE_WITH_PRODUCTS',
+        shopName: 'Test Shop'
       }
       
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
         const error = result.error.issues[0]
-        expect(error.message).toContain('Too small')
+        expect(error.message).toContain('Invalid data for selected strategy')
+      }
+    })
+
+    it('should reject COMING_SOON_WITH_DATE without launchDate', () => {
+      const input = {
+        strategy: 'COMING_SOON_WITH_DATE',
+        shopName: 'Test Shop'
+      }
+      
+      const result = OGImageShopRequestSchema.safeParse(input)
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        const error = result.error.issues[0]
+        expect(error.message).toContain('Invalid data for selected strategy')
       }
     })
 
     it('should reject invalid URLs in offerImagesUrls', () => {
       const input = {
+        strategy: 'LIVE_WITH_PRODUCTS',
         shopName: 'Test Shop',
         offerImagesUrls: ['not-a-url', 'also-not-a-url']
       }
@@ -116,8 +158,8 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should reject invalid stylesUrl', () => {
       const input = {
+        strategy: 'COMING_SOON',
         shopName: 'Test Shop',
-        offerImagesUrls: ['https://example.com/image.jpg'],
         stylesUrl: 'not-a-url'
       }
       
@@ -127,8 +169,8 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should reject invalid logoUrl', () => {
       const input = {
+        strategy: 'COMING_SOON',
         shopName: 'Test Shop',
-        offerImagesUrls: ['https://example.com/image.jpg'],
         logoUrl: 'not-a-url'
       }
       
@@ -138,8 +180,8 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should reject non-boolean poweredBy', () => {
       const input = {
+        strategy: 'COMING_SOON',
         shopName: 'Test Shop',
-        offerImagesUrls: ['https://example.com/image.jpg'],
         poweredBy: 'yes' // should be boolean
       }
       

@@ -9,6 +9,7 @@ interface ShopInfoProps {
   shopName: string
   primaryColor: string
   fontFamily: string
+  siteUrl?: string
 }
 
 interface PoweredBySectionProps {
@@ -18,6 +19,7 @@ interface PoweredBySectionProps {
 interface LeftColumnProps {
   logoUrl: string
   shopName: string
+  siteUrl?: string
   poweredBy: boolean
   primaryColor: string
   backgroundColor: string
@@ -25,8 +27,20 @@ interface LeftColumnProps {
 }
 
 interface RightColumnProps {
-  mainImage: string
+  mainImage?: string
   backgroundColor: string
+  children?: React.ReactNode
+}
+
+interface ComingSoonBannerProps {
+  primaryColor: string
+  fontFamily: string
+}
+
+interface LaunchDateBannerProps {
+  launchDate: string
+  primaryColor: string
+  fontFamily: string
 }
 
 export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
@@ -45,7 +59,7 @@ export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
   )
 }
 
-export const ShopInfo = ({ shopName, primaryColor, fontFamily }: ShopInfoProps) => (
+export const ShopInfo = ({ shopName, primaryColor, fontFamily, siteUrl }: ShopInfoProps) => (
   <div
     style={{
       display: 'flex',
@@ -81,6 +95,21 @@ export const ShopInfo = ({ shopName, primaryColor, fontFamily }: ShopInfoProps) 
     >
       {shopName}
     </span>
+
+    {siteUrl && (
+      <span
+        style={{
+          display: 'block',
+          fontSize: '24px',
+          color: primaryColor,
+          opacity: 0.6,
+          marginTop: '12px',
+          fontFamily,
+        }}
+      >
+        {siteUrl}
+      </span>
+    )}
   </div>
 )
 
@@ -145,6 +174,7 @@ export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
 export const LeftColumn = ({
   logoUrl,
   shopName,
+  siteUrl,
   poweredBy,
   primaryColor,
   backgroundColor,
@@ -178,7 +208,7 @@ export const LeftColumn = ({
         }}
       >
         <ShopLogo logoUrl={logoUrl} />
-        <ShopInfo shopName={shopName} primaryColor={primaryColor} fontFamily={fontFamily} />
+        <ShopInfo shopName={shopName} primaryColor={primaryColor} fontFamily={fontFamily} siteUrl={siteUrl} />
       </div>
 
       {poweredBy && (
@@ -190,7 +220,7 @@ export const LeftColumn = ({
   </div>
 )
 
-export const RightColumn = ({ mainImage, backgroundColor }: RightColumnProps) => (
+export const RightColumn = ({ mainImage, backgroundColor, children }: RightColumnProps) => (
   <div
     style={{
       width: '50%',
@@ -212,5 +242,91 @@ export const RightColumn = ({ mainImage, backgroundColor }: RightColumnProps) =>
         }}
       />
     )}
+    {children}
   </div>
 )
+
+export const ComingSoonBanner = ({ primaryColor, fontFamily }: ComingSoonBannerProps) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+    }}
+  >
+    <span
+      style={{
+        fontSize: '72px',
+        fontWeight: 700,
+        color: primaryColor,
+        fontFamily,
+        textAlign: 'center',
+        letterSpacing: '-1px',
+      }}
+    >
+      Coming Soon
+    </span>
+  </div>
+)
+
+export const LaunchDateBanner = ({ launchDate, primaryColor, fontFamily }: LaunchDateBannerProps) => {
+  const formatDate = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr)
+      const options: Intl.DateTimeFormatOptions = { 
+        month: 'long', 
+        day: 'numeric', 
+        year: 'numeric' 
+      }
+      return date.toLocaleDateString('en-US', options)
+    } catch {
+      return dateStr
+    }
+  }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        gap: '16px',
+      }}
+    >
+      <span
+        style={{
+          fontSize: '48px',
+          fontWeight: 400,
+          color: primaryColor,
+          fontFamily,
+          opacity: 0.8,
+        }}
+      >
+        Launching
+      </span>
+      <span
+        style={{
+          fontSize: '64px',
+          fontWeight: 700,
+          color: primaryColor,
+          fontFamily,
+          textAlign: 'center',
+          letterSpacing: '-1px',
+        }}
+      >
+        {formatDate(launchDate)}
+      </span>
+    </div>
+  )
+}
