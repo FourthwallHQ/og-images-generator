@@ -59,44 +59,18 @@ export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
   )
 }
 
-export const ShopInfo = ({ shopName, primaryColor, fontFamily, siteUrl }: ShopInfoProps) => (
-  <div
+export const ShopInfo = ({  primaryColor, fontFamily, siteUrl }: ShopInfoProps) => {
+
+  if (!siteUrl) return null
+
+
+ return <div
     style={{
       display: 'flex',
       flexDirection: 'column',
       gap: 0,
     }}
   >
-    <span
-      style={{
-        display: 'block',
-        fontSize: '36px',
-        color: primaryColor,
-        margin: 0,
-        opacity: 0.8,
-      }}
-    >
-      Get it at
-    </span>
-
-    <span
-      style={{
-        display: 'block',
-        color: primaryColor,
-        fontFamily,
-        fontSize: '50px',
-        fontStyle: 'normal',
-        fontWeight: 700,
-        lineHeight: '106.5%',
-        letterSpacing: '-0.75px',
-        margin: 0,
-        wordBreak: 'break-word',
-      }}
-    >
-      {shopName}
-    </span>
-
-    {siteUrl && (
       <span
         style={{
           display: 'block',
@@ -109,9 +83,9 @@ export const ShopInfo = ({ shopName, primaryColor, fontFamily, siteUrl }: ShopIn
       >
         {siteUrl}
       </span>
-    )}
   </div>
-)
+}
+
 
 export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
   <div
@@ -124,11 +98,11 @@ export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
   >
     <span
       style={{
-        fontSize: '24px',
+        fontSize: '16px',
         fontStyle: 'normal',
         fontWeight: 400,
         lineHeight: 'normal',
-        letterSpacing: '-0.36px',
+        letterSpacing: '-0.24px',
         color: primaryColor,
         opacity: 0.6,
       }}
@@ -142,8 +116,8 @@ export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
       viewBox="0 0 272 48"
       fill="none"
       style={{
-        width: '180px',
-        height: '32px',
+        width: '124px',
+        height: '22px',
         opacity: 0.6,
       }}
     >
