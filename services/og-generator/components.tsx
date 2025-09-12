@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 interface ShopLogoProps {
   logoUrl: string
 }
@@ -59,33 +58,34 @@ export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
   )
 }
 
-export const ShopInfo = ({  primaryColor, fontFamily, siteUrl }: ShopInfoProps) => {
-
+export const ShopInfo = ({ primaryColor, fontFamily, siteUrl }: ShopInfoProps) => {
   if (!siteUrl) return null
 
-
- return <div
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 0,
-    }}
-  >
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0,
+      }}
+    >
       <span
         style={{
           display: 'block',
-          fontSize: '24px',
+          fontSize: '50px',
+          fontWeight: '700',
+          lineHeight: '106%',
+          letterSpacing: '-0.75px',
           color: primaryColor,
-          opacity: 0.6,
           marginTop: '12px',
           fontFamily,
         }}
       >
         {siteUrl}
       </span>
-  </div>
+    </div>
+  )
 }
-
 
 export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
   <div
@@ -182,7 +182,12 @@ export const LeftColumn = ({
         }}
       >
         <ShopLogo logoUrl={logoUrl} />
-        <ShopInfo shopName={shopName} primaryColor={primaryColor} fontFamily={fontFamily} siteUrl={siteUrl} />
+        <ShopInfo
+          shopName={shopName}
+          primaryColor={primaryColor}
+          fontFamily={fontFamily}
+          siteUrl={siteUrl}
+        />
       </div>
 
       {poweredBy && (
@@ -248,14 +253,18 @@ export const ComingSoonBanner = ({ primaryColor, fontFamily }: ComingSoonBannerP
   </div>
 )
 
-export const LaunchDateBanner = ({ launchDate, primaryColor, fontFamily }: LaunchDateBannerProps) => {
+export const LaunchDateBanner = ({
+  launchDate,
+  primaryColor,
+  fontFamily,
+}: LaunchDateBannerProps) => {
   const formatDate = (dateStr: string) => {
     try {
       const date = new Date(dateStr)
-      const options: Intl.DateTimeFormatOptions = { 
-        month: 'long', 
-        day: 'numeric', 
-        year: 'numeric' 
+      const options: Intl.DateTimeFormatOptions = {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
       }
       return date.toLocaleDateString('en-US', options)
     } catch {

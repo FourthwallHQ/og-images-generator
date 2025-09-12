@@ -16,15 +16,15 @@ describe('parseShopStyles', () => {
           --color-primary: #667eea;
           --font-family-base: "Inter", sans-serif;
         }
-      `
+      `,
     })
 
     const result = await parseShopStyles('https://example.com/styles.css')
-    
+
     expect(result).toEqual({
       backgroundColor: '#f0f0f0',
       primaryColor: '#333333', // Should pick --color-on-background first
-      fontFamily: 'Inter, sans-serif'
+      fontFamily: 'Inter, sans-serif',
     })
   })
 
@@ -37,15 +37,15 @@ describe('parseShopStyles', () => {
           --primary-color: #ff6600;
           --font-family-heading: "Roboto", sans-serif;
         }
-      `
+      `,
     })
 
     const result = await parseShopStyles('https://example.com/styles.css')
-    
+
     expect(result).toEqual({
       backgroundColor: '#222222',
       primaryColor: '#ff6600',
-      fontFamily: 'Roboto, sans-serif'
+      fontFamily: 'Roboto, sans-serif',
     })
   })
 
@@ -56,63 +56,63 @@ describe('parseShopStyles', () => {
         :root {
           --font-family-base: "'Helvetica Neue'", 'Arial', sans-serif;
         }
-      `
+      `,
     })
 
     const result = await parseShopStyles('https://example.com/styles.css')
-    
+
     expect(result.fontFamily).toBe('Helvetica Neue, Arial, sans-serif')
   })
 
   it('should return defaults when fetch fails', async () => {
     global.fetch = vi.fn().mockRejectedValue(new Error('Network error'))
-    
+
     const result = await parseShopStyles('https://example.com/styles.css')
-    
+
     expect(result).toEqual({
       primaryColor: '#000000',
       backgroundColor: '#ffffff',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: 'system-ui, -apple-system, sans-serif',
     })
   })
 
   it('should return defaults when response is not ok', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
-      status: 404
+      status: 404,
     })
-    
+
     const result = await parseShopStyles('https://example.com/styles.css')
-    
+
     expect(result).toEqual({
       primaryColor: '#000000',
       backgroundColor: '#ffffff',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: 'system-ui, -apple-system, sans-serif',
     })
   })
 
   it('should handle empty CSS content', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
-      text: async () => ''
+      text: async () => '',
     })
-    
+
     const result = await parseShopStyles('https://example.com/styles.css')
-    
+
     expect(result).toEqual({
       primaryColor: '#000000',
       backgroundColor: '#ffffff',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: 'system-ui, -apple-system, sans-serif',
     })
   })
 
   it('should handle empty styles URL', async () => {
     const result = await parseShopStyles('')
-    
+
     expect(result).toEqual({
       primaryColor: '#000000',
       backgroundColor: '#ffffff',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: 'system-ui, -apple-system, sans-serif',
     })
   })
 })

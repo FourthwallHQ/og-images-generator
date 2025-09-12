@@ -8,7 +8,7 @@ export function createApp() {
 
   app.openapi(createShopOGImageRoute, async (c) => {
     const body = c.req.valid('json')
-    
+
     try {
       const buffer = await OGImageService.generateShopImageBuffer(body)
       return c.body(new Uint8Array(buffer), 200, {
@@ -35,9 +35,12 @@ export function createApp() {
     ],
   })
 
-  app.get('/ui', swaggerUI({
-    url: '/doc',
-  }))
+  app.get(
+    '/ui',
+    swaggerUI({
+      url: '/doc',
+    }),
+  )
 
   return app
 }

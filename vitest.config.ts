@@ -7,12 +7,12 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: ['node_modules/', 'dist/', 'tests/', '*.config.ts']
-    }
+      exclude: ['node_modules/', 'dist/', 'tests/', '*.config.ts'],
+    },
   },
   esbuild: {
     jsx: 'transform',
     jsxFactory: 'React.createElement',
-    jsxFragment: 'React.Fragment'
-  }
+    jsxFragment: 'React.Fragment',
+  },
 })
