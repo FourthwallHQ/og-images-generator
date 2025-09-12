@@ -9,10 +9,10 @@ export const createShopOGImageRoute = createRoute({
   description: `Generate an Open Graph image for a shop based on its current status.
   
 Strategies:
-- **coming_soon**: Password/coming soon state with "Coming Soon" banner
-- **coming_soon_with_date**: Coming soon with launch date display
-- **empty_shop**: Live shop with no products (no "Powered by Fourthwall")
-- **default**: Live shop with products showing first product image`,
+- **COMING_SOON**: Password/coming soon state with "Coming Soon" banner
+- **COMING_SOON_WITH_DATE**: Coming soon with launch date display
+- **EMPTY_SHOP**: Live shop with no products (no "Powered by Fourthwall")
+- **LIVE_WITH_PRODUCTS**: Live shop with products showing first product image`,
   request: {
     body: {
       content: {
