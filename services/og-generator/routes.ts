@@ -6,7 +6,13 @@ export const createShopOGImageRoute = createRoute({
   path: '/og/shop',
   tags: ['OG Image Generation'],
   summary: 'Generate shop OG image',
-  description: 'Generate an Open Graph image for a shop with custom branding, products, and styles',
+  description: `Generate an Open Graph image for a shop based on its current status.
+  
+Strategies:
+- **coming_soon**: Password/coming soon state with "Coming Soon" banner
+- **coming_soon_with_date**: Coming soon with launch date display
+- **empty_shop**: Live shop with no products (no "Powered by Fourthwall")
+- **default**: Live shop with products showing first product image`,
   request: {
     body: {
       content: {
@@ -14,7 +20,7 @@ export const createShopOGImageRoute = createRoute({
           schema: OGImageShopRequestSchema,
         },
       },
-      description: 'Shop OG image configuration',
+      description: 'Shop OG image configuration with strategy selection',
       required: true,
     },
   },
