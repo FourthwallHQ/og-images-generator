@@ -6,7 +6,6 @@ const app = new Hono();
 app.post('/og/shop', async (c) => {
     try {
         const body = await c.req.json();
-        // Validate request body with Zod
         const validationResult = OGImageShopSchema.safeParse(body);
         if (!validationResult.success) {
             return c.json({

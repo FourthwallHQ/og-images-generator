@@ -49,11 +49,11 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
 
     const cleanFontFamily = fontFamily.replace(/["']/g, '')
 
-    console.log('Parsed styles:', {
-      primaryColor,
-      backgroundColor,
-      fontFamily: cleanFontFamily,
-    })
+    // console.log('Parsed styles:', {
+    //   primaryColor,
+    //   backgroundColor,
+    //   fontFamily: cleanFontFamily,
+    // })
 
     return {
       primaryColor,

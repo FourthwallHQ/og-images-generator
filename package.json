@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsx watch index.tsx",
+    "dev": "tsx watch index.ts",
+    "dev:openapi": "tsx watch index-openapi.ts",
+    "start:openapi": "tsx index-openapi.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,6 +17,8 @@
   "license": "ISC",
   "dependencies": {
     "@hono/node-server": "1.19.2",
+    "@hono/swagger-ui": "^0.5.2",
+    "@hono/zod-openapi": "^1.1.0",
     "@kitajs/html": "4.2.9",
     "@vercel/og": "0.8.5",
     "dotenv": "17.2.2",
