@@ -1,4 +1,8 @@
-import { ParsedStyles } from './types'
+interface ParsedStyles {
+  primaryColor: string
+  backgroundColor: string
+  fontFamily: string
+}
 
 export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> {
   try {

@@ -6,25 +6,15 @@ export class OGImageService {
     static async generateShopImage({ offerImagesUrls, stylesUrl, logoUrl, shopName, poweredBy, }) {
         const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(stylesUrl);
         const mainImage = offerImagesUrls[0];
-        return new ImageResponse(React.createElement('div', {
-            style: {
+        return new ImageResponse((React.createElement("div", { style: {
                 height: '100%',
                 width: '100%',
                 display: 'flex',
                 fontFamily,
                 backgroundColor: '#ffffff',
-            },
-        }, React.createElement(LeftColumn, {
-            logoUrl,
-            shopName,
-            poweredBy,
-            primaryColor,
-            backgroundColor,
-            fontFamily,
-        }), React.createElement(RightColumn, {
-            mainImage,
-            backgroundColor,
-        })), {
+            } },
+            React.createElement(LeftColumn, { logoUrl: logoUrl, shopName: shopName, poweredBy: poweredBy, primaryColor: primaryColor, backgroundColor: backgroundColor, fontFamily: fontFamily }),
+            React.createElement(RightColumn, { mainImage: mainImage, backgroundColor: backgroundColor }))), {
             width: 1200,
             height: 630,
         });
