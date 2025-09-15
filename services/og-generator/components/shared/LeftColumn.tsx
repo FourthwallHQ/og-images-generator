@@ -34,7 +34,6 @@ export const LeftColumn = ({
   >
     <div
       style={{
-        minHeight: '326px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
