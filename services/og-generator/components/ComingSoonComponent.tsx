@@ -32,6 +32,7 @@ const ComingSoonText = ({ primaryColor, text }: { primaryColor: string; text: st
   return (
     <div
       style={{
+        display: 'contents',
         fontSize: '64px',
         fontStyle: 'normal',
         fontWeight: 700,
@@ -56,6 +57,7 @@ export const ComingSoonComponent = ({
   return (
     <div
       style={{
+        display: 'flex',
         height: '100%',
         width: '100%',
         fontFamily,
@@ -63,7 +65,7 @@ export const ComingSoonComponent = ({
       }}
     >
       <CenteredBox>
-        <ShopLogo logoUrl={logoUrl} size="medium" />
+        <ShopLogo logoUrl={logoUrl} size="medium" alignment="center" />
         <ComingSoonText primaryColor={primaryColor} text={text} />
         {poweredBy && (
           <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="medium" />

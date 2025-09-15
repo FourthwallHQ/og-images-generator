@@ -3,9 +3,10 @@ import React from 'react'
 interface ShopLogoProps {
   logoUrl?: string
   size?: 'small' | 'medium'
+  alignment?: 'center' | 'flex-start'
 }
 
-export const ShopLogo = ({ logoUrl, size = 'small' }: ShopLogoProps) => {
+export const ShopLogo = ({ logoUrl, size = 'small', alignment = 'flex-start' }: ShopLogoProps) => {
   if (!logoUrl) return null
 
   const logoStyles =
@@ -20,13 +21,13 @@ export const ShopLogo = ({ logoUrl, size = 'small' }: ShopLogoProps) => {
         }
 
   return (
-    <div>
+    <div style={{ display: 'contents' }}>
       <img
         src={logoUrl}
         style={{
           ...logoStyles,
           objectFit: 'contain',
-          alignSelf: 'flex-start',
+          alignSelf: alignment,
         }}
       />
     </div>
