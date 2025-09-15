@@ -1,5 +1,5 @@
-import { ComingSoonBanner, LeftColumn, RightColumn } from './shared'
 import React from 'react'
+import { PoweredBySection, ShopLogo } from './shared'
 
 type ComingSoonComponentProps = {
   primaryColor: string
@@ -9,6 +9,35 @@ type ComingSoonComponentProps = {
   siteUrl?: string
   poweredBy?: boolean
   logoUrl: string
+}
+
+export const CenteredBox = ({ children }: { children: React.ReactNode }) => (
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100%',
+      width: '100%',
+    }}
+  >
+    {children}
+  </div>
+)
+
+const ComingSoonText = ({ primaryColor }: { primaryColor: string }) => {
+  return (
+    <div
+      style={{
+        fontSize: 80,
+        fontWeight: 700,
+        color: primaryColor,
+      }}
+    >
+      Coming Soon
+    </div>
+  )
 }
 
 export const ComingSoonComponent = ({
@@ -25,23 +54,15 @@ export const ComingSoonComponent = ({
       style={{
         height: '100%',
         width: '100%',
-        display: 'flex',
         fontFamily,
-        backgroundColor: '#ffffff',
+        backgroundColor: backgroundColor || '#ffffff',
       }}
     >
-      <LeftColumn
-        logoUrl={logoUrl}
-        shopName={shopName}
-        siteUrl={siteUrl}
-        poweredBy={Boolean(poweredBy)}
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-      />
-      <RightColumn backgroundColor={backgroundColor}>
-        <ComingSoonBanner primaryColor={primaryColor} fontFamily={fontFamily} />
-      </RightColumn>
+      <CenteredBox>
+        <ShopLogo logoUrl={logoUrl} />
+        <ComingSoonText primaryColor={primaryColor} />
+        <PoweredBySection primaryColor={primaryColor} />
+      </CenteredBox>
     </div>
   )
 }

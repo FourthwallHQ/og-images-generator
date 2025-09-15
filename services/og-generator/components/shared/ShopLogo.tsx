@@ -8,14 +8,16 @@ export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
   if (!logoUrl) return null
 
   return (
-    <img
-      src={logoUrl}
-      style={{
-        maxHeight: '120px',
-        maxWidth: '280px',
-        objectFit: 'contain',
-        alignSelf: 'flex-start',
-      }}
-    />
+    <div>
+      <img
+        src={logoUrl}
+        style={{
+          maxHeight: '120px',
+          maxWidth: '280px',
+          objectFit: 'contain',
+          alignSelf: 'flex-start',
+        }}
+      />
+    </div>
   )
 }
