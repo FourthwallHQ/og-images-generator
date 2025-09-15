@@ -43,15 +43,17 @@ export class OGImageService {
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      <ComingSoonComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        poweredBy={params.poweredBy}
-        logoUrl={params.logoUrl}
-      />,
+      (
+        <ComingSoonComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          poweredBy={params.poweredBy}
+          logoUrl={params.logoUrl}
+        />
+      ),
       {
         width: 1200,
         height: 630,
@@ -64,17 +66,31 @@ export class OGImageService {
     return siteUrl.replace(/^https?:\/\//, '')
   }
 
-  static formatDate(dateStr: string): string {
+  static formatLaunchDate(dateStr: string): string {
     try {
       const date = new Date(dateStr)
-      const options: Intl.DateTimeFormatOptions = {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
+      const month = date.toLocaleDateString('en-US', { month: 'short' })
+      const day = date.getDate()
+
+      // Add ordinal suffix (st, nd, rd, th)
+      const getOrdinalSuffix = (day: number): string => {
+        if (day > 3 && day < 21) return 'th'
+        switch (day % 10) {
+          case 1:
+            return 'st'
+          case 2:
+            return 'nd'
+          case 3:
+            return 'rd'
+          default:
+            return 'th'
+        }
       }
-      return date.toLocaleDateString('en-US', options)
+
+      return `Launching ${month} ${day}${getOrdinalSuffix(day)}`
     } catch {
-      return dateStr
+      // If date parsing fails, return the original string with "Launching" prefix
+      return `Launching ${dateStr}`
     }
   }
 
@@ -85,20 +101,21 @@ export class OGImageService {
       throw new Error('Launch date is required for COMING_SOON_WITH_DATE strategy')
     }
 
-    const formattedDate = this.formatDate(params.launchDate)
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      <ComingSoonWithDateComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        poweredBy={params.poweredBy}
-        logoUrl={params.logoUrl}
-        launchDate={formattedDate}
-      />,
+      (
+        <ComingSoonWithDateComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          poweredBy={params.poweredBy}
+          logoUrl={params.logoUrl}
+          launchDate={this.formatLaunchDate(params.launchDate)}
+        />
+      ),
       {
         width: 1200,
         height: 630,
@@ -111,14 +128,16 @@ export class OGImageService {
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      <EmptyShopComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        logoUrl={params.logoUrl}
-      />,
+      (
+        <EmptyShopComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          logoUrl={params.logoUrl}
+        />
+      ),
       {
         width: 1200,
         height: 630,
@@ -137,16 +156,18 @@ export class OGImageService {
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      <LiveWithProductsComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        poweredBy={params.poweredBy}
-        logoUrl={params.logoUrl}
-        mainImage={mainImage}
-      />,
+      (
+        <LiveWithProductsComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          poweredBy={params.poweredBy}
+          logoUrl={params.logoUrl}
+          mainImage={mainImage}
+        />
+      ),
       {
         width: 1200,
         height: 630,
