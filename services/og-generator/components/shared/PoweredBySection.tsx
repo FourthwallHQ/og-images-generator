@@ -1,88 +1,8 @@
 import React from 'react'
 
-
-interface ShopLogoProps {
-  logoUrl: string
-}
-
-interface ShopInfoProps {
-  shopName: string
-  primaryColor: string
-  fontFamily: string
-}
-
 interface PoweredBySectionProps {
   primaryColor: string
 }
-
-interface LeftColumnProps {
-  logoUrl: string
-  shopName: string
-  poweredBy: boolean
-  primaryColor: string
-  backgroundColor: string
-  fontFamily: string
-}
-
-interface RightColumnProps {
-  mainImage: string
-  backgroundColor: string
-}
-
-export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
-  if (!logoUrl) return null
-
-  return (
-    <img
-      src={logoUrl}
-      style={{
-        maxHeight: '120px',
-        maxWidth: '280px',
-        objectFit: 'contain',
-        alignSelf: 'flex-start',
-      }}
-    />
-  )
-}
-
-export const ShopInfo = ({ shopName, primaryColor, fontFamily }: ShopInfoProps) => (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 0,
-    }}
-  >
-    <span
-      style={{
-        display: 'block',
-        fontSize: '36px',
-        color: primaryColor,
-        margin: 0,
-        opacity: 0.8,
-      }}
-    >
-      Get it at
-    </span>
-
-    <span
-      style={{
-        display: 'block',
-        color: primaryColor,
-        fontFamily,
-        fontSize: '50px',
-        fontStyle: 'normal',
-        fontWeight: 700,
-        lineHeight: '106.5%',
-        letterSpacing: '-0.75px',
-        margin: 0,
-        wordBreak: 'break-word',
-      }}
-    >
-      {shopName}
-    </span>
-  </div>
-)
 
 export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
   <div
@@ -95,11 +15,11 @@ export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
   >
     <span
       style={{
-        fontSize: '24px',
+        fontSize: '16px',
         fontStyle: 'normal',
         fontWeight: 400,
         lineHeight: 'normal',
-        letterSpacing: '-0.36px',
+        letterSpacing: '-0.24px',
         color: primaryColor,
         opacity: 0.6,
       }}
@@ -113,8 +33,8 @@ export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
       viewBox="0 0 272 48"
       fill="none"
       style={{
-        width: '180px',
-        height: '32px',
+        width: '124px',
+        height: '22px',
         opacity: 0.6,
       }}
     >
@@ -139,78 +59,5 @@ export const PoweredBySection = ({ primaryColor }: PoweredBySectionProps) => (
         fill={primaryColor}
       />
     </svg>
-  </div>
-)
-
-export const LeftColumn = ({
-  logoUrl,
-  shopName,
-  poweredBy,
-  primaryColor,
-  backgroundColor,
-  fontFamily,
-}: LeftColumnProps) => (
-  <div
-    style={{
-      width: '50%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor,
-    }}
-  >
-    <div
-      style={{
-        minHeight: '400px',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '0 50px',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '48px',
-        }}
-      >
-        <ShopLogo logoUrl={logoUrl} />
-        <ShopInfo shopName={shopName} primaryColor={primaryColor} fontFamily={fontFamily} />
-      </div>
-
-      {poweredBy && (
-        <div style={{ display: 'flex', flexShrink: 0, marginTop: '40px' }}>
-          <PoweredBySection primaryColor={primaryColor} />
-        </div>
-      )}
-    </div>
-  </div>
-)
-
-export const RightColumn = ({ mainImage, backgroundColor }: RightColumnProps) => (
-  <div
-    style={{
-      width: '50%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor,
-      position: 'relative',
-    }}
-  >
-    {mainImage && (
-      <img
-        src={mainImage}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-      />
-    )}
   </div>
 )

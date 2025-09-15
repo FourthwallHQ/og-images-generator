@@ -9,7 +9,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
     if (!stylesUrl) {
       throw new Error('Empty styles URL')
     }
-    
+
     const response = await fetch(stylesUrl)
     if (!response.ok) {
       throw new Error('Failed to fetch styles')
@@ -33,7 +33,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
         /--background-color:\s*([^;]+);/i,
         /--color-surface:\s*([^;]+);/i,
       ],
-      '#ffffff'
+      '#ffffff',
     )
 
     const primaryColor = extractValue(
@@ -43,7 +43,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
         /--primary-color:\s*([^;]+);/i,
         /--color-text:\s*([^;]+);/i,
       ],
-      '#000000'
+      '#000000',
     )
 
     const fontFamily = extractValue(
@@ -52,7 +52,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
         /--font-family-heading:\s*([^;]+);/i,
         /--font-family:\s*([^;]+);/i,
       ],
-      'system-ui, -apple-system, sans-serif'
+      'system-ui, -apple-system, sans-serif',
     )
 
     const cleanFontFamily = fontFamily.replace(/["']/g, '')
