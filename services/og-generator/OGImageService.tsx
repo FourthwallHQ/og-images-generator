@@ -2,6 +2,7 @@ import React from 'react'
 import { ImageResponse } from '@vercel/og'
 import { OGImageShopRequest } from './schemas'
 import { parseShopStyles } from './styles-parser'
+import { loadFontsForImageResponse } from './font-loader'
 import { ComingSoonComponent } from './components/ComingSoonComponent'
 import { ComingSoonWithDateComponent } from './components/ComingSoonWithDateComponent'
 import { EmptyShopComponent } from './components/EmptyShopComponent'
@@ -39,8 +40,18 @@ export class OGImageService {
   }
 
   static async generateComingSoonImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+
+    // Load fonts for the image
+    const fonts = await loadFontsForImageResponse(cssText, params.shopName)
+    console.log('🎯 ImageResponse options:', {
+      width: 1200,
+      height: 630,
+      fontsCount: fonts.length,
+      fonts: fonts.map(f => ({ name: f.name, style: f.style }))
+    })
+    console.log('🎨 Component props:', { fontFamily, primaryColor, backgroundColor })
 
     return new ImageResponse(
       (
@@ -57,6 +68,7 @@ export class OGImageService {
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }
@@ -95,13 +107,18 @@ export class OGImageService {
   }
 
   static async generateComingSoonWithDateImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
 
     if (!params.launchDate) {
       throw new Error('Launch date is required for COMING_SOON_WITH_DATE strategy')
     }
 
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+    const formattedDate = this.formatLaunchDate(params.launchDate)
+
+    // Load fonts with the text that will be displayed
+    const textContent = `${params.shopName} ${formattedDate}`
+    const fonts = await loadFontsForImageResponse(cssText, textContent)
 
     return new ImageResponse(
       (
@@ -113,19 +130,23 @@ export class OGImageService {
           siteUrl={cleanedSiteUrl}
           poweredBy={params.poweredBy}
           logoUrl={params.logoUrl}
-          launchDate={this.formatLaunchDate(params.launchDate)}
+          launchDate={formattedDate}
         />
       ),
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }
 
   static async generateEmptyShopImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+
+    // Load fonts for the image
+    const fonts = await loadFontsForImageResponse(cssText, params.shopName)
 
     return new ImageResponse(
       (
@@ -141,12 +162,13 @@ export class OGImageService {
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }
 
   static async generateLiveWithProductsImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
 
     if (!params.offerImagesUrls || params.offerImagesUrls.length === 0) {
       throw new Error('Product images are required for LIVE_WITH_PRODUCTS strategy')
@@ -154,6 +176,9 @@ export class OGImageService {
 
     const mainImage = params.offerImagesUrls[0]
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+
+    // Load fonts for the image
+    const fonts = await loadFontsForImageResponse(cssText, params.shopName)
 
     return new ImageResponse(
       (
@@ -171,6 +196,7 @@ export class OGImageService {
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }
