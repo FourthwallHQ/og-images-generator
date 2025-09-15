@@ -48,8 +48,7 @@ export async function loadFontsForImageResponse(
 ): Promise<FontConfig[]> {
   // Parse font family from CSS
   const fontFamilyMatch = cssText.match(/--font-family-base:\s*["']?([^,;"']+)["']?/)
-
-  const fontFamily = fontFamilyMatch ? fontFamilyMatch[1].replace(/["']/g, '') : 'Inter'
+  const fontFamily = fontFamilyMatch ? fontFamilyMatch[1].replace(/["']/g, '') : null
 
   // Parse font weights from CSS
   const baseWeight = parseInt(cssText.match(/--font-weight-base:\s*(\d+)/)?.[1] || '400')
@@ -59,18 +58,44 @@ export async function loadFontsForImageResponse(
   const weights = [...new Set([baseWeight, boldWeight, 400, 700])]
   const fonts: FontConfig[] = []
 
-  for (const weight of weights) {
-    try {
-      const fontData = await loadGoogleFont(fontFamily, weight, text)
-      fonts.push({
-        name: fontFamily,
-        data: fontData,
-        weight: weight as 400 | 700,
-        style: 'normal',
-      })
-    } catch (error) {
-      console.error(`⚠️ Failed to load ${fontFamily} weight ${weight}:`, error)
+  // Try to load the font from CSS first
+  if (fontFamily) {
+    for (const weight of weights) {
+      try {
+        const fontData = await loadGoogleFont(fontFamily, weight, text)
+        fonts.push({
+          name: fontFamily,
+          data: fontData,
+          weight: weight as 400 | 700,
+          style: 'normal',
+        })
+      } catch (error) {
+        console.error(`⚠️ Failed to load ${fontFamily} weight ${weight}:`, error)
+      }
     }
+  }
+
+  // If no fonts were loaded, try Roboto as fallback
+  if (fonts.length === 0) {
+    console.log('📦 No fonts loaded from CSS, trying Roboto fallback...')
+    for (const weight of weights) {
+      try {
+        const fontData = await loadGoogleFont('Roboto', weight, text)
+        fonts.push({
+          name: 'Roboto',
+          data: fontData,
+          weight: weight as 400 | 700,
+          style: 'normal',
+        })
+      } catch (error) {
+        console.error(`⚠️ Failed to load Roboto weight ${weight}:`, error)
+      }
+    }
+  }
+
+  // If still no fonts loaded, return empty array and rely on system fonts
+  if (fonts.length === 0) {
+    console.log('⚠️ Could not load any Google Fonts, will use system fonts: Helvetica, Arial, sans-serif')
   }
 
   return fonts
