@@ -2,54 +2,155 @@ import React from 'react'
 import { ImageResponse } from '@vercel/og'
 import { OGImageShopRequest } from './schemas'
 import { parseShopStyles } from './styles-parser'
-import { LeftColumn, RightColumn } from './components'
+import { ComingSoonComponent } from './components/ComingSoonComponent'
+import { ComingSoonWithDateComponent } from './components/ComingSoonWithDateComponent'
+import { EmptyShopComponent } from './components/EmptyShopComponent'
+import { LiveWithProductsComponent } from './components/LiveWithProductsComponent'
 
 export class OGImageService {
-  static async generateShopImage({
-    offerImagesUrls,
-    stylesUrl,
-    logoUrl,
-    shopName,
-    poweredBy,
-  }: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(stylesUrl)
-    const mainImage = offerImagesUrls[0]
+  static async generateShopImageBuffer(params: OGImageShopRequest): Promise<Buffer> {
+    const finalParams = {
+      ...params,
+      poweredBy:
+        params.poweredBy !== undefined ? params.poweredBy : params.strategy !== 'EMPTY_SHOP',
+    }
+
+    let imageResponse: ImageResponse
+
+    switch (params.strategy) {
+      case 'COMING_SOON':
+        imageResponse = await this.generateComingSoonImage(finalParams)
+        break
+      case 'COMING_SOON_WITH_DATE':
+        imageResponse = await this.generateComingSoonWithDateImage(finalParams)
+        break
+      case 'EMPTY_SHOP':
+        imageResponse = await this.generateEmptyShopImage(finalParams)
+        break
+      case 'LIVE_WITH_PRODUCTS':
+        imageResponse = await this.generateLiveWithProductsImage(finalParams)
+        break
+      default:
+        throw new Error(`Unknown strategy: ${params.strategy}`)
+    }
+
+    const arrayBuffer = await imageResponse.arrayBuffer()
+    return Buffer.from(arrayBuffer)
+  }
+
+  static async generateComingSoonImage(params: OGImageShopRequest): Promise<ImageResponse> {
+    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      (
-        <div
-          style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            fontFamily,
-            backgroundColor: '#ffffff',
-          }}
-        >
-          <LeftColumn
-            logoUrl={logoUrl}
-            shopName={shopName}
-            poweredBy={poweredBy}
-            primaryColor={primaryColor}
-            backgroundColor={backgroundColor}
-            fontFamily={fontFamily}
-          />
-          <RightColumn
-            mainImage={mainImage}
-            backgroundColor={backgroundColor}
-          />
-        </div>
-      ),
+      <ComingSoonComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        poweredBy={params.poweredBy}
+        logoUrl={params.logoUrl}
+      />,
       {
         width: 1200,
         height: 630,
-      }
+      },
     )
   }
 
-  static async generateShopImageBuffer(params: OGImageShopRequest): Promise<Buffer> {
-    const imageResponse = await this.generateShopImage(params)
-    const arrayBuffer = await imageResponse.arrayBuffer()
-    return Buffer.from(arrayBuffer)
+  static cleanSiteUrl(siteUrl: string | undefined): string | undefined {
+    if (!siteUrl) return undefined
+    return siteUrl.replace(/^https?:\/\//, '')
+  }
+
+  static formatDate(dateStr: string): string {
+    try {
+      const date = new Date(dateStr)
+      const options: Intl.DateTimeFormatOptions = {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }
+      return date.toLocaleDateString('en-US', options)
+    } catch {
+      return dateStr
+    }
+  }
+
+  static async generateComingSoonWithDateImage(params: OGImageShopRequest): Promise<ImageResponse> {
+    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+
+    if (!params.launchDate) {
+      throw new Error('Launch date is required for COMING_SOON_WITH_DATE strategy')
+    }
+
+    const formattedDate = this.formatDate(params.launchDate)
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+
+    return new ImageResponse(
+      <ComingSoonWithDateComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        poweredBy={params.poweredBy}
+        logoUrl={params.logoUrl}
+        launchDate={formattedDate}
+      />,
+      {
+        width: 1200,
+        height: 630,
+      },
+    )
+  }
+
+  static async generateEmptyShopImage(params: OGImageShopRequest): Promise<ImageResponse> {
+    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+
+    return new ImageResponse(
+      <EmptyShopComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        logoUrl={params.logoUrl}
+      />,
+      {
+        width: 1200,
+        height: 630,
+      },
+    )
+  }
+
+  static async generateLiveWithProductsImage(params: OGImageShopRequest): Promise<ImageResponse> {
+    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+
+    if (!params.offerImagesUrls || params.offerImagesUrls.length === 0) {
+      throw new Error('Product images are required for LIVE_WITH_PRODUCTS strategy')
+    }
+
+    const mainImage = params.offerImagesUrls[0]
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+
+    return new ImageResponse(
+      <LiveWithProductsComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        poweredBy={params.poweredBy}
+        logoUrl={params.logoUrl}
+        mainImage={mainImage}
+      />,
+      {
+        width: 1200,
+        height: 630,
+      },
+    )
   }
 }
