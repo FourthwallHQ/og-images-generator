@@ -40,18 +40,13 @@ export class OGImageService {
   }
 
   static async generateComingSoonImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     // Load fonts for the image
     const fonts = await loadFontsForImageResponse(cssText, params.shopName)
-    console.log('🎯 ImageResponse options:', {
-      width: 1200,
-      height: 630,
-      fontsCount: fonts.length,
-      fonts: fonts.map(f => ({ name: f.name, style: f.style }))
-    })
-    console.log('🎨 Component props:', { fontFamily, primaryColor, backgroundColor })
 
     return new ImageResponse(
       (
@@ -107,7 +102,9 @@ export class OGImageService {
   }
 
   static async generateComingSoonWithDateImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
 
     if (!params.launchDate) {
       throw new Error('Launch date is required for COMING_SOON_WITH_DATE strategy')
@@ -142,7 +139,9 @@ export class OGImageService {
   }
 
   static async generateEmptyShopImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     // Load fonts for the image
@@ -168,7 +167,9 @@ export class OGImageService {
   }
 
   static async generateLiveWithProductsImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
 
     if (!params.offerImagesUrls || params.offerImagesUrls.length === 0) {
       throw new Error('Product images are required for LIVE_WITH_PRODUCTS strategy')
