@@ -1,5 +1,5 @@
-import { LeftColumn, RightColumn } from './shared'
 import React from 'react'
+import { ComingSoonComponent } from './ComingSoonComponent'
 
 type EmptyShopComponentProps = {
   primaryColor: string
@@ -19,25 +19,15 @@ export const EmptyShopComponent = ({
   logoUrl,
 }: EmptyShopComponentProps) => {
   return (
-    <div
-      style={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        fontFamily,
-        backgroundColor: '#ffffff',
-      }}
-    >
-      <LeftColumn
-        logoUrl={logoUrl}
-        shopName={shopName}
-        siteUrl={siteUrl}
-        poweredBy={false}
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-      />
-      <RightColumn backgroundColor={backgroundColor} />
-    </div>
+    <ComingSoonComponent
+      primaryColor={primaryColor}
+      backgroundColor={backgroundColor}
+      fontFamily={fontFamily}
+      shopName={shopName}
+      siteUrl={siteUrl}
+      poweredBy={false}
+      logoUrl={logoUrl}
+      text={siteUrl || shopName}
+    />
   )
 }

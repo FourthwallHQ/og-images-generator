@@ -2,20 +2,34 @@ import React from 'react'
 
 interface ShopLogoProps {
   logoUrl?: string
+  size?: 'small' | 'medium'
+  alignment?: 'center' | 'flex-start'
 }
 
-export const ShopLogo = ({ logoUrl }: ShopLogoProps) => {
+export const ShopLogo = ({ logoUrl, size = 'small', alignment = 'flex-start' }: ShopLogoProps) => {
   if (!logoUrl) return null
 
+  const logoStyles =
+    size === 'medium'
+      ? {
+          maxWidth: '600px',
+          maxHeight: '150px',
+        }
+      : {
+          maxWidth: '300px',
+          maxHeight: '100px',
+        }
+
   return (
-    <img
-      src={logoUrl}
-      style={{
-        maxHeight: '120px',
-        maxWidth: '280px',
-        objectFit: 'contain',
-        alignSelf: 'flex-start',
-      }}
-    />
+    <div style={{ display: 'contents' }}>
+      <img
+        src={logoUrl}
+        style={{
+          ...logoStyles,
+          objectFit: 'contain',
+          alignSelf: alignment,
+        }}
+      />
+    </div>
   )
 }

@@ -1,5 +1,5 @@
-import { LaunchDateBanner, LeftColumn, RightColumn } from './shared'
 import React from 'react'
+import { ComingSoonComponent } from './ComingSoonComponent'
 
 type ComingSoonWithDateComponentProps = {
   primaryColor: string
@@ -23,31 +23,15 @@ export const ComingSoonWithDateComponent = ({
   launchDate,
 }: ComingSoonWithDateComponentProps) => {
   return (
-    <div
-      style={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        fontFamily,
-        backgroundColor: '#ffffff',
-      }}
-    >
-      <LeftColumn
-        logoUrl={logoUrl}
-        shopName={shopName}
-        siteUrl={siteUrl}
-        poweredBy={Boolean(poweredBy)}
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-      />
-      <RightColumn backgroundColor={backgroundColor}>
-        <LaunchDateBanner
-          launchDate={launchDate}
-          primaryColor={primaryColor}
-          fontFamily={fontFamily}
-        />
-      </RightColumn>
-    </div>
+    <ComingSoonComponent
+      primaryColor={primaryColor}
+      backgroundColor={backgroundColor}
+      fontFamily={fontFamily}
+      shopName={shopName}
+      siteUrl={siteUrl}
+      poweredBy={poweredBy}
+      logoUrl={logoUrl}
+      text={launchDate}
+    />
   )
 }

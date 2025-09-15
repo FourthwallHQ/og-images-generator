@@ -1,5 +1,5 @@
-import { ComingSoonBanner, LeftColumn, RightColumn } from './shared'
 import React from 'react'
+import { PoweredBySection, ShopLogo } from './shared'
 
 type ComingSoonComponentProps = {
   primaryColor: string
@@ -9,39 +9,68 @@ type ComingSoonComponentProps = {
   siteUrl?: string
   poweredBy?: boolean
   logoUrl: string
+  text?: string
+}
+
+export const CenteredBox = ({ children }: { children: React.ReactNode }) => (
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100%',
+      width: '100%',
+      gap: '80px',
+    }}
+  >
+    {children}
+  </div>
+)
+
+const ComingSoonText = ({ primaryColor, text }: { primaryColor: string; text: string }) => {
+  return (
+    <div
+      style={{
+        display: 'contents',
+        fontSize: '64px',
+        fontStyle: 'normal',
+        fontWeight: 700,
+        lineHeight: '106.5%',
+        letterSpacing: '-0.96px',
+        color: primaryColor,
+      }}
+    >
+      {text}
+    </div>
+  )
 }
 
 export const ComingSoonComponent = ({
   primaryColor,
   backgroundColor,
   fontFamily,
-  shopName,
-  siteUrl,
   poweredBy,
   logoUrl,
+  text = 'Coming Soon',
 }: ComingSoonComponentProps) => {
   return (
     <div
       style={{
+        display: 'flex',
         height: '100%',
         width: '100%',
-        display: 'flex',
         fontFamily,
-        backgroundColor: '#ffffff',
+        backgroundColor: backgroundColor || '#ffffff',
       }}
     >
-      <LeftColumn
-        logoUrl={logoUrl}
-        shopName={shopName}
-        siteUrl={siteUrl}
-        poweredBy={Boolean(poweredBy)}
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-      />
-      <RightColumn backgroundColor={backgroundColor}>
-        <ComingSoonBanner primaryColor={primaryColor} fontFamily={fontFamily} />
-      </RightColumn>
+      <CenteredBox>
+        <ShopLogo logoUrl={logoUrl} size="medium" alignment="center" />
+        <ComingSoonText primaryColor={primaryColor} text={text} />
+        {poweredBy && (
+          <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="medium" />
+        )}
+      </CenteredBox>
     </div>
   )
 }
