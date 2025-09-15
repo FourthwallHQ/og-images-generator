@@ -2,6 +2,7 @@ import React from 'react'
 import { ImageResponse } from '@vercel/og'
 import { OGImageShopRequest } from './schemas'
 import { parseShopStyles } from './styles-parser'
+import { loadFontsForImageResponse } from './font-loader'
 import { ComingSoonComponent } from './components/ComingSoonComponent'
 import { ComingSoonWithDateComponent } from './components/ComingSoonWithDateComponent'
 import { EmptyShopComponent } from './components/EmptyShopComponent'
@@ -39,22 +40,30 @@ export class OGImageService {
   }
 
   static async generateComingSoonImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
+    // Load fonts for the image
+    const fonts = await loadFontsForImageResponse(cssText, params.shopName)
+
     return new ImageResponse(
-      <ComingSoonComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        poweredBy={params.poweredBy}
-        logoUrl={params.logoUrl}
-      />,
+      (
+        <ComingSoonComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          poweredBy={params.poweredBy}
+          logoUrl={params.logoUrl}
+        />
+      ),
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }
@@ -64,70 +73,103 @@ export class OGImageService {
     return siteUrl.replace(/^https?:\/\//, '')
   }
 
-  static formatDate(dateStr: string): string {
+  static formatLaunchDate(dateStr: string): string {
     try {
       const date = new Date(dateStr)
-      const options: Intl.DateTimeFormatOptions = {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
+      const month = date.toLocaleDateString('en-US', { month: 'short' })
+      const day = date.getDate()
+
+      // Add ordinal suffix (st, nd, rd, th)
+      const getOrdinalSuffix = (day: number): string => {
+        if (day > 3 && day < 21) return 'th'
+        switch (day % 10) {
+          case 1:
+            return 'st'
+          case 2:
+            return 'nd'
+          case 3:
+            return 'rd'
+          default:
+            return 'th'
+        }
       }
-      return date.toLocaleDateString('en-US', options)
+
+      return `Launching ${month} ${day}${getOrdinalSuffix(day)}`
     } catch {
-      return dateStr
+      // If date parsing fails, return the original string with "Launching" prefix
+      return `Launching ${dateStr}`
     }
   }
 
   static async generateComingSoonWithDateImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
 
     if (!params.launchDate) {
       throw new Error('Launch date is required for COMING_SOON_WITH_DATE strategy')
     }
 
-    const formattedDate = this.formatDate(params.launchDate)
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+    const formattedDate = this.formatLaunchDate(params.launchDate)
+
+    // Load fonts with the text that will be displayed
+    const textContent = `${params.shopName} ${formattedDate}`
+    const fonts = await loadFontsForImageResponse(cssText, textContent)
 
     return new ImageResponse(
-      <ComingSoonWithDateComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        poweredBy={params.poweredBy}
-        logoUrl={params.logoUrl}
-        launchDate={formattedDate}
-      />,
+      (
+        <ComingSoonWithDateComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          poweredBy={params.poweredBy}
+          logoUrl={params.logoUrl}
+          launchDate={formattedDate}
+        />
+      ),
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }
 
   static async generateEmptyShopImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
+    // Load fonts for the image
+    const fonts = await loadFontsForImageResponse(cssText, params.shopName)
+
     return new ImageResponse(
-      <EmptyShopComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        logoUrl={params.logoUrl}
-      />,
+      (
+        <EmptyShopComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          logoUrl={params.logoUrl}
+        />
+      ),
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }
 
   static async generateLiveWithProductsImage(params: OGImageShopRequest): Promise<ImageResponse> {
-    const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
 
     if (!params.offerImagesUrls || params.offerImagesUrls.length === 0) {
       throw new Error('Product images are required for LIVE_WITH_PRODUCTS strategy')
@@ -136,20 +178,26 @@ export class OGImageService {
     const mainImage = params.offerImagesUrls[0]
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
+    // Load fonts for the image
+    const fonts = await loadFontsForImageResponse(cssText, params.shopName)
+
     return new ImageResponse(
-      <LiveWithProductsComponent
-        primaryColor={primaryColor}
-        backgroundColor={backgroundColor}
-        fontFamily={fontFamily}
-        shopName={params.shopName}
-        siteUrl={cleanedSiteUrl}
-        poweredBy={params.poweredBy}
-        logoUrl={params.logoUrl}
-        mainImage={mainImage}
-      />,
+      (
+        <LiveWithProductsComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          poweredBy={params.poweredBy}
+          logoUrl={params.logoUrl}
+          mainImage={mainImage}
+        />
+      ),
       {
         width: 1200,
         height: 630,
+        fonts,
       },
     )
   }

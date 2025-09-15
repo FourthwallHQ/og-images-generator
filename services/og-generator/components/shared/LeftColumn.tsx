@@ -34,19 +34,19 @@ export const LeftColumn = ({
   >
     <div
       style={{
-        minHeight: '326px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: '0 50px',
+        padding: '0 80px',
       }}
     >
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '48px',
+          gap: '64px',
+          maxWidth: '440px',
         }}
       >
         <ShopLogo logoUrl={logoUrl} />
@@ -56,13 +56,13 @@ export const LeftColumn = ({
           fontFamily={fontFamily}
           siteUrl={siteUrl}
         />
-      </div>
 
-      {poweredBy && (
-        <div style={{ display: 'flex', flexShrink: 0, marginTop: '40px' }}>
-          <PoweredBySection primaryColor={primaryColor} />
-        </div>
-      )}
+        {poweredBy && (
+          <div style={{ display: 'flex', flexShrink: 0 }}>
+            <PoweredBySection primaryColor={primaryColor} />
+          </div>
+        )}
+      </div>
     </div>
   </div>
 )

@@ -6,6 +6,30 @@ import { EmptyShopComponent } from './EmptyShopComponent'
 import { LiveWithProductsComponent } from './LiveWithProductsComponent'
 import { OGImageWrapper } from './shared'
 
+// Helper function to format launch date for Storybook preview
+const formatLaunchDate = (dateStr: string): string => {
+  try {
+    const date = new Date(dateStr)
+    const month = date.toLocaleDateString('en-US', { month: 'short' })
+    const day = date.getDate()
+    
+    // Add ordinal suffix (st, nd, rd, th)
+    const getOrdinalSuffix = (day: number): string => {
+      if (day > 3 && day < 21) return 'th'
+      switch (day % 10) {
+        case 1: return 'st'
+        case 2: return 'nd'
+        case 3: return 'rd'
+        default: return 'th'
+      }
+    }
+    
+    return `Launching ${month} ${day}${getOrdinalSuffix(day)}`
+  } catch {
+    return `Launching ${dateStr}`
+  }
+}
+
 // Full Layout Component
 interface FullLayoutProps {
   strategy: 'COMING_SOON' | 'COMING_SOON_WITH_DATE' | 'EMPTY_SHOP' | 'LIVE_WITH_PRODUCTS'
@@ -62,7 +86,7 @@ const FullLayout = ({
             siteUrl={siteUrl}
             poweredBy={poweredBy}
             logoUrl={logoUrl}
-            launchDate={launchDate || 'December 25, 2024'}
+            launchDate={formatLaunchDate(launchDate || '2024-12-25')}
           />
         )
       case 'EMPTY_SHOP':
@@ -224,7 +248,7 @@ export const ComingSoonWithDate: Story = {
     colorPalette: colorPalettes['Fourthwall Default'],
     shopName: 'Epic Creators Shop',
     siteUrl: 'epic-creators.fourthwall.com',
-    launchDate: 'December 25, 2024',
+    launchDate: '2024-12-25',
     logoUrl: 'https://sandbox-shop.fourthwall.com/platform/logo',
     poweredBy: true,
     fontFamily: '"Nunito Sans", sans-serif',

@@ -10,28 +10,31 @@ interface ShopInfoProps {
 export const ShopInfo = ({ primaryColor, fontFamily, siteUrl }: ShopInfoProps) => {
   if (!siteUrl) return null
 
+  // Adjust font size based on URL length
+  const urlLength = siteUrl.length
+  let fontSize = '50px'
+
+  if (urlLength > 25) {
+    fontSize = '40px'
+  } else if (urlLength > 20) {
+    fontSize = '45px'
+  }
+
   return (
-    <div
+    <span
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 0,
+        display: 'block',
+        fontSize,
+        fontWeight: '700',
+        lineHeight: '106%',
+        letterSpacing: '-0.75px',
+        color: primaryColor,
+        fontFamily,
+        wordBreak: 'break-word',
+        hyphens: 'manual',
       }}
     >
-      <span
-        style={{
-          display: 'block',
-          fontSize: '50px',
-          fontWeight: '700',
-          lineHeight: '106%',
-          letterSpacing: '-0.75px',
-          color: primaryColor,
-          marginTop: '12px',
-          fontFamily,
-        }}
-      >
-        {siteUrl}
-      </span>
-    </div>
+      {siteUrl}
+    </span>
   )
 }
