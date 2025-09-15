@@ -53,7 +53,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
         /--font-family-heading:\s*([^;]+);/i,
         /--font-family:\s*([^;]+);/i,
       ],
-      'system-ui, -apple-system, sans-serif',
+      'Roboto, Helvetica, Arial, sans-serif',
     )
 
     const cleanFontFamily = fontFamily.replace(/["']/g, '')
@@ -69,7 +69,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
     return {
       primaryColor: '#000000',
       backgroundColor: '#ffffff',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
       cssText: '',
     }
   }
