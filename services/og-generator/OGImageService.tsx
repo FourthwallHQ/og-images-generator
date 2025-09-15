@@ -37,6 +37,7 @@ export class OGImageService {
 
   static async generateComingSoonImage(params: OGImageShopRequest): Promise<ImageResponse> {
     const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
       (
@@ -52,7 +53,7 @@ export class OGImageService {
           <LeftColumn
             logoUrl={params.logoUrl}
             shopName={params.shopName}
-            siteUrl={params.siteUrl}
+            siteUrl={cleanedSiteUrl}
             poweredBy={Boolean(params.poweredBy)}
             primaryColor={primaryColor}
             backgroundColor={backgroundColor}
@@ -70,12 +71,34 @@ export class OGImageService {
     )
   }
 
+  static cleanSiteUrl(siteUrl: string | undefined): string | undefined {
+    if (!siteUrl) return undefined
+    return siteUrl.replace(/^https?:\/\//, '')
+  }
+
+  static formatDate(dateStr: string): string {
+    try {
+      const date = new Date(dateStr)
+      const options: Intl.DateTimeFormatOptions = {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }
+      return date.toLocaleDateString('en-US', options)
+    } catch {
+      return dateStr
+    }
+  }
+
   static async generateComingSoonWithDateImage(params: OGImageShopRequest): Promise<ImageResponse> {
     const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
 
     if (!params.launchDate) {
       throw new Error('Launch date is required for COMING_SOON_WITH_DATE strategy')
     }
+
+    const formattedDate = this.formatDate(params.launchDate)
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
       (
@@ -91,7 +114,7 @@ export class OGImageService {
           <LeftColumn
             logoUrl={params.logoUrl}
             shopName={params.shopName}
-            siteUrl={params.siteUrl}
+            siteUrl={cleanedSiteUrl}
             poweredBy={Boolean(params.poweredBy)}
             primaryColor={primaryColor}
             backgroundColor={backgroundColor}
@@ -99,7 +122,7 @@ export class OGImageService {
           />
           <RightColumn backgroundColor={backgroundColor}>
             <LaunchDateBanner
-              launchDate={params.launchDate}
+              launchDate={formattedDate}
               primaryColor={primaryColor}
               fontFamily={fontFamily}
             />
@@ -115,6 +138,7 @@ export class OGImageService {
 
   static async generateEmptyShopImage(params: OGImageShopRequest): Promise<ImageResponse> {
     const { primaryColor, backgroundColor, fontFamily } = await parseShopStyles(params.stylesUrl)
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
       (
@@ -130,7 +154,7 @@ export class OGImageService {
           <LeftColumn
             logoUrl={params.logoUrl}
             shopName={params.shopName}
-            siteUrl={params.siteUrl}
+            siteUrl={cleanedSiteUrl}
             poweredBy={false}
             primaryColor={primaryColor}
             backgroundColor={backgroundColor}
@@ -154,6 +178,7 @@ export class OGImageService {
     }
 
     const mainImage = params.offerImagesUrls[0]
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
       (
@@ -169,7 +194,7 @@ export class OGImageService {
           <LeftColumn
             logoUrl={params.logoUrl}
             shopName={params.shopName}
-            siteUrl={params.siteUrl}
+            siteUrl={cleanedSiteUrl}
             poweredBy={Boolean(params.poweredBy)}
             primaryColor={primaryColor}
             backgroundColor={backgroundColor}

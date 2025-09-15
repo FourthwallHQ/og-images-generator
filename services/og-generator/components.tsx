@@ -37,7 +37,7 @@ interface ComingSoonBannerProps {
 }
 
 interface LaunchDateBannerProps {
-  launchDate: string
+  launchDate: string // Already formatted date string
   primaryColor: string
   fontFamily: string
 }
@@ -166,7 +166,7 @@ export const LeftColumn = ({
   >
     <div
       style={{
-        minHeight: '400px',
+        minHeight: '326px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -258,20 +258,6 @@ export const LaunchDateBanner = ({
   primaryColor,
   fontFamily,
 }: LaunchDateBannerProps) => {
-  const formatDate = (dateStr: string) => {
-    try {
-      const date = new Date(dateStr)
-      const options: Intl.DateTimeFormatOptions = {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      }
-      return date.toLocaleDateString('en-US', options)
-    } catch {
-      return dateStr
-    }
-  }
-
   return (
     <div
       style={{
@@ -308,7 +294,7 @@ export const LaunchDateBanner = ({
           letterSpacing: '-1px',
         }}
       >
-        {formatDate(launchDate)}
+        {launchDate}
       </span>
     </div>
   )
