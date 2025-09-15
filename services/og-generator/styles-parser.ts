@@ -2,6 +2,7 @@ interface ParsedStyles {
   primaryColor: string
   backgroundColor: string
   fontFamily: string
+  cssText: string
 }
 
 export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> {
@@ -61,6 +62,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
       primaryColor,
       backgroundColor,
       fontFamily: cleanFontFamily,
+      cssText,
     }
   } catch (error) {
     console.error('Error parsing styles:', error)
@@ -68,6 +70,7 @@ export async function parseShopStyles(stylesUrl: string): Promise<ParsedStyles> 
       primaryColor: '#000000',
       backgroundColor: '#ffffff',
       fontFamily: 'system-ui, -apple-system, sans-serif',
+      cssText: '',
     }
   }
 }
