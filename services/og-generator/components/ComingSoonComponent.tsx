@@ -9,6 +9,7 @@ type ComingSoonComponentProps = {
   siteUrl?: string
   poweredBy?: boolean
   logoUrl: string
+  text?: string
 }
 
 export const CenteredBox = ({ children }: { children: React.ReactNode }) => (
@@ -27,7 +28,7 @@ export const CenteredBox = ({ children }: { children: React.ReactNode }) => (
   </div>
 )
 
-const ComingSoonText = ({ primaryColor }: { primaryColor: string }) => {
+const ComingSoonText = ({ primaryColor, text }: { primaryColor: string; text: string }) => {
   return (
     <div
       style={{
@@ -39,7 +40,7 @@ const ComingSoonText = ({ primaryColor }: { primaryColor: string }) => {
         color: primaryColor,
       }}
     >
-      Coming Soon
+      {text}
     </div>
   )
 }
@@ -48,10 +49,9 @@ export const ComingSoonComponent = ({
   primaryColor,
   backgroundColor,
   fontFamily,
-  shopName,
-  siteUrl,
   poweredBy,
   logoUrl,
+  text = 'Coming Soon',
 }: ComingSoonComponentProps) => {
   return (
     <div
@@ -63,9 +63,11 @@ export const ComingSoonComponent = ({
       }}
     >
       <CenteredBox>
-        <ShopLogo logoUrl={logoUrl} />
-        <ComingSoonText primaryColor={primaryColor} />
-        <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="medium" />
+        <ShopLogo logoUrl={logoUrl} size="medium" />
+        <ComingSoonText primaryColor={primaryColor} text={text} />
+        {poweredBy && (
+          <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="medium" />
+        )}
       </CenteredBox>
     </div>
   )
