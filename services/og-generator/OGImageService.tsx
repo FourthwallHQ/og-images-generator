@@ -2,7 +2,10 @@ import React from 'react'
 import { ImageResponse } from '@vercel/og'
 import { OGImageShopRequest } from './schemas'
 import { parseShopStyles } from './styles-parser'
-import { LeftColumn, RightColumn, ComingSoonBanner, LaunchDateBanner } from './components'
+import { ComingSoonComponent } from './components/ComingSoonComponent'
+import { ComingSoonWithDateComponent } from './components/ComingSoonWithDateComponent'
+import { EmptyShopComponent } from './components/EmptyShopComponent'
+import { LiveWithProductsComponent } from './components/LiveWithProductsComponent'
 
 export class OGImageService {
   static async generateShopImageBuffer(params: OGImageShopRequest): Promise<Buffer> {
@@ -40,30 +43,15 @@ export class OGImageService {
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      (
-        <div
-          style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            fontFamily,
-            backgroundColor: '#ffffff',
-          }}
-        >
-          <LeftColumn
-            logoUrl={params.logoUrl}
-            shopName={params.shopName}
-            siteUrl={cleanedSiteUrl}
-            poweredBy={Boolean(params.poweredBy)}
-            primaryColor={primaryColor}
-            backgroundColor={backgroundColor}
-            fontFamily={fontFamily}
-          />
-          <RightColumn backgroundColor={backgroundColor}>
-            <ComingSoonBanner primaryColor={primaryColor} fontFamily={fontFamily} />
-          </RightColumn>
-        </div>
-      ),
+      <ComingSoonComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        poweredBy={params.poweredBy}
+        logoUrl={params.logoUrl}
+      />,
       {
         width: 1200,
         height: 630,
@@ -101,34 +89,16 @@ export class OGImageService {
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      (
-        <div
-          style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            fontFamily,
-            backgroundColor: '#ffffff',
-          }}
-        >
-          <LeftColumn
-            logoUrl={params.logoUrl}
-            shopName={params.shopName}
-            siteUrl={cleanedSiteUrl}
-            poweredBy={Boolean(params.poweredBy)}
-            primaryColor={primaryColor}
-            backgroundColor={backgroundColor}
-            fontFamily={fontFamily}
-          />
-          <RightColumn backgroundColor={backgroundColor}>
-            <LaunchDateBanner
-              launchDate={formattedDate}
-              primaryColor={primaryColor}
-              fontFamily={fontFamily}
-            />
-          </RightColumn>
-        </div>
-      ),
+      <ComingSoonWithDateComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        poweredBy={params.poweredBy}
+        logoUrl={params.logoUrl}
+        launchDate={formattedDate}
+      />,
       {
         width: 1200,
         height: 630,
@@ -141,28 +111,14 @@ export class OGImageService {
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      (
-        <div
-          style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            fontFamily,
-            backgroundColor: '#ffffff',
-          }}
-        >
-          <LeftColumn
-            logoUrl={params.logoUrl}
-            shopName={params.shopName}
-            siteUrl={cleanedSiteUrl}
-            poweredBy={false}
-            primaryColor={primaryColor}
-            backgroundColor={backgroundColor}
-            fontFamily={fontFamily}
-          />
-          <RightColumn backgroundColor={backgroundColor} />
-        </div>
-      ),
+      <EmptyShopComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        logoUrl={params.logoUrl}
+      />,
       {
         width: 1200,
         height: 630,
@@ -181,28 +137,16 @@ export class OGImageService {
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
 
     return new ImageResponse(
-      (
-        <div
-          style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            fontFamily,
-            backgroundColor: '#ffffff',
-          }}
-        >
-          <LeftColumn
-            logoUrl={params.logoUrl}
-            shopName={params.shopName}
-            siteUrl={cleanedSiteUrl}
-            poweredBy={Boolean(params.poweredBy)}
-            primaryColor={primaryColor}
-            backgroundColor={backgroundColor}
-            fontFamily={fontFamily}
-          />
-          <RightColumn mainImage={mainImage} backgroundColor={backgroundColor} />
-        </div>
-      ),
+      <LiveWithProductsComponent
+        primaryColor={primaryColor}
+        backgroundColor={backgroundColor}
+        fontFamily={fontFamily}
+        shopName={params.shopName}
+        siteUrl={cleanedSiteUrl}
+        poweredBy={params.poweredBy}
+        logoUrl={params.logoUrl}
+        mainImage={mainImage}
+      />,
       {
         width: 1200,
         height: 630,
