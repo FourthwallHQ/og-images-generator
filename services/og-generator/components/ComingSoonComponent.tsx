@@ -20,6 +20,7 @@ export const CenteredBox = ({ children }: { children: React.ReactNode }) => (
       alignItems: 'center',
       height: '100%',
       width: '100%',
+      gap: '80px',
     }}
   >
     {children}
@@ -30,8 +31,11 @@ const ComingSoonText = ({ primaryColor }: { primaryColor: string }) => {
   return (
     <div
       style={{
-        fontSize: 80,
+        fontSize: '64px',
+        fontStyle: 'normal',
         fontWeight: 700,
+        lineHeight: '106.5%',
+        letterSpacing: '-0.96px',
         color: primaryColor,
       }}
     >
@@ -61,7 +65,7 @@ export const ComingSoonComponent = ({
       <CenteredBox>
         <ShopLogo logoUrl={logoUrl} />
         <ComingSoonText primaryColor={primaryColor} />
-        <PoweredBySection primaryColor={primaryColor} />
+        <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="medium" />
       </CenteredBox>
     </div>
   )
