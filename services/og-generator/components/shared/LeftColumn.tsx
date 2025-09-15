@@ -47,6 +47,7 @@ export const LeftColumn = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '64px',
+          maxWidth: '440px',
         }}
       >
         <ShopLogo logoUrl={logoUrl} />
