@@ -1,5 +1,5 @@
 import React from 'react'
-import { PoweredBySection, ShopLogo } from './shared'
+import { PoweredBySection, ShopLogo } from './shared/index.js'
 
 type ComingSoonComponentProps = {
   primaryColor: string
