@@ -20,6 +20,20 @@ export function createApp() {
     }
   })
 
+  const servers = process.env.K_SERVICE
+    ? [
+        {
+          url: 'https://og-images-generator-353003853979.us-west1.run.app',
+          description: 'Production server',
+        },
+      ]
+    : [
+        {
+          url: 'http://localhost:3000',
+          description: 'Development server',
+        },
+      ]
+
   app.doc('/doc', {
     openapi: '3.0.0',
     info: {
@@ -27,12 +41,7 @@ export function createApp() {
       title: 'OG Image Generator API',
       description: 'API for generating Open Graph images for shops with custom branding',
     },
-    servers: [
-      {
-        url: 'http://localhost:3000',
-        description: 'Development server',
-      },
-    ],
+    servers,
   })
 
   app.get(
