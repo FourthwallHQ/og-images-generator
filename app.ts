@@ -1,7 +1,7 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { swaggerUI } from '@hono/swagger-ui'
-import { OGImageService } from './services/og-generator/OGImageService'
-import { createShopOGImageRoute } from './services/og-generator/routes'
+import { OGImageService } from './services/og-generator/OGImageService.js'
+import { createShopOGImageRoute } from './services/og-generator/routes.js'
 
 export function createApp() {
   const app = new OpenAPIHono()

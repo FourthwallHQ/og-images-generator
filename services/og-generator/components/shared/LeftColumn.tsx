@@ -1,7 +1,7 @@
 import React from 'react'
-import { ShopLogo } from './ShopLogo'
-import { ShopInfo } from './ShopInfo'
-import { PoweredBySection } from './PoweredBySection'
+import { ShopLogo } from './ShopLogo.js'
+import { ShopInfo } from './ShopInfo.js'
+import { PoweredBySection } from './PoweredBySection.js'
 
 interface LeftColumnProps {
   logoUrl?: string

@@ -1,5 +1,5 @@
 import { createRoute } from '@hono/zod-openapi'
-import { OGImageShopRequestSchema, ErrorResponseSchema } from './schemas'
+import { OGImageShopRequestSchema, ErrorResponseSchema } from './schemas.js'
 
 export const createShopOGImageRoute = createRoute({
   method: 'post',
