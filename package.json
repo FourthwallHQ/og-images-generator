@@ -26,7 +26,8 @@
     "@vercel/og": "0.8.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "tsx": "4.20.5"
+    "tsx": "4.20.5",
+    "typescript": "5.9.2"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "9.0.0-alpha.12",
