@@ -5,3 +5,6 @@ dist
 # Storybook
 storybook-static/
 *.storybook.log
+
+# Claude settings
+.claude/settings.local.json
