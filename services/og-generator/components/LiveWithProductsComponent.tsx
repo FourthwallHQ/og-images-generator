@@ -1,4 +1,4 @@
-import { LeftColumn, RightColumn } from './shared'
+import { LeftColumn, RightColumn } from './shared/index.js'
 import React from 'react'
 
 type LiveWithProductsComponentProps = {

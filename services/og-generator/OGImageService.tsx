@@ -1,12 +1,12 @@
 import React from 'react'
 import { ImageResponse } from '@vercel/og'
-import { OGImageShopRequest } from './schemas'
-import { parseShopStyles } from './styles-parser'
-import { loadFontsForImageResponse } from './font-loader'
-import { ComingSoonComponent } from './components/ComingSoonComponent'
-import { ComingSoonWithDateComponent } from './components/ComingSoonWithDateComponent'
-import { EmptyShopComponent } from './components/EmptyShopComponent'
-import { LiveWithProductsComponent } from './components/LiveWithProductsComponent'
+import { OGImageShopRequest } from './schemas.js'
+import { parseShopStyles } from './styles-parser.js'
+import { loadFontsForImageResponse } from './font-loader.js'
+import { ComingSoonComponent } from './components/ComingSoonComponent.js'
+import { ComingSoonWithDateComponent } from './components/ComingSoonWithDateComponent.js'
+import { EmptyShopComponent } from './components/EmptyShopComponent.js'
+import { LiveWithProductsComponent } from './components/LiveWithProductsComponent.js'
 
 export class OGImageService {
   static async generateShopImageBuffer(params: OGImageShopRequest): Promise<Buffer> {

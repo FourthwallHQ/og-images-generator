@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComingSoonComponent } from './ComingSoonComponent'
+import { ComingSoonComponent } from './ComingSoonComponent.js'
 
 type EmptyShopComponentProps = {
   primaryColor: string
