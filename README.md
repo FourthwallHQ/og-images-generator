@@ -14,12 +14,25 @@ A service for generating Open Graph images for e-commerce shops with custom bran
 
 - Node.js 20.19.0 or higher (required for Storybook compatibility)
 - npm
+- Google Cloud SDK (for GCP integration)
 
 ## Installation
 
 ```bash
 npm install
 ```
+
+### Environment Configuration
+
+Copy `.env.example` to `.env` and configure:
+
+```bash
+cp .env.example .env
+```
+
+Required GCP environment variables:
+- `GCP_STORAGE_BUCKET` - GCS bucket for storing generated images
+- `GCP_PUBSUB_TOPIC` - Pub/Sub topic for publishing image generation events
 
 ## Development
 
@@ -131,6 +144,10 @@ Generate an OG image for a shop based on its current status.
 
 **Response:** PNG image
 
+**GCP Integration (if configured):**
+- Uploads image to GCS bucket: `gs://{bucket}/og-images/{shop-name}/{strategy}_{timestamp}.png`
+- Publishes event to Pub/Sub with image URL and metadata
+
 **Strategy-specific requirements:**
 
 - `LIVE_WITH_PRODUCTS`: Requires `offerImagesUrls` array with at least one product image
@@ -169,6 +186,7 @@ services/og-generator/
 - **Image Size**: All OG images are generated at 1200x630px (standard OG image dimensions)
 - **Storybook Integration**: Components are wrapped in `OGImageWrapper` to simulate the exact dimensions used in production
 - **Strategy Pattern**: Different shop states use dedicated components while sharing common UI elements from the `shared/` directory
+- **GCP Integration**: Mandatory upload to Cloud Storage and Pub/Sub notifications using service account authentication with async processing
 
 ## License
 
