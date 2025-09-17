@@ -28,6 +28,9 @@ jobs:
     
     - name: Run tests
       run: npm run test:run
+      env:
+        GCP_STORAGE_BUCKET: test-bucket
+        GCP_PUBSUB_TOPIC: test-topic
     
     - name: Upload coverage reports
       if: matrix.node-version == '22.x'
