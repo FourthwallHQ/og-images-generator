@@ -11,6 +11,7 @@ interface LeftColumnProps {
   primaryColor: string
   backgroundColor: string
   fontFamily: string
+  isLogoAvailable?: boolean
 }
 
 export const LeftColumn = ({
@@ -21,6 +22,7 @@ export const LeftColumn = ({
   primaryColor,
   backgroundColor,
   fontFamily,
+  isLogoAvailable = true,
 }: LeftColumnProps) => (
   <div
     style={{
@@ -49,7 +51,13 @@ export const LeftColumn = ({
           maxWidth: '440px',
         }}
       >
-        <ShopLogo logoUrl={logoUrl} />
+        <ShopLogo
+          logoUrl={logoUrl}
+          shopName={shopName}
+          primaryColor={primaryColor}
+          fontFamily={fontFamily}
+          isLogoAvailable={isLogoAvailable}
+        />
         <ShopInfo
           shopName={shopName}
           primaryColor={primaryColor}

@@ -10,6 +10,7 @@ type LiveWithProductsComponentProps = {
   poweredBy?: boolean
   logoUrl: string
   mainImage: string
+  isLogoAvailable?: boolean
 }
 
 export const LiveWithProductsComponent = ({
@@ -21,6 +22,7 @@ export const LiveWithProductsComponent = ({
   poweredBy,
   logoUrl,
   mainImage,
+  isLogoAvailable = true,
 }: LiveWithProductsComponentProps) => {
   return (
     <div
@@ -40,6 +42,7 @@ export const LiveWithProductsComponent = ({
         primaryColor={primaryColor}
         backgroundColor={backgroundColor}
         fontFamily={fontFamily}
+        isLogoAvailable={isLogoAvailable}
       />
       <RightColumn mainImage={mainImage} backgroundColor={backgroundColor} />
     </div>

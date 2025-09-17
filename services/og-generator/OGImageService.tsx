@@ -9,6 +9,17 @@ import { EmptyShopComponent } from './components/EmptyShopComponent.js'
 import { LiveWithProductsComponent } from './components/LiveWithProductsComponent.js'
 
 export class OGImageService {
+  static async checkLogoAvailability(logoUrl: string | undefined): Promise<boolean> {
+    if (!logoUrl) return false
+
+    try {
+      const response = await fetch(logoUrl, { method: 'HEAD' })
+      return response.ok && response.status !== 404
+    } catch {
+      return false
+    }
+  }
+
   static async generateShopImageBuffer(params: OGImageShopRequest): Promise<Buffer> {
     const finalParams = {
       ...params,
@@ -44,6 +55,7 @@ export class OGImageService {
       params.stylesUrl,
     )
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+    const isLogoAvailable = await this.checkLogoAvailability(params.logoUrl)
 
     // Load fonts for the image
     const fonts = await loadFontsForImageResponse(cssText, params.shopName)
@@ -58,6 +70,7 @@ export class OGImageService {
           siteUrl={cleanedSiteUrl}
           poweredBy={params.poweredBy}
           logoUrl={params.logoUrl}
+          isLogoAvailable={isLogoAvailable}
         />
       ),
       {
@@ -112,6 +125,7 @@ export class OGImageService {
 
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
     const formattedDate = this.formatLaunchDate(params.launchDate)
+    const isLogoAvailable = await this.checkLogoAvailability(params.logoUrl)
 
     // Load fonts with the text that will be displayed
     const textContent = `${params.shopName} ${formattedDate}`
@@ -128,6 +142,7 @@ export class OGImageService {
           poweredBy={params.poweredBy}
           logoUrl={params.logoUrl}
           launchDate={formattedDate}
+          isLogoAvailable={isLogoAvailable}
         />
       ),
       {
@@ -143,6 +158,7 @@ export class OGImageService {
       params.stylesUrl,
     )
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+    const isLogoAvailable = await this.checkLogoAvailability(params.logoUrl)
 
     // Load fonts for the image
     const fonts = await loadFontsForImageResponse(cssText, params.shopName)
@@ -156,6 +172,7 @@ export class OGImageService {
           shopName={params.shopName}
           siteUrl={cleanedSiteUrl}
           logoUrl={params.logoUrl}
+          isLogoAvailable={isLogoAvailable}
         />
       ),
       {
@@ -177,6 +194,7 @@ export class OGImageService {
 
     const mainImage = params.offerImagesUrls[0]
     const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+    const isLogoAvailable = await this.checkLogoAvailability(params.logoUrl)
 
     // Load fonts for the image
     const fonts = await loadFontsForImageResponse(cssText, params.shopName)
@@ -192,6 +210,7 @@ export class OGImageService {
           poweredBy={params.poweredBy}
           logoUrl={params.logoUrl}
           mainImage={mainImage}
+          isLogoAvailable={isLogoAvailable}
         />
       ),
       {
