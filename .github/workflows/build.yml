@@ -24,6 +24,9 @@ jobs:
     
     - name: Build
       run: npm run build
+      env:
+        GCP_STORAGE_BUCKET: test-bucket
+        GCP_PUBSUB_TOPIC: test-topic
     
     - name: Check build output
       run: |
