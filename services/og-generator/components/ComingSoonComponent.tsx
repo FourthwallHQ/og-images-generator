@@ -10,6 +10,7 @@ type ComingSoonComponentProps = {
   poweredBy?: boolean
   logoUrl: string
   text?: string
+  isLogoAvailable?: boolean
 }
 
 export const CenteredBox = ({ children }: { children: React.ReactNode }) => (
@@ -50,9 +51,11 @@ export const ComingSoonComponent = ({
   primaryColor,
   backgroundColor,
   fontFamily,
+  shopName,
   poweredBy,
   logoUrl,
   text = 'Coming Soon',
+  isLogoAvailable = true,
 }: ComingSoonComponentProps) => {
   return (
     <div
@@ -65,7 +68,15 @@ export const ComingSoonComponent = ({
       }}
     >
       <CenteredBox>
-        <ShopLogo logoUrl={logoUrl} size="medium" alignment="center" />
+        <ShopLogo
+          logoUrl={logoUrl}
+          shopName={shopName}
+          size="medium"
+          alignment="center"
+          primaryColor={primaryColor}
+          fontFamily={fontFamily}
+          isLogoAvailable={isLogoAvailable}
+        />
         <ComingSoonText primaryColor={primaryColor} text={text} />
         {poweredBy && (
           <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="medium" />

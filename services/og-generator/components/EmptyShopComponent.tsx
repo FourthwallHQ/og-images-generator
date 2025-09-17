@@ -8,6 +8,7 @@ type EmptyShopComponentProps = {
   shopName: string
   siteUrl?: string
   logoUrl: string
+  isLogoAvailable?: boolean
 }
 
 export const EmptyShopComponent = ({
@@ -17,6 +18,7 @@ export const EmptyShopComponent = ({
   shopName,
   siteUrl,
   logoUrl,
+  isLogoAvailable = true,
 }: EmptyShopComponentProps) => {
   return (
     <ComingSoonComponent
@@ -28,6 +30,7 @@ export const EmptyShopComponent = ({
       poweredBy={false}
       logoUrl={logoUrl}
       text={siteUrl || shopName}
+      isLogoAvailable={isLogoAvailable}
     />
   )
 }

@@ -10,6 +10,7 @@ type ComingSoonWithDateComponentProps = {
   poweredBy?: boolean
   logoUrl: string
   launchDate: string
+  isLogoAvailable?: boolean
 }
 
 export const ComingSoonWithDateComponent = ({
@@ -21,6 +22,7 @@ export const ComingSoonWithDateComponent = ({
   poweredBy,
   logoUrl,
   launchDate,
+  isLogoAvailable = true,
 }: ComingSoonWithDateComponentProps) => {
   return (
     <ComingSoonComponent
@@ -32,6 +34,7 @@ export const ComingSoonWithDateComponent = ({
       poweredBy={poweredBy}
       logoUrl={logoUrl}
       text={launchDate}
+      isLogoAvailable={isLogoAvailable}
     />
   )
 }
