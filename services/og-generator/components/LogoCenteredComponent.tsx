@@ -6,7 +6,6 @@ type LogoCenteredComponentProps = {
   backgroundColor: string
   fontFamily: string
   shopName: string
-  siteUrl?: string
   poweredBy?: boolean
   logoUrl: string
   isLogoAvailable?: boolean
@@ -52,11 +51,10 @@ const CenteredLogo = ({
   return (
     <img
       src={logoUrl}
+      alt="Shop Logo"
       style={{
         maxWidth: '60%',
         maxHeight: '50%',
-        width: 'auto',
-        height: 'auto',
         objectFit: 'contain',
       }}
     />

@@ -75,9 +75,9 @@ function generateShopExamples() {
   const examples: Record<string, any> = {}
 
   // Add special test case for missing logo (404 scenario)
-  examples['Test Shop (No Logo) - Coming Soon'] = {
+  examples['Test Shop (No Logo)'] = {
     value: {
-      strategy: 'COMING_SOON',
+      strategy: 'LOGO_CENTERED',
       shopName: 'Test Shop Without Logo',
       siteUrl: 'test-shop.fourthwall.com',
       logoUrl: 'https://example.com/nonexistent-logo-404.png',
@@ -88,13 +88,12 @@ function generateShopExamples() {
     description: 'Shows shop name when logo returns 404',
   }
 
-  // Test cases for URL breaking
-  examples['URL Breaking Test (Short) - Live with Products'] = {
+  // Test cases for URL display
+  examples['URL Test (Short)'] = {
     value: {
-      strategy: 'LIVE_WITH_PRODUCTS',
+      strategy: 'LOGO_CENTERED',
       shopName: 'Short URL Shop',
       siteUrl: 'short.com',
-      offerImagesUrls: ['https://imgproxy.fourthwall.com/aCcIsLboesTA8clwEDOgt8BPwY7zwAzjpIMhus9bvvs/w:900/sm:1/enc/ap1S5lrqqHDKNFon/YPHQdEwufVPUPCtV/nFEC_GqkhcrVJotj/YPBL157OJjTlWqar/6JsSxpEvQ_lUR8vY/AtaPA4_cb4NVHNIp/M9t1PHzS_fMry4Xp/Mq98Uo_uKB-V0quh/xdz4l3HLWKVRn3d9/Yq4RlQSPUz8bWWsp/rGdBJQPIr29eZkhX/AEO3YQtaFejrL4q3/Q2n9vr5ahpXCT9cQ/L075yKoYI8vqFKCU/fyQuxB9mS6k'],
       logoUrl: 'https://short.com/platform/logo',
       stylesUrl: 'https://short.com/platform/style.css',
       poweredBy: true,
@@ -103,104 +102,59 @@ function generateShopExamples() {
     description: 'Tests URL that fits in one line',
   }
 
-  examples['URL Breaking Test (Hyphen) - Live with Products'] = {
+  examples['URL Test (Hyphenated)'] = {
     value: {
-      strategy: 'LIVE_WITH_PRODUCTS',
+      strategy: 'LOGO_CENTERED',
       shopName: 'Hyphenated URL Shop',
       siteUrl: 'super-long-shop-name.fourthwall.com',
-      offerImagesUrls: ['https://imgproxy.fourthwall.com/aCcIsLboesTA8clwEDOgt8BPwY7zwAzjpIMhus9bvvs/w:900/sm:1/enc/ap1S5lrqqHDKNFon/YPHQdEwufVPUPCtV/nFEC_GqkhcrVJotj/YPBL157OJjTlWqar/6JsSxpEvQ_lUR8vY/AtaPA4_cb4NVHNIp/M9t1PHzS_fMry4Xp/Mq98Uo_uKB-V0quh/xdz4l3HLWKVRn3d9/Yq4RlQSPUz8bWWsp/rGdBJQPIr29eZkhX/AEO3YQtaFejrL4q3/Q2n9vr5ahpXCT9cQ/L075yKoYI8vqFKCU/fyQuxB9mS6k'],
       logoUrl: 'https://super-long-shop-name.fourthwall.com/platform/logo',
       stylesUrl: 'https://super-long-shop-name.fourthwall.com/platform/style.css',
       poweredBy: true,
     },
-    summary: 'Hyphenated URL (breaks at hyphen)',
-    description: 'Tests URL breaking at natural hyphen points',
+    summary: 'Hyphenated URL',
+    description: 'Tests URL with hyphens',
   }
 
-  examples['URL Breaking Test (Domain) - Live with Products'] = {
+  examples['URL Test (Subdomain)'] = {
     value: {
-      strategy: 'LIVE_WITH_PRODUCTS',
-      shopName: 'Domain Break Shop',
-      siteUrl: 'verylongshopname.fourthwall.com',
-      offerImagesUrls: ['https://imgproxy.fourthwall.com/aCcIsLboesTA8clwEDOgt8BPwY7zwAzjpIMhus9bvvs/w:900/sm:1/enc/ap1S5lrqqHDKNFon/YPHQdEwufVPUPCtV/nFEC_GqkhcrVJotj/YPBL157OJjTlWqar/6JsSxpEvQ_lUR8vY/AtaPA4_cb4NVHNIp/M9t1PHzS_fMry4Xp/Mq98Uo_uKB-V0quh/xdz4l3HLWKVRn3d9/Yq4RlQSPUz8bWWsp/rGdBJQPIr29eZkhX/AEO3YQtaFejrL4q3/Q2n9vr5ahpXCT9cQ/L075yKoYI8vqFKCU/fyQuxB9mS6k'],
-      logoUrl: 'https://verylongshopname.fourthwall.com/platform/logo',
-      stylesUrl: 'https://verylongshopname.fourthwall.com/platform/style.css',
-      poweredBy: true,
-    },
-    summary: 'Domain URL (breaks before .fourthwall.com)',
-    description: 'Tests URL breaking before domain extension',
-  }
-
-  examples['URL Breaking Test (Subdomain) - Live with Products'] = {
-    value: {
-      strategy: 'LIVE_WITH_PRODUCTS',
-      shopName: 'Subdomain Break Shop',
+      strategy: 'LOGO_CENTERED',
+      shopName: 'Subdomain Shop',
       siteUrl: 'store.cohhilition.com',
-      offerImagesUrls: ['https://imgproxy.fourthwall.com/a1mt3Or3pPUwLBDyQgaPbZh8MC68XIUEXgGw2x8pyso/w:720/sm:1/enc/bexLTO-60ZQdS-u4/ptFMuPygjl7dJxob/0QBOg6dFDk2kQCox/KIZFA14SanXuywuz/3T25s3cqrbEZEWIh/6MIdnZe0fZXdQOlw/QHfI4YsmpI2AXMGj/kQ-6-t9PKTBdaELX/cE-SWpdcxpWaT_MP/LgHc0Fy771nqTiAS/qQxEKfeYs7uAK6Yo/444PpdW-1X1lgh0E/lp-jzzrZ6Kii61vf/4QnF2GIIV5uURi6P/4zKNT6ky-XA'],
       logoUrl: 'https://store.cohhilition.com/platform/logo',
       stylesUrl: 'https://store.cohhilition.com/platform/style.css',
       poweredBy: true,
     },
-    summary: 'Subdomain URL (breaks after store)',
-    description: 'Tests URL breaking after subdomain: store / .cohhilition.com',
+    summary: 'Subdomain URL',
+    description: 'Tests URL with subdomain',
   }
 
   SHOPS_DATA.forEach((shop) => {
-    // Coming Soon example
-    examples[`${shop.displayName} - Coming Soon`] = {
+    // Logo Centered example for each shop
+    examples[`${shop.displayName}`] = {
       value: {
-        strategy: 'COMING_SOON',
+        strategy: 'LOGO_CENTERED',
         shopName: shop.name,
         siteUrl: shop.url,
         logoUrl: `https://${shop.url}/platform/logo`,
         stylesUrl: `https://${shop.url}/platform/style.css`,
         poweredBy: true,
       },
-      summary: `${shop.displayName} in Coming Soon state`,
-      description: `${shop.displayName} shop in password/coming soon state with "Coming Soon" banner`,
+      summary: `${shop.displayName} shop`,
+      description: `${shop.displayName} shop with centered logo and "Powered by Fourthwall" section`,
     }
 
-    // Coming Soon with Date example
-    examples[`${shop.displayName} - Coming Soon with Date`] = {
+    // Without powered by section
+    examples[`${shop.displayName} (No Powered By)`] = {
       value: {
-        strategy: 'COMING_SOON_WITH_DATE',
-        shopName: shop.name,
-        siteUrl: shop.url,
-        launchDate: '2024-12-25T00:00:00Z',
-        logoUrl: `https://${shop.url}/platform/logo`,
-        stylesUrl: `https://${shop.url}/platform/style.css`,
-        poweredBy: true,
-      },
-      summary: `${shop.displayName} with launch date`,
-      description: `${shop.displayName} shop with countdown timer showing launch date`,
-    }
-
-    // Empty Shop example
-    examples[`${shop.displayName} - Empty Shop`] = {
-      value: {
-        strategy: 'EMPTY_SHOP',
+        strategy: 'LOGO_CENTERED',
         shopName: shop.name,
         siteUrl: shop.url,
         logoUrl: `https://${shop.url}/platform/logo`,
         stylesUrl: `https://${shop.url}/platform/style.css`,
+        poweredBy: false,
       },
-      summary: `${shop.displayName} without products`,
-      description: `${shop.displayName} live shop with no products (no "Powered by Fourthwall")`,
-    }
-
-    // Live with Products example
-    examples[`${shop.displayName} - Live with Products`] = {
-      value: {
-        strategy: 'LIVE_WITH_PRODUCTS',
-        shopName: shop.name,
-        siteUrl: shop.url,
-        offerImagesUrls: shop.productImages,
-        logoUrl: `https://${shop.url}/platform/logo`,
-        stylesUrl: `https://${shop.url}/platform/style.css`,
-        poweredBy: true,
-      },
-      summary: `${shop.displayName} with products`,
-      description: `${shop.displayName} live shop displaying first product image with "Powered by Fourthwall"`,
+      summary: `${shop.displayName} shop (no footer)`,
+      description: `${shop.displayName} shop with centered logo, without "Powered by Fourthwall" section`,
     }
   })
 
@@ -272,13 +226,10 @@ export const createShopOGImageRoute = createRoute({
   path: '/og/shop',
   tags: ['OG Image Generation'],
   summary: 'Generate shop OG image',
-  description: `Generate an Open Graph image for a shop based on its current status.
-  
-Strategies:
-- **COMING_SOON**: Password/coming soon state with "Coming Soon" banner
-- **COMING_SOON_WITH_DATE**: Coming soon with launch date display
-- **EMPTY_SHOP**: Live shop with no products (no "Powered by Fourthwall")
-- **LIVE_WITH_PRODUCTS**: Live shop with products showing first product image`,
+  description: `Generate an Open Graph image for a shop.
+
+Strategy:
+- **LOGO_CENTERED**: Displays the shop logo centered with optional "Powered by Fourthwall" footer`,
   request: {
     body: {
       content: {
