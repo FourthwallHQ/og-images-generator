@@ -1,6 +1,7 @@
 import { PubSub } from '@google-cloud/pubsub'
 
 export interface OGImageGeneratedMessage {
+  shopId: string
   shopName: string
   strategy: string
   imageUrl: string
@@ -21,13 +22,16 @@ export class PubSubService {
     const topic = this.pubsub.topic(this.topicName)
     const messageBuffer = Buffer.from(JSON.stringify(message))
 
+    const attributes: Record<string, string> = {
+      shopId: message.shopId,
+      shopName: message.shopName,
+      strategy: message.strategy,
+      timestamp: message.timestamp,
+    }
+
     return await topic.publishMessage({
       data: messageBuffer,
-      attributes: {
-        shopName: message.shopName,
-        strategy: message.strategy,
-        timestamp: message.timestamp,
-      },
+      attributes,
     })
   }
 }

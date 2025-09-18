@@ -22,6 +22,10 @@ export const StrategyEnum = z.enum(['LOGO_CENTERED']).openapi({
 export const OGImageShopRequestSchema = z
   .object({
     strategy: StrategyEnum,
+    shopId: z.string().openapi({
+      example: 'sh_3ba9ad10-1056-4fe6-bdd4-0b49a2a7f7a4',
+      description: 'Unique identifier for the shop',
+    }),
     shopName: z.string().min(1).openapi({
       example: 'sandbox-shop.fourthwall.com',
       description: 'Name of the shop',

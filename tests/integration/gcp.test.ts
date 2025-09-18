@@ -72,6 +72,7 @@ describe('GCP Integration', () => {
       const service = new GCPService()
       const buffer = Buffer.from('test-image')
       const params: OGImageShopRequest = {
+        shopId: 'sh_test_shop',
         strategy: 'LOGO_CENTERED',
         shopName: 'Test Shop',
         logoUrl: 'https://test.com/logo.png',
@@ -83,8 +84,9 @@ describe('GCP Integration', () => {
 
       expect(result.imageUrl).toBe('gs://test-bucket/og-images/test-shop/logo_centered_2024.png')
       expect(result.messageId).toBe('message-123')
-      expect(mockUpload).toHaveBeenCalledWith(buffer, expect.stringContaining('og-images/test-shop/logo_centered'))
+      expect(mockUpload).toHaveBeenCalledWith(buffer, expect.stringContaining('og-images/sh_test_shop/test-shop/logo_centered'))
       expect(mockPublish).toHaveBeenCalledWith(expect.objectContaining({
+        shopId: 'sh_test_shop',
         shopName: 'Test Shop',
         strategy: 'LOGO_CENTERED',
         imageUrl: 'gs://test-bucket/og-images/test-shop/logo_centered_2024.png',

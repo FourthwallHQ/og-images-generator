@@ -33,6 +33,7 @@ describe('API Endpoints', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           strategy: 'LOGO_CENTERED',
+          shopId: 'sh_test_logo_centered',
           shopName: 'Test Shop',
           logoUrl: 'https://example.com/logo.png',
         }),
@@ -48,6 +49,7 @@ describe('API Endpoints', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           strategy: 'LOGO_CENTERED',
+          shopId: 'sh_test_all_fields',
           shopName: 'Test Shop',
           logoUrl: 'https://example.com/logo.png',
           stylesUrl: 'https://example.com/styles.css',
@@ -133,6 +135,7 @@ describe('API Endpoints', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           strategy: 'LOGO_CENTERED',
+          shopId: 'sh_test_optional_fields',
           shopName: 'Test Shop',
           stylesUrl: 'https://example.com/styles.css',
           logoUrl: 'https://example.com/logo.png',
