@@ -107,7 +107,7 @@ export const LogoCenteredComponent = ({
         <div
           style={{
             position: 'absolute',
-            bottom: '40px',
+            bottom: '80px',
             left: 0,
             right: 0,
             display: 'flex',

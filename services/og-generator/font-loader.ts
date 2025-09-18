@@ -58,6 +58,27 @@ export async function loadFontsForImageResponse(
   const weights = [...new Set([baseWeight, boldWeight, 400, 700])]
   const fonts: FontConfig[] = []
 
+  // Always load Suisse Int'l font for "Powered by" text
+  try {
+    const fs = await import('fs/promises')
+    const path = await import('path')
+    const suisseIntlPath = path.join(process.cwd(), 'services/og-generator/fonts/suisseIntl/SuisseIntl-Regular.otf')
+    const suisseIntlBuffer = await fs.readFile(suisseIntlPath)
+    const arrayBuffer = new ArrayBuffer(suisseIntlBuffer.length)
+    const view = new Uint8Array(arrayBuffer)
+    for (let i = 0; i < suisseIntlBuffer.length; i++) {
+      view[i] = suisseIntlBuffer[i]
+    }
+    fonts.push({
+      name: "Suisse Int'l",
+      data: arrayBuffer,
+      weight: 400,
+      style: 'normal',
+    })
+  } catch (error) {
+    console.error("⚠️ Failed to load Suisse Int'l font:", error)
+  }
+
   // Try to load the font from CSS first
   if (fontFamily) {
     for (const weight of weights) {

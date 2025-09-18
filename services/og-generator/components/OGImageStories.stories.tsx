@@ -44,6 +44,7 @@ interface FullLayoutProps {
   fontFamily: string
   launchDate?: string
   mainImage?: string
+  isLogoAvailable?: boolean
 }
 
 const FullLayout = ({
@@ -58,6 +59,7 @@ const FullLayout = ({
   fontFamily,
   launchDate,
   mainImage,
+  isLogoAvailable = true,
 }: FullLayoutProps) => {
   // Use palette colors if provided, otherwise use custom colors
   const primaryColor = colorPalette?.primaryColor || customPrimaryColor || '#000000'
@@ -75,6 +77,7 @@ const FullLayout = ({
             siteUrl={siteUrl}
             poweredBy={poweredBy}
             logoUrl={logoUrl}
+            isLogoAvailable={isLogoAvailable}
           />
         )
       case 'COMING_SOON_WITH_DATE':
@@ -88,6 +91,7 @@ const FullLayout = ({
             poweredBy={poweredBy}
             logoUrl={logoUrl}
             launchDate={formatLaunchDate(launchDate || '2024-12-25')}
+            isLogoAvailable={isLogoAvailable}
           />
         )
       case 'EMPTY_SHOP':
@@ -99,6 +103,7 @@ const FullLayout = ({
             shopName={shopName}
             siteUrl={siteUrl}
             logoUrl={logoUrl}
+            isLogoAvailable={isLogoAvailable}
           />
         )
       case 'LIVE_WITH_PRODUCTS':
@@ -112,6 +117,7 @@ const FullLayout = ({
             poweredBy={poweredBy}
             logoUrl={logoUrl}
             mainImage={mainImage || ''}
+            isLogoAvailable={isLogoAvailable}
           />
         )
       case 'LOGO_CENTERED':
@@ -124,6 +130,7 @@ const FullLayout = ({
             siteUrl={siteUrl}
             poweredBy={poweredBy}
             logoUrl={logoUrl}
+            isLogoAvailable={isLogoAvailable}
           />
         )
       default:
@@ -211,6 +218,10 @@ const meta = {
       control: { type: 'boolean' },
       description: 'Show "Powered by Fourthwall"',
     },
+    isLogoAvailable: {
+      control: { type: 'boolean' },
+      description: 'Is logo available (false shows shop name instead)',
+    },
     primaryColor: {
       control: { type: 'color' },
       description: 'Primary text color (when Custom palette selected)',
@@ -250,6 +261,7 @@ export const ComingSoon: Story = {
     siteUrl: 'awesome-merch.fourthwall.com',
     logoUrl: 'https://sandbox-shop.fourthwall.com/platform/logo',
     poweredBy: true,
+    isLogoAvailable: true,
     fontFamily: '"Nunito Sans", sans-serif',
   },
 }
@@ -264,6 +276,7 @@ export const ComingSoonWithDate: Story = {
     launchDate: '2024-12-25',
     logoUrl: 'https://sandbox-shop.fourthwall.com/platform/logo',
     poweredBy: true,
+    isLogoAvailable: true,
     fontFamily: '"Nunito Sans", sans-serif',
   },
 }
@@ -277,6 +290,7 @@ export const EmptyShop: Story = {
     siteUrl: 'new-creator.fourthwall.com',
     logoUrl: 'https://sandbox-shop.fourthwall.com/platform/logo',
     poweredBy: false,
+    isLogoAvailable: true,
     fontFamily: '"Nunito Sans", sans-serif',
   },
 }
@@ -292,6 +306,7 @@ export const LiveWithProducts: Story = {
     mainImage:
       'https://imgproxy.fourthwall.com/aCcIsLboesTA8clwEDOgt8BPwY7zwAzjpIMhus9bvvs/w:900/sm:1/enc/ap1S5lrqqHDKNFon/YPHQdEwufVPUPCtV/nFEC_GqkhcrVJotj/YPBL157OJjTlWqar/6JsSxpEvQ_lUR8vY/AtaPA4_cb4NVHNIp/M9t1PHzS_fMry4Xp/Mq98Uo_uKB-V0quh/xdz4l3HLWKVRn3d9/Yq4RlQSPUz8bWWsp/rGdBJQPIr29eZkhX/AEO3YQtaFejrL4q3/Q2n9vr5ahpXCT9cQ/L075yKoYI8vqFKCU/fyQuxB9mS6k',
     poweredBy: true,
+    isLogoAvailable: true,
     fontFamily: '"Nunito Sans", sans-serif',
   },
 }
@@ -305,6 +320,21 @@ export const LogoCentered: Story = {
     siteUrl: 'creator.fourthwall.com',
     logoUrl: 'https://sandbox-shop.fourthwall.com/platform/logo',
     poweredBy: true,
+    isLogoAvailable: true,
     fontFamily: '"Nunito Sans", sans-serif',
+  },
+}
+
+// Logo Centered without logo (shows shop name)
+export const LogoCenteredNoLogo: Story = {
+  args: {
+    strategy: 'LOGO_CENTERED',
+    colorPalette: colorPalettes['Ocean Blue'],
+    shopName: 'Amazing Creator Shop',
+    siteUrl: 'amazing-creator.fourthwall.com',
+    logoUrl: '',
+    poweredBy: true,
+    isLogoAvailable: false,
+    fontFamily: '"Georgia", serif',
   },
 }
