@@ -5,6 +5,7 @@ import { OGImageShopRequestSchema, ErrorResponseSchema } from './schemas.js'
 // Shop data for generating examples with real product images
 const SHOPS_DATA = [
   {
+    id: 'sh_cohhilition',
     name: 'Cohhilition Store',
     url: 'store.cohhilition.com',
     displayName: 'Cohhilition',
@@ -13,6 +14,7 @@ const SHOPS_DATA = [
     ],
   },
   {
+    id: 'sh_anthony_padilla',
     name: 'Anthony Padilla Shop',
     url: 'anthony-padilla-1-shop.fourthwall.com',
     displayName: 'Anthony Padilla',
@@ -21,6 +23,7 @@ const SHOPS_DATA = [
     ],
   },
   {
+    id: 'sh_paymoneywubby',
     name: 'PaymoneyWubby Shop',
     url: 'paymoneywubby-shop.fourthwall.com',
     displayName: 'PaymoneyWubby',
@@ -29,6 +32,7 @@ const SHOPS_DATA = [
     ],
   },
   {
+    id: 'sh_ny_mag',
     name: 'NY Mag Shop',
     url: 'shop.nymag.com',
     displayName: 'NY Mag',
@@ -37,6 +41,7 @@ const SHOPS_DATA = [
     ],
   },
   {
+    id: 'sh_mkbhd',
     name: 'MKBHD',
     url: 'mkbhd.com',
     displayName: 'MKBHD',
@@ -45,6 +50,7 @@ const SHOPS_DATA = [
     ],
   },
   {
+    id: 'sh_harry_mack',
     name: 'Harry Mack Official',
     url: 'shop.harrymackofficial.com',
     displayName: 'Harry Mack',
@@ -53,6 +59,7 @@ const SHOPS_DATA = [
     ],
   },
   {
+    id: 'sh_mads_mitch',
     name: 'Mads Mitch',
     url: 'madsmitch.com',
     displayName: 'Mads Mitch',
@@ -61,6 +68,7 @@ const SHOPS_DATA = [
     ],
   },
   {
+    id: 'sh_beautiful_bastard',
     name: 'Beautiful Bastard',
     url: 'beautifulbastard.com',
     displayName: 'Beautiful Bastard',
@@ -77,6 +85,7 @@ function generateShopExamples() {
   // Add special test case for missing logo (404 scenario)
   examples['Test Shop (No Logo)'] = {
     value: {
+      shopId: 'sh_test_no_logo',
       strategy: 'LOGO_CENTERED',
       shopName: 'Test Shop Without Logo',
       logoUrl: 'https://example.com/nonexistent-logo-404.png',
@@ -90,6 +99,7 @@ function generateShopExamples() {
   // Test cases for URL display
   examples['URL Test (Short)'] = {
     value: {
+      shopId: 'sh_short_url_test',
       strategy: 'LOGO_CENTERED',
       shopName: 'Short URL Shop',
       logoUrl: 'https://short.com/platform/logo',
@@ -102,19 +112,36 @@ function generateShopExamples() {
 
   examples['URL Test (Hyphenated)'] = {
     value: {
+      shopId: 'sh_hyphen_url_test',
       strategy: 'LOGO_CENTERED',
       shopName: 'Hyphenated URL Shop',
       logoUrl: 'https://super-long-shop-name.fourthwall.com/platform/logo',
       stylesUrl: 'https://super-long-shop-name.fourthwall.com/platform/style.css',
       poweredBy: true,
     },
-    summary: 'Hyphenated URL',
-    description: 'Tests URL with hyphens',
+    summary: 'Hyphenated URL (breaks at hyphen)',
+    description: 'Tests URL breaking at natural hyphen points',
+  }
+
+  examples['URL Breaking Test (Domain) - Live with Products'] = {
+    value: {
+      strategy: 'LIVE_WITH_PRODUCTS',
+      shopId: 'sh_domain_url_test',
+      shopName: 'Domain Break Shop',
+      siteUrl: 'verylongshopname.fourthwall.com',
+      offerImagesUrls: ['https://imgproxy.fourthwall.com/aCcIsLboesTA8clwEDOgt8BPwY7zwAzjpIMhus9bvvs/w:900/sm:1/enc/ap1S5lrqqHDKNFon/YPHQdEwufVPUPCtV/nFEC_GqkhcrVJotj/YPBL157OJjTlWqar/6JsSxpEvQ_lUR8vY/AtaPA4_cb4NVHNIp/M9t1PHzS_fMry4Xp/Mq98Uo_uKB-V0quh/xdz4l3HLWKVRn3d9/Yq4RlQSPUz8bWWsp/rGdBJQPIr29eZkhX/AEO3YQtaFejrL4q3/Q2n9vr5ahpXCT9cQ/L075yKoYI8vqFKCU/fyQuxB9mS6k'],
+      logoUrl: 'https://verylongshopname.fourthwall.com/platform/logo',
+      stylesUrl: 'https://verylongshopname.fourthwall.com/platform/style.css',
+      poweredBy: true,
+    },
+    summary: 'Domain URL (breaks before .fourthwall.com)',
+    description: 'Tests URL breaking before domain extension',
   }
 
   examples['URL Test (Subdomain)'] = {
     value: {
       strategy: 'LOGO_CENTERED',
+      shopId: 'sh_subdomain_url_test',
       shopName: 'Subdomain Shop',
       logoUrl: 'https://store.cohhilition.com/platform/logo',
       stylesUrl: 'https://store.cohhilition.com/platform/style.css',
@@ -129,6 +156,7 @@ function generateShopExamples() {
     examples[`${shop.displayName}`] = {
       value: {
         strategy: 'LOGO_CENTERED',
+        shopId: shop.id,
         shopName: shop.name,
         logoUrl: `https://${shop.url}/platform/logo`,
         stylesUrl: `https://${shop.url}/platform/style.css`,
@@ -142,6 +170,7 @@ function generateShopExamples() {
     examples[`${shop.displayName} (No Powered By)`] = {
       value: {
         strategy: 'LOGO_CENTERED',
+        shopId: shop.id,
         shopName: shop.name,
         logoUrl: `https://${shop.url}/platform/logo`,
         stylesUrl: `https://${shop.url}/platform/style.css`,

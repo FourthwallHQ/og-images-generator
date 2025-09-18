@@ -23,7 +23,7 @@ export class GCPService {
   private generateFileName(params: OGImageShopRequest): string {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
     const safeName = params.shopName.toLowerCase().replace(/[^a-z0-9]/g, '-')
-    return `og-images/${safeName}/${params.strategy.toLowerCase()}_${timestamp}.png`
+    return `og-images/${params.shopId}/${safeName}/${params.strategy.toLowerCase()}_${timestamp}.png`
   }
 
   async processImage(
@@ -37,6 +37,7 @@ export class GCPService {
     const imageUrl = await this.storageService.uploadImage(buffer, fileName)
 
     const message: OGImageGeneratedMessage = {
+      shopId: params.shopId,
       shopName: params.shopName,
       strategy: params.strategy,
       imageUrl: imageUrl,

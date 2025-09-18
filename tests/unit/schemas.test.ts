@@ -5,6 +5,7 @@ describe('OGImageShopRequestSchema', () => {
   describe('valid inputs', () => {
     it('should accept minimal valid input for LOGO_CENTERED strategy', () => {
       const input = {
+        shopId: 'sh_test',
         strategy: 'LOGO_CENTERED',
         shopName: 'Test Shop',
       }
@@ -20,6 +21,7 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should accept full valid input', () => {
       const input = {
+        shopId: 'sh_awesome',
         strategy: 'LOGO_CENTERED',
         shopName: 'My Awesome Shop',
         stylesUrl: 'https://example.com/styles.css',
@@ -39,6 +41,7 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should accept LOGO_CENTERED strategy with empty URLs', () => {
       const input = {
+        shopId: 'sh_coming_soon',
         strategy: 'LOGO_CENTERED',
         shopName: 'Test Shop',
         stylesUrl: '',
@@ -48,12 +51,28 @@ describe('OGImageShopRequestSchema', () => {
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(true)
     })
+
   })
 
   describe('invalid inputs', () => {
+    it('should reject missing shopId', () => {
+      const input = {
+        strategy: 'LOGO_CENTERED',
+        shopName: 'Test Shop',
+      }
+
+      const result = OGImageShopRequestSchema.safeParse(input)
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        const shopIdError = result.error.issues.find((issue) => issue.path.includes('shopId'))
+        expect(shopIdError).toBeDefined()
+      }
+    })
+
     it('should reject missing shopName', () => {
       const input = {
         strategy: 'LOGO_CENTERED',
+        shopId: 'sh_test',
       }
 
       const result = OGImageShopRequestSchema.safeParse(input)
@@ -67,6 +86,7 @@ describe('OGImageShopRequestSchema', () => {
     it('should reject empty shopName', () => {
       const input = {
         strategy: 'LOGO_CENTERED',
+        shopId: 'sh_test',
         shopName: '',
       }
 
@@ -76,25 +96,34 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should reject missing strategy', () => {
       const input = {
+        shopId: 'sh_test',
         shopName: 'Test Shop',
       }
 
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
     })
+
 
     it('should reject invalid strategy', () => {
       const input = {
         strategy: 'INVALID_STRATEGY',
+        shopId: 'sh_test',
         shopName: 'Test Shop',
       }
 
       const result = OGImageShopRequestSchema.safeParse(input)
       expect(result.success).toBe(false)
+      if (!result.success) {
+        const error = result.error.issues[0]
+        expect(error.message).toContain('Invalid input')
+      }
     })
+
 
     it('should reject invalid stylesUrl', () => {
       const input = {
+        shopId: 'sh_test',
         strategy: 'LOGO_CENTERED',
         shopName: 'Test Shop',
         stylesUrl: 'not-a-url',
@@ -107,6 +136,7 @@ describe('OGImageShopRequestSchema', () => {
     it('should reject invalid logoUrl', () => {
       const input = {
         strategy: 'LOGO_CENTERED',
+        shopId: 'sh_test',
         shopName: 'Test Shop',
         logoUrl: 'not-a-url',
       }
@@ -117,6 +147,7 @@ describe('OGImageShopRequestSchema', () => {
 
     it('should reject non-boolean poweredBy', () => {
       const input = {
+        shopId: 'sh_test',
         strategy: 'LOGO_CENTERED',
         shopName: 'Test Shop',
         poweredBy: 'yes', // should be boolean
