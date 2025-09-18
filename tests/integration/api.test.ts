@@ -1,5 +1,8 @@
-import { describe, it, expect, beforeAll, vi } from 'vitest'
-import { app } from '../../app'
+import { describe, it, expect, vi } from 'vitest'
+
+// Set GCP environment variables BEFORE any mocks or imports
+process.env.GCP_STORAGE_BUCKET = 'test-bucket'
+process.env.GCP_PUBSUB_TOPIC = 'test-topic'
 
 vi.mock('../../services/og-generator/OGImageService', () => ({
   OGImageService: {
@@ -7,16 +10,30 @@ vi.mock('../../services/og-generator/OGImageService', () => ({
   },
 }))
 
+vi.mock('../../services/gcp/GCPService', () => ({
+  GCPService: vi.fn().mockImplementation(() => ({
+    processImage: vi.fn().mockResolvedValue({
+      imageUrl: 'gs://test-bucket/test-image.png',
+      messageId: 'message-123',
+    }),
+    getConfiguration: vi.fn().mockReturnValue({
+      bucketName: 'test-bucket',
+      topicName: 'test-topic',
+    }),
+  })),
+}))
+
+import { app } from '../../app'
+
 describe('API Endpoints', () => {
   describe('POST /og/shop - Strategy Tests', () => {
-    it('should generate COMING_SOON image', async () => {
+    it('should generate LOGO_CENTERED image', async () => {
       const response = await app.request('/og/shop', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          strategy: 'COMING_SOON',
+          strategy: 'LOGO_CENTERED',
           shopName: 'Test Shop',
-          siteUrl: 'testshop.com',
           logoUrl: 'https://example.com/logo.png',
         }),
       })
@@ -25,48 +42,16 @@ describe('API Endpoints', () => {
       expect(response.headers.get('content-type')).toBe('image/png')
     })
 
-    it('should generate COMING_SOON_WITH_DATE image', async () => {
+    it('should generate LOGO_CENTERED image with all optional fields', async () => {
       const response = await app.request('/og/shop', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          strategy: 'COMING_SOON_WITH_DATE',
+          strategy: 'LOGO_CENTERED',
           shopName: 'Test Shop',
-          siteUrl: 'testshop.com',
-          launchDate: '2024-12-25T00:00:00Z',
           logoUrl: 'https://example.com/logo.png',
-        }),
-      })
-
-      expect(response.status).toBe(200)
-      expect(response.headers.get('content-type')).toBe('image/png')
-    })
-
-    it('should generate EMPTY_SHOP image', async () => {
-      const response = await app.request('/og/shop', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          strategy: 'EMPTY_SHOP',
-          shopName: 'Test Shop',
-          siteUrl: 'testshop.com',
-          logoUrl: 'https://example.com/logo.png',
-        }),
-      })
-
-      expect(response.status).toBe(200)
-      expect(response.headers.get('content-type')).toBe('image/png')
-    })
-
-    it('should generate LIVE_WITH_PRODUCTS image', async () => {
-      const response = await app.request('/og/shop', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          strategy: 'LIVE_WITH_PRODUCTS',
-          shopName: 'Test Shop',
-          offerImagesUrls: ['https://example.com/product.jpg'],
-          logoUrl: 'https://example.com/logo.png',
+          stylesUrl: 'https://example.com/styles.css',
+          poweredBy: false,
         }),
       })
 
@@ -103,42 +88,12 @@ describe('API Endpoints', () => {
       expect(json.error).toBeDefined()
     })
 
-    it('should return 400 for LIVE_WITH_PRODUCTS strategy without products', async () => {
-      const response = await app.request('/og/shop', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          strategy: 'LIVE_WITH_PRODUCTS',
-          shopName: 'Test Shop',
-        }),
-      })
-
-      expect(response.status).toBe(400)
-      const json = (await response.json()) as any
-      expect(json.error).toBeDefined()
-    })
-
-    it('should return 400 for COMING_SOON_WITH_DATE without launch date', async () => {
-      const response = await app.request('/og/shop', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          strategy: 'COMING_SOON_WITH_DATE',
-          shopName: 'Test Shop',
-        }),
-      })
-
-      expect(response.status).toBe(400)
-      const json = (await response.json()) as any
-      expect(json.error).toBeDefined()
-    })
-
     it('should return 400 for missing shopName', async () => {
       const response = await app.request('/og/shop', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          strategy: 'COMING_SOON',
+          strategy: 'LOGO_CENTERED',
         }),
       })
 
@@ -152,7 +107,7 @@ describe('API Endpoints', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          strategy: 'COMING_SOON',
+          strategy: 'LOGO_CENTERED',
           shopName: '',
         }),
       })
@@ -177,12 +132,10 @@ describe('API Endpoints', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          strategy: 'LIVE_WITH_PRODUCTS',
+          strategy: 'LOGO_CENTERED',
           shopName: 'Test Shop',
-          offerImagesUrls: ['https://example.com/image.jpg'],
           stylesUrl: 'https://example.com/styles.css',
           logoUrl: 'https://example.com/logo.png',
-          siteUrl: 'testshop.com',
           poweredBy: false,
         }),
       })

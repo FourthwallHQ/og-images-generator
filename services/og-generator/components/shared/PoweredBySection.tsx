@@ -45,6 +45,7 @@ export const PoweredBySection = ({
       <span
         style={{
           ...textStyles,
+          fontFamily: '"Suisse Int\'l", sans-serif',
           color: primaryColor,
           opacity: 0.6,
         }}
