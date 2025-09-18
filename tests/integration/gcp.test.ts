@@ -54,7 +54,7 @@ describe('GCP Integration', () => {
       process.env.GCP_STORAGE_BUCKET = 'test-bucket'
       process.env.GCP_PUBSUB_TOPIC = 'test-topic'
 
-      const mockUpload = vi.fn().mockResolvedValue('gs://test-bucket/og-images/test-shop/live_with_products_2024.png')
+      const mockUpload = vi.fn().mockResolvedValue('gs://test-bucket/og-images/test-shop/logo_centered_2024.png')
       const mockPublish = vi.fn().mockResolvedValue('message-123')
 
       vi.mocked(StorageService).mockImplementation(

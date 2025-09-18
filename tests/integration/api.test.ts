@@ -1,11 +1,29 @@
-import { describe, it, expect, beforeAll, vi } from 'vitest'
-import { app } from '../../app'
+import { describe, it, expect, vi } from 'vitest'
+
+// Set GCP environment variables BEFORE any mocks or imports
+process.env.GCP_STORAGE_BUCKET = 'test-bucket'
+process.env.GCP_PUBSUB_TOPIC = 'test-topic'
 
 vi.mock('../../services/og-generator/OGImageService', () => ({
   OGImageService: {
     generateShopImageBuffer: vi.fn().mockResolvedValue(Buffer.from('fake-image-data')),
   },
 }))
+
+vi.mock('../../services/gcp/GCPService', () => ({
+  GCPService: vi.fn().mockImplementation(() => ({
+    processImage: vi.fn().mockResolvedValue({
+      imageUrl: 'gs://test-bucket/test-image.png',
+      messageId: 'message-123',
+    }),
+    getConfiguration: vi.fn().mockReturnValue({
+      bucketName: 'test-bucket',
+      topicName: 'test-topic',
+    }),
+  })),
+}))
+
+import { app } from '../../app'
 
 describe('API Endpoints', () => {
   describe('POST /og/shop - Strategy Tests', () => {
