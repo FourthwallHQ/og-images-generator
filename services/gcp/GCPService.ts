@@ -12,7 +12,7 @@ export class GCPService {
 
     if (!bucketName || !topicName) {
       throw new Error(
-        'GCP configuration is required. Please set GCP_STORAGE_BUCKET and GCP_PUBSUB_TOPIC environment variables.'
+        'GCP configuration is required. Please set GCP_STORAGE_BUCKET and GCP_PUBSUB_TOPIC environment variables.',
       )
     }
 
@@ -26,7 +26,10 @@ export class GCPService {
     return `og-images/${safeName}/${params.strategy.toLowerCase()}_${timestamp}.png`
   }
 
-  async processImage(buffer: Buffer, params: OGImageShopRequest): Promise<{
+  async processImage(
+    buffer: Buffer,
+    params: OGImageShopRequest,
+  ): Promise<{
     imageUrl: string
     messageId: string
   }> {
@@ -39,10 +42,7 @@ export class GCPService {
       imageUrl: imageUrl,
       timestamp: new Date().toISOString(),
       metadata: {
-        siteUrl: params.siteUrl,
         logoUrl: params.logoUrl,
-        launchDate: params.launchDate,
-        offerImagesCount: params.offerImagesUrls?.length || 0,
       },
     }
     const messageId = await this.pubsubService.publishMessage(message)
