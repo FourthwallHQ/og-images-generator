@@ -4,6 +4,7 @@ import { ComingSoonComponent } from './ComingSoonComponent'
 import { ComingSoonWithDateComponent } from './ComingSoonWithDateComponent'
 import { EmptyShopComponent } from './EmptyShopComponent'
 import { LiveWithProductsComponent } from './LiveWithProductsComponent'
+import { LogoCenteredComponent } from './LogoCenteredComponent'
 import { OGImageWrapper } from './shared'
 
 // Helper function to format launch date for Storybook preview
@@ -32,7 +33,7 @@ const formatLaunchDate = (dateStr: string): string => {
 
 // Full Layout Component
 interface FullLayoutProps {
-  strategy: 'COMING_SOON' | 'COMING_SOON_WITH_DATE' | 'EMPTY_SHOP' | 'LIVE_WITH_PRODUCTS'
+  strategy: 'COMING_SOON' | 'COMING_SOON_WITH_DATE' | 'EMPTY_SHOP' | 'LIVE_WITH_PRODUCTS' | 'LOGO_CENTERED'
   colorPalette?: { primaryColor: string; backgroundColor: string }
   logoUrl: string
   shopName: string
@@ -113,6 +114,18 @@ const FullLayout = ({
             mainImage={mainImage || ''}
           />
         )
+      case 'LOGO_CENTERED':
+        return (
+          <LogoCenteredComponent
+            primaryColor={primaryColor}
+            backgroundColor={backgroundColor}
+            fontFamily={fontFamily}
+            shopName={shopName}
+            siteUrl={siteUrl}
+            poweredBy={poweredBy}
+            logoUrl={logoUrl}
+          />
+        )
       default:
         return null
     }
@@ -173,7 +186,7 @@ const meta = {
   argTypes: {
     strategy: {
       control: { type: 'select' },
-      options: ['COMING_SOON', 'COMING_SOON_WITH_DATE', 'EMPTY_SHOP', 'LIVE_WITH_PRODUCTS'],
+      options: ['COMING_SOON', 'COMING_SOON_WITH_DATE', 'EMPTY_SHOP', 'LIVE_WITH_PRODUCTS', 'LOGO_CENTERED'],
       description: 'OG image strategy',
     },
     colorPalette: {
@@ -278,6 +291,19 @@ export const LiveWithProducts: Story = {
     logoUrl: 'https://sandbox-shop.fourthwall.com/platform/logo',
     mainImage:
       'https://imgproxy.fourthwall.com/aCcIsLboesTA8clwEDOgt8BPwY7zwAzjpIMhus9bvvs/w:900/sm:1/enc/ap1S5lrqqHDKNFon/YPHQdEwufVPUPCtV/nFEC_GqkhcrVJotj/YPBL157OJjTlWqar/6JsSxpEvQ_lUR8vY/AtaPA4_cb4NVHNIp/M9t1PHzS_fMry4Xp/Mq98Uo_uKB-V0quh/xdz4l3HLWKVRn3d9/Yq4RlQSPUz8bWWsp/rGdBJQPIr29eZkhX/AEO3YQtaFejrL4q3/Q2n9vr5ahpXCT9cQ/L075yKoYI8vqFKCU/fyQuxB9mS6k',
+    poweredBy: true,
+    fontFamily: '"Nunito Sans", sans-serif',
+  },
+}
+
+// Logo Centered Strategy
+export const LogoCentered: Story = {
+  args: {
+    strategy: 'LOGO_CENTERED',
+    colorPalette: colorPalettes['Fourthwall Default'],
+    shopName: 'Creator Store',
+    siteUrl: 'creator.fourthwall.com',
+    logoUrl: 'https://sandbox-shop.fourthwall.com/platform/logo',
     poweredBy: true,
     fontFamily: '"Nunito Sans", sans-serif',
   },

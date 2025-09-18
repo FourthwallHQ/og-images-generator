@@ -7,6 +7,7 @@ import { ComingSoonComponent } from './components/ComingSoonComponent.js'
 import { ComingSoonWithDateComponent } from './components/ComingSoonWithDateComponent.js'
 import { EmptyShopComponent } from './components/EmptyShopComponent.js'
 import { LiveWithProductsComponent } from './components/LiveWithProductsComponent.js'
+import { LogoCenteredComponent } from './components/LogoCenteredComponent.js'
 
 export class OGImageService {
   static async checkLogoAvailability(logoUrl: string | undefined): Promise<boolean> {
@@ -41,6 +42,9 @@ export class OGImageService {
         break
       case 'LIVE_WITH_PRODUCTS':
         imageResponse = await this.generateLiveWithProductsImage(finalParams)
+        break
+      case 'LOGO_CENTERED':
+        imageResponse = await this.generateLogoCenteredImage(finalParams)
         break
       default:
         throw new Error(`Unknown strategy: ${params.strategy}`)
@@ -210,6 +214,37 @@ export class OGImageService {
           poweredBy={params.poweredBy}
           logoUrl={params.logoUrl}
           mainImage={mainImage}
+          isLogoAvailable={isLogoAvailable}
+        />
+      ),
+      {
+        width: 1200,
+        height: 630,
+        fonts,
+      },
+    )
+  }
+
+  static async generateLogoCenteredImage(params: OGImageShopRequest): Promise<ImageResponse> {
+    const { primaryColor, backgroundColor, fontFamily, cssText } = await parseShopStyles(
+      params.stylesUrl,
+    )
+    const cleanedSiteUrl = this.cleanSiteUrl(params.siteUrl)
+    const isLogoAvailable = await this.checkLogoAvailability(params.logoUrl)
+
+    // Load fonts for the image
+    const fonts = await loadFontsForImageResponse(cssText, params.shopName)
+
+    return new ImageResponse(
+      (
+        <LogoCenteredComponent
+          primaryColor={primaryColor}
+          backgroundColor={backgroundColor}
+          fontFamily={fontFamily}
+          shopName={params.shopName}
+          siteUrl={cleanedSiteUrl}
+          poweredBy={params.poweredBy}
+          logoUrl={params.logoUrl}
           isLogoAvailable={isLogoAvailable}
         />
       ),

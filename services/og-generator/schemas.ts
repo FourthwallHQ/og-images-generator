@@ -42,7 +42,7 @@ export const ErrorResponseSchema = z
   .openapi('ErrorResponse')
 
 export const StrategyEnum = z
-  .enum(['COMING_SOON', 'COMING_SOON_WITH_DATE', 'EMPTY_SHOP', 'LIVE_WITH_PRODUCTS'])
+  .enum(['COMING_SOON', 'COMING_SOON_WITH_DATE', 'EMPTY_SHOP', 'LIVE_WITH_PRODUCTS', 'LOGO_CENTERED'])
   .openapi({
     description: 'OG image generation strategy based on shop status',
     example: 'LIVE_WITH_PRODUCTS',
