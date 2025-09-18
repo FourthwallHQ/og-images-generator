@@ -1,18 +1,29 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { swaggerUI } from '@hono/swagger-ui'
 import { OGImageService } from './services/og-generator/OGImageService.js'
-import { createShopOGImageRoute, createShopOGImageAsyncRoute } from './services/og-generator/routes.js'
+import {
+  createShopOGImageRoute,
+  createShopOGImageAsyncRoute,
+} from './services/og-generator/routes.js'
 import { GCPService } from './services/gcp/GCPService.js'
 
 export function createApp() {
   const app = new OpenAPIHono()
-  let gcpService: GCPService
+  let gcpService: GCPService | null = null
 
-  try {
-    gcpService = new GCPService()
-  } catch (error) {
-    console.error('Failed to initialize GCP services:', error)
-    throw error
+  // Only initialize GCP services if environment variables are set
+  const isGCPConfigured = process.env.GCP_STORAGE_BUCKET && process.env.GCP_PUBSUB_TOPIC
+
+  if (isGCPConfigured) {
+    try {
+      gcpService = new GCPService()
+      console.log('✅ GCP services initialized successfully')
+    } catch (error) {
+      console.error('Failed to initialize GCP services:', error)
+      throw error
+    }
+  } else {
+    console.log('⚠️ GCP services not configured - running without Cloud Storage and Pub/Sub integration')
   }
 
   // Synchronous endpoint - returns image immediately with background GCP processing
@@ -21,15 +32,18 @@ export function createApp() {
 
     try {
       const buffer = await OGImageService.generateShopImageBuffer(body)
-      
-      // Process image with GCP services asynchronously
-      gcpService.processImage(buffer, body)
-        .then((gcpResult) => {
-          console.log('GCP processing completed:', gcpResult)
-        })
-        .catch((gcpError) => {
-          console.error('Error processing image with GCP services:', gcpError)
-        })
+
+      // Process image with GCP services asynchronously if configured
+      if (gcpService) {
+        gcpService
+          .processImage(buffer, body)
+          .then((gcpResult) => {
+            console.log('GCP processing completed:', gcpResult)
+          })
+          .catch((gcpError) => {
+            console.error('Error processing image with GCP services:', gcpError)
+          })
+      }
 
       return c.body(new Uint8Array(buffer), 200, {
         'Content-Type': 'image/png',
@@ -48,11 +62,13 @@ export function createApp() {
       // Generate and process image asynchronously in background
       OGImageService.generateShopImageBuffer(body)
         .then(async (buffer) => {
-          try {
-            const gcpResult = await gcpService.processImage(buffer, body)
-            console.log('Async GCP processing completed:', gcpResult)
-          } catch (gcpError) {
-            console.error('Error in async GCP processing:', gcpError)
+          if (gcpService) {
+            try {
+              const gcpResult = await gcpService.processImage(buffer, body)
+              console.log('Async GCP processing completed:', gcpResult)
+            } catch (gcpError) {
+              console.error('Error in async GCP processing:', gcpError)
+            }
           }
         })
         .catch((error) => {
@@ -60,10 +76,13 @@ export function createApp() {
         })
 
       // Return immediate accepted response
-      return c.json({ 
-        status: 'accepted',
-        message: 'OG image generation request received and is being processed'
-      }, 202)
+      return c.json(
+        {
+          status: 'accepted',
+          message: 'OG image generation request received and is being processed',
+        },
+        202,
+      )
     } catch (error) {
       console.error('Error initiating async OG image generation:', error)
       return c.json({ error: 'Failed to initiate OG image generation' }, 500)
