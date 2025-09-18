@@ -1,4 +1,5 @@
 import { createRoute } from '@hono/zod-openapi'
+import { z } from 'zod'
 import { OGImageShopRequestSchema, ErrorResponseSchema } from './schemas.js'
 
 // Shop data for generating examples with real product images
@@ -235,19 +236,15 @@ Strategies:
       description: 'Request accepted for processing',
       content: {
         'application/json': {
-          schema: {
-            type: 'object',
-            properties: {
-              status: {
-                type: 'string',
-                example: 'accepted',
-              },
-              message: {
-                type: 'string',
-                example: 'OG image generation request received and is being processed',
-              },
+          schema: z.object({
+            status: z.string(),
+            message: z.string(),
+          }).openapi({
+            example: {
+              status: 'accepted',
+              message: 'OG image generation request received and is being processed',
             },
-          },
+          }),
         },
       },
     },
