@@ -116,28 +116,16 @@ Generate an OG image for a shop based on its current status.
 
 **Strategies:**
 
-- `COMING_SOON` - Password/coming soon state with "Coming Soon" banner
-- `COMING_SOON_WITH_DATE` - Coming soon with launch date display
-- `EMPTY_SHOP` - Live shop with no products (no "Powered by Fourthwall")
-- `LIVE_WITH_PRODUCTS` - Live shop with products showing first product image
+- `LOGO_CENTERED` - Displays the shop logo centered with optional "Powered by Fourthwall" footer
 
 **Request Body:**
 
 ```json
 {
-  "strategy": "LIVE_WITH_PRODUCTS",
+  "strategy": "LOGO_CENTERED",
   "shopName": "My Shop",
-  "siteUrl": "myshop.com",
   "logoUrl": "https://example.com/logo.png",
   "stylesUrl": "https://example.com/styles.css",
-
-  // Required for 'LIVE_WITH_PRODUCTS' strategy
-  "offerImagesUrls": ["https://example.com/product.jpg"],
-
-  // Required for 'COMING_SOON_WITH_DATE' strategy
-  "launchDate": "2024-12-25T00:00:00Z",
-
-  // Optional - auto-set based on strategy if not provided
   "poweredBy": true
 }
 ```
@@ -150,10 +138,11 @@ Generate an OG image for a shop based on its current status.
 
 **Strategy-specific requirements:**
 
-- `LIVE_WITH_PRODUCTS`: Requires `offerImagesUrls` array with at least one product image
-- `COMING_SOON_WITH_DATE`: Requires `launchDate` in ISO 8601 format
-- `EMPTY_SHOP`: Automatically sets `poweredBy` to false
-- All other strategies: Automatically set `poweredBy` to true unless specified
+- `strategy` (required): Must be "LOGO_CENTERED"
+- `shopName` (required): Name of the shop
+- `logoUrl` (optional): URL to shop logo image
+- `stylesUrl` (optional): URL to CSS file with shop styles
+- `poweredBy` (optional): Show "Powered by Fourthwall" section (defaults to true)
 
 ## Project Structure
 
@@ -161,22 +150,14 @@ Generate an OG image for a shop based on its current status.
 services/og-generator/
 ├── OGImageService.tsx          # Main service for image generation
 ├── components/                 # Strategy-specific components
-│   ├── ComingSoonComponent.tsx
-│   ├── ComingSoonWithDateComponent.tsx
-│   ├── EmptyShopComponent.tsx
-│   ├── LiveWithProductsComponent.tsx
+│   ├── LogoCenteredComponent.tsx
 │   ├── OGImageStories.stories.tsx
 │   └── shared/                # Reusable UI components
-│       ├── ShopLogo.tsx
-│       ├── ShopInfo.tsx
 │       ├── PoweredBySection.tsx
-│       ├── LeftColumn.tsx
-│       ├── RightColumn.tsx
-│       ├── ComingSoonBanner.tsx
-│       ├── LaunchDateBanner.tsx
 │       └── OGImageWrapper.tsx
 ├── schemas.ts                  # Zod validation schemas
 ├── styles-parser.ts           # CSS variable parser
+├── font-loader.ts             # Font loading utilities
 └── routes.ts                  # API route definitions
 ```
 
@@ -185,7 +166,7 @@ services/og-generator/
 - **Component Architecture**: OG image components are shared between the image generation service and Storybook for consistent rendering
 - **Image Size**: All OG images are generated at 1200x630px (standard OG image dimensions)
 - **Storybook Integration**: Components are wrapped in `OGImageWrapper` to simulate the exact dimensions used in production
-- **Strategy Pattern**: Different shop states use dedicated components while sharing common UI elements from the `shared/` directory
+- **Strategy Pattern**: Currently supports LOGO_CENTERED strategy with shared UI components in the `shared/` directory
 - **GCP Integration**: Mandatory upload to Cloud Storage and Pub/Sub notifications using service account authentication with async processing
 
 ## License

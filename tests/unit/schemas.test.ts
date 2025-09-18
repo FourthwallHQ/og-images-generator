@@ -24,7 +24,6 @@ describe('OGImageShopRequestSchema', () => {
         shopName: 'My Awesome Shop',
         stylesUrl: 'https://example.com/styles.css',
         logoUrl: 'https://example.com/logo.png',
-        siteUrl: 'myshop.com',
         poweredBy: true,
       }
 
@@ -42,7 +41,6 @@ describe('OGImageShopRequestSchema', () => {
       const input = {
         strategy: 'LOGO_CENTERED',
         shopName: 'Test Shop',
-        siteUrl: 'testshop.com',
         stylesUrl: '',
         logoUrl: '',
       }

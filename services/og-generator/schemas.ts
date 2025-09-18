@@ -1,6 +1,5 @@
 import { z } from '@hono/zod-openapi'
 
-
 export const ErrorResponseSchema = z
   .object({
     error: z.string(),
@@ -15,12 +14,10 @@ export const ErrorResponseSchema = z
   })
   .openapi('ErrorResponse')
 
-export const StrategyEnum = z
-  .enum(['LOGO_CENTERED'])
-  .openapi({
-    description: 'OG image generation strategy',
-    example: 'LOGO_CENTERED',
-  })
+export const StrategyEnum = z.enum(['LOGO_CENTERED']).openapi({
+  description: 'OG image generation strategy',
+  example: 'LOGO_CENTERED',
+})
 
 export const OGImageShopRequestSchema = z
   .object({
@@ -28,10 +25,6 @@ export const OGImageShopRequestSchema = z
     shopName: z.string().min(1).openapi({
       example: 'sandbox-shop.fourthwall.com',
       description: 'Name of the shop',
-    }),
-    siteUrl: z.string().optional().openapi({
-      example: 'sandbox-shop.fourthwall.com',
-      description: 'Shop URL to display',
     }),
     stylesUrl: z
       .union([z.url(), z.literal('')])

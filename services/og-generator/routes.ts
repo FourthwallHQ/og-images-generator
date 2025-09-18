@@ -79,9 +79,8 @@ function generateShopExamples() {
     value: {
       strategy: 'LOGO_CENTERED',
       shopName: 'Test Shop Without Logo',
-      siteUrl: 'test-shop.fourthwall.com',
       logoUrl: 'https://example.com/nonexistent-logo-404.png',
-      stylesUrl: 'https://test-shop.fourthwall.com/platform/style.css',
+      stylesUrl: 'https://sandbox-shop.fourthwall.com/platform/style.css',
       poweredBy: true,
     },
     summary: 'Test Shop with missing logo (404)',
@@ -93,7 +92,6 @@ function generateShopExamples() {
     value: {
       strategy: 'LOGO_CENTERED',
       shopName: 'Short URL Shop',
-      siteUrl: 'short.com',
       logoUrl: 'https://short.com/platform/logo',
       stylesUrl: 'https://short.com/platform/style.css',
       poweredBy: true,
@@ -106,7 +104,6 @@ function generateShopExamples() {
     value: {
       strategy: 'LOGO_CENTERED',
       shopName: 'Hyphenated URL Shop',
-      siteUrl: 'super-long-shop-name.fourthwall.com',
       logoUrl: 'https://super-long-shop-name.fourthwall.com/platform/logo',
       stylesUrl: 'https://super-long-shop-name.fourthwall.com/platform/style.css',
       poweredBy: true,
@@ -119,7 +116,6 @@ function generateShopExamples() {
     value: {
       strategy: 'LOGO_CENTERED',
       shopName: 'Subdomain Shop',
-      siteUrl: 'store.cohhilition.com',
       logoUrl: 'https://store.cohhilition.com/platform/logo',
       stylesUrl: 'https://store.cohhilition.com/platform/style.css',
       poweredBy: true,
@@ -134,7 +130,6 @@ function generateShopExamples() {
       value: {
         strategy: 'LOGO_CENTERED',
         shopName: shop.name,
-        siteUrl: shop.url,
         logoUrl: `https://${shop.url}/platform/logo`,
         stylesUrl: `https://${shop.url}/platform/style.css`,
         poweredBy: true,
@@ -148,7 +143,6 @@ function generateShopExamples() {
       value: {
         strategy: 'LOGO_CENTERED',
         shopName: shop.name,
-        siteUrl: shop.url,
         logoUrl: `https://${shop.url}/platform/logo`,
         stylesUrl: `https://${shop.url}/platform/style.css`,
         poweredBy: false,

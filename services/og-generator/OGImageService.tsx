@@ -35,7 +35,6 @@ export class OGImageService {
 
     const isLogoAvailable = await this.checkLogoAvailability(params.logoUrl)
 
-    // Load fonts for the image
     const fonts = await loadFontsForImageResponse(cssText, params.shopName)
 
     return new ImageResponse(
