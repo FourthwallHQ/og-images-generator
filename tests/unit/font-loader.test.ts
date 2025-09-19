@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { loadFontsForImageResponse } from '../../services/og-generator/font-loader'
+import { loadFontsForImageResponse } from '../../services/og-generator/utils/font-loader'
 
 describe('Font Loader', () => {
   beforeEach(() => {
@@ -19,28 +19,27 @@ describe('Font Loader', () => {
       `
 
       // Mock Google Fonts API responses
-      global.fetch = vi.fn()
-        .mockImplementation((url: string) => {
-          if (url.includes('fonts.googleapis.com')) {
-            return Promise.resolve({
-              ok: true,
-              text: async () => `
+      global.fetch = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('fonts.googleapis.com')) {
+          return Promise.resolve({
+            ok: true,
+            text: async () => `
                 @font-face {
                   font-family: 'Nunito Sans';
                   src: url(https://fonts.gstatic.com/font.woff2);
                 }
               `,
-            })
-          }
-          if (url.includes('fonts.gstatic.com')) {
-            return Promise.resolve({
-              ok: true,
-              status: 200,
-              arrayBuffer: async () => new ArrayBuffer(1000),
-            })
-          }
-          return Promise.reject(new Error('Unknown URL'))
-        })
+          })
+        }
+        if (url.includes('fonts.gstatic.com')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            arrayBuffer: async () => new ArrayBuffer(1000),
+          })
+        }
+        return Promise.reject(new Error('Unknown URL'))
+      })
 
       const fonts = await loadFontsForImageResponse(mockCss, 'Test Text')
 
@@ -48,12 +47,12 @@ describe('Font Loader', () => {
       expect(fonts.length).toBeGreaterThanOrEqual(3)
 
       // Should have Suisse Int'l for Powered by
-      const suisseFont = fonts.find(f => f.name === "Suisse Int'l")
+      const suisseFont = fonts.find((f) => f.name === "Suisse Int'l")
       expect(suisseFont).toBeDefined()
       expect(suisseFont?.weight).toBe(400)
 
       // Should have Nunito Sans fonts
-      const nunitoFonts = fonts.filter(f => f.name === 'Nunito Sans')
+      const nunitoFonts = fonts.filter((f) => f.name === 'Nunito Sans')
       expect(nunitoFonts).toHaveLength(2)
       expect(nunitoFonts[0].weight).toBe(400)
       expect(nunitoFonts[1].weight).toBe(700)
@@ -68,12 +67,12 @@ describe('Font Loader', () => {
 
       expect(fonts.length).toBeGreaterThan(0)
       // Should always have Suisse Int'l for Powered by
-      const suisseFont = fonts.find(f => f.name === "Suisse Int'l")
+      const suisseFont = fonts.find((f) => f.name === "Suisse Int'l")
       expect(suisseFont).toBeDefined()
       expect(suisseFont?.weight).toBe(400)
 
       // Should use PPTelegraf as default when no font in CSS
-      const ppTelegrafFonts = fonts.filter(f => f.name === 'PPTelegraf')
+      const ppTelegrafFonts = fonts.filter((f) => f.name === 'PPTelegraf')
       expect(ppTelegrafFonts.length).toBeGreaterThan(0)
     })
 
@@ -92,11 +91,11 @@ describe('Font Loader', () => {
       expect(fonts.length).toBeGreaterThan(0)
 
       // Should have Suisse Int'l for Powered by
-      const suisseFont = fonts.find(f => f.name === "Suisse Int'l")
+      const suisseFont = fonts.find((f) => f.name === "Suisse Int'l")
       expect(suisseFont).toBeDefined()
 
       // Should have PPTelegraf as fallback
-      const ppTelegrafFonts = fonts.filter(f => f.name === 'PPTelegraf')
+      const ppTelegrafFonts = fonts.filter((f) => f.name === 'PPTelegraf')
       expect(ppTelegrafFonts.length).toBeGreaterThan(0)
       expect(console.error).toHaveBeenCalled()
     })
@@ -108,40 +107,39 @@ describe('Font Loader', () => {
         }
       `
 
-      global.fetch = vi.fn()
-        .mockImplementation((url: string) => {
-          if (url.includes('fonts.googleapis.com')) {
-            expect(url).toContain('Open+Sans') // Should replace spaces with +
-            return Promise.resolve({
-              ok: true,
-              text: async () => `
+      global.fetch = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('fonts.googleapis.com')) {
+          expect(url).toContain('Open+Sans') // Should replace spaces with +
+          return Promise.resolve({
+            ok: true,
+            text: async () => `
                 @font-face {
                   font-family: 'Open Sans';
                   src: url(https://fonts.gstatic.com/font.woff2);
                 }
               `,
-            })
-          }
-          if (url.includes('fonts.gstatic.com')) {
-            return Promise.resolve({
-              ok: true,
-              status: 200,
-              arrayBuffer: async () => new ArrayBuffer(1000),
-            })
-          }
-          return Promise.reject(new Error('Unknown URL'))
-        })
+          })
+        }
+        if (url.includes('fonts.gstatic.com')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            arrayBuffer: async () => new ArrayBuffer(1000),
+          })
+        }
+        return Promise.reject(new Error('Unknown URL'))
+      })
 
       const fonts = await loadFontsForImageResponse(mockCss, 'Test Text')
 
       expect(fonts.length).toBeGreaterThan(0)
 
       // Should have Suisse Int'l for Powered by
-      const suisseFont = fonts.find(f => f.name === "Suisse Int'l")
+      const suisseFont = fonts.find((f) => f.name === "Suisse Int'l")
       expect(suisseFont).toBeDefined()
 
       // Should load Open Sans fonts
-      const openSansFonts = fonts.filter(f => f.name === 'Open Sans')
+      const openSansFonts = fonts.filter((f) => f.name === 'Open Sans')
       expect(openSansFonts.length).toBeGreaterThan(0)
     })
 
@@ -155,29 +153,28 @@ describe('Font Loader', () => {
       `
 
       let fontRequestCount = 0
-      global.fetch = vi.fn()
-        .mockImplementation((url: string) => {
-          if (url.includes('fonts.googleapis.com')) {
-            fontRequestCount++
-            return Promise.resolve({
-              ok: true,
-              text: async () => `
+      global.fetch = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('fonts.googleapis.com')) {
+          fontRequestCount++
+          return Promise.resolve({
+            ok: true,
+            text: async () => `
                 @font-face {
                   font-family: 'Roboto';
                   src: url(https://fonts.gstatic.com/font.woff2);
                 }
               `,
-            })
-          }
-          if (url.includes('fonts.gstatic.com')) {
-            return Promise.resolve({
-              ok: true,
-              status: 200,
-              arrayBuffer: async () => new ArrayBuffer(1000),
-            })
-          }
-          return Promise.reject(new Error('Unknown URL'))
-        })
+          })
+        }
+        if (url.includes('fonts.gstatic.com')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            arrayBuffer: async () => new ArrayBuffer(1000),
+          })
+        }
+        return Promise.reject(new Error('Unknown URL'))
+      })
 
       const fonts = await loadFontsForImageResponse(mockCss, 'Test Text')
 
@@ -185,12 +182,12 @@ describe('Font Loader', () => {
       expect(fonts.length).toBeGreaterThanOrEqual(3)
 
       // Should have Suisse Int'l for Powered by
-      const suisseFont = fonts.find(f => f.name === "Suisse Int'l")
+      const suisseFont = fonts.find((f) => f.name === "Suisse Int'l")
       expect(suisseFont).toBeDefined()
 
-      const robotoFonts = fonts.filter(f => f.name === 'Roboto')
+      const robotoFonts = fonts.filter((f) => f.name === 'Roboto')
       expect(robotoFonts).toHaveLength(2)
-      expect(robotoFonts.map(f => f.weight)).toEqual([400, 700])
+      expect(robotoFonts.map((f) => f.weight)).toEqual([400, 700])
     })
 
     it('should return empty array when all font loading fails', async () => {
@@ -209,11 +206,11 @@ describe('Font Loader', () => {
       expect(fonts.length).toBeGreaterThan(0)
 
       // Should have Suisse Int'l for Powered by
-      const suisseFont = fonts.find(f => f.name === "Suisse Int'l")
+      const suisseFont = fonts.find((f) => f.name === "Suisse Int'l")
       expect(suisseFont).toBeDefined()
 
       // Should have PPTelegraf as fallback
-      const ppTelegrafFonts = fonts.filter(f => f.name === 'PPTelegraf')
+      const ppTelegrafFonts = fonts.filter((f) => f.name === 'PPTelegraf')
       expect(ppTelegrafFonts.length).toBeGreaterThan(0)
       expect(console.error).toHaveBeenCalled()
     })
@@ -225,39 +222,38 @@ describe('Font Loader', () => {
         }
       `
 
-      global.fetch = vi.fn()
-        .mockImplementation((url: string) => {
-          if (url.includes('fonts.googleapis.com')) {
-            return Promise.resolve({
-              ok: true,
-              text: async () => `
+      global.fetch = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('fonts.googleapis.com')) {
+          return Promise.resolve({
+            ok: true,
+            text: async () => `
                 @font-face {
                   font-family: 'CustomFont';
                   src: url(https://fonts.gstatic.com/font.ttf) format('truetype');
                 }
               `,
-            })
-          }
-          if (url.includes('fonts.gstatic.com')) {
-            return Promise.resolve({
-              ok: true,
-              status: 200,
-              arrayBuffer: async () => new ArrayBuffer(1000),
-            })
-          }
-          return Promise.reject(new Error('Unknown URL'))
-        })
+          })
+        }
+        if (url.includes('fonts.gstatic.com')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            arrayBuffer: async () => new ArrayBuffer(1000),
+          })
+        }
+        return Promise.reject(new Error('Unknown URL'))
+      })
 
       const fonts = await loadFontsForImageResponse(mockCss, 'Test Text')
 
       expect(fonts.length).toBeGreaterThan(0) // Should still load ttf format
 
       // Should have Suisse Int'l for Powered by
-      const suisseFont = fonts.find(f => f.name === "Suisse Int'l")
+      const suisseFont = fonts.find((f) => f.name === "Suisse Int'l")
       expect(suisseFont).toBeDefined()
 
       // Should have CustomFont loaded
-      const customFont = fonts.find(f => f.name === 'CustomFont')
+      const customFont = fonts.find((f) => f.name === 'CustomFont')
       expect(customFont).toBeDefined()
     })
   })

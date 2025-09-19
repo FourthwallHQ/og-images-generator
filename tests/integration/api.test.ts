@@ -157,7 +157,7 @@ describe('API Endpoints', () => {
 
       const json = (await response.json()) as any
       expect(json.openapi).toBe('3.0.0')
-      expect(json.info.title).toBe('OG Image Generator API')
+      expect(json.info.title).toBe('OG Image & Bundle Generator API')
       expect(json.paths['/og/shop']).toBeDefined()
     })
 

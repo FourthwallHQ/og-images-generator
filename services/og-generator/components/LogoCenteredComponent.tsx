@@ -38,8 +38,8 @@ const CenteredLogo = ({
           lineHeight: 1.2,
           color: primaryColor,
           fontFamily,
-          maxWidth: '60%',
-          maxHeight: '50%',
+          maxWidth: '70%',
+          maxHeight: '60%',
           textAlign: 'center',
         }}
       >
@@ -53,8 +53,8 @@ const CenteredLogo = ({
       src={logoUrl}
       alt="Shop Logo"
       style={{
-        maxWidth: '60%',
-        maxHeight: '50%',
+        maxWidth: '70%',
+        maxHeight: '60%',
         objectFit: 'contain',
       }}
     />
@@ -105,14 +105,14 @@ export const LogoCenteredComponent = ({
         <div
           style={{
             position: 'absolute',
-            bottom: '80px',
+            bottom: '40px',
             left: 0,
             right: 0,
             display: 'flex',
             justifyContent: 'center',
           }}
         >
-          <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="medium" />
+          <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} />
         </div>
       )}
     </div>

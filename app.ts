@@ -5,6 +5,11 @@ import {
   createShopOGImageRoute,
   createShopOGImageAsyncRoute,
 } from './services/og-generator/routes.js'
+import { BundleImageService } from './services/bundles-generator/BundleImageService.js'
+import {
+  createBundleImageRoute,
+  createBundleImageAsyncRoute,
+} from './services/bundles-generator/routes.js'
 import { GCPService } from './services/gcp/GCPService.js'
 
 export function createApp() {
@@ -89,6 +94,69 @@ export function createApp() {
     }
   })
 
+  // Bundle image endpoints
+  app.openapi(createBundleImageRoute, async (c) => {
+    const body = c.req.valid('json')
+
+    try {
+      const buffer = await BundleImageService.generateBundleImageBuffer(body)
+
+      // Process image with GCP services asynchronously if configured
+      if (gcpService) {
+        gcpService
+          .processImage(buffer, body as any)
+          .then((gcpResult) => {
+            console.log('GCP processing completed for bundle:', gcpResult)
+          })
+          .catch((gcpError) => {
+            console.error('Error processing bundle image with GCP services:', gcpError)
+          })
+      }
+
+      return c.body(new Uint8Array(buffer), 200, {
+        'Content-Type': 'image/png',
+      })
+    } catch (error) {
+      console.error('Error generating bundle image:', error)
+      return c.json({ error: 'Failed to generate bundle image' }, 500)
+    }
+  })
+
+  // Asynchronous bundle endpoint
+  app.openapi(createBundleImageAsyncRoute, async (c) => {
+    const body = c.req.valid('json')
+
+    try {
+      // Generate and process image asynchronously in background
+      BundleImageService.generateBundleImageBuffer(body)
+        .then(async (buffer) => {
+          if (gcpService) {
+            try {
+              const gcpResult = await gcpService.processImage(buffer, body as any)
+              console.log('Async GCP processing completed for bundle:', gcpResult)
+            } catch (gcpError) {
+              console.error('Error in async GCP processing for bundle:', gcpError)
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error in async bundle image generation:', error)
+        })
+
+      // Return immediate accepted response
+      return c.json(
+        {
+          status: 'accepted',
+          message: 'Bundle image generation request received and is being processed',
+        },
+        202,
+      )
+    } catch (error) {
+      console.error('Error initiating async bundle image generation:', error)
+      return c.json({ error: 'Failed to initiate bundle image generation' }, 500)
+    }
+  })
+
   const servers = process.env.K_SERVICE
     ? [
         {
@@ -107,8 +175,9 @@ export function createApp() {
     openapi: '3.0.0',
     info: {
       version: '1.0.0',
-      title: 'OG Image Generator API',
-      description: 'API for generating Open Graph images for shops with custom branding',
+      title: 'OG Image & Bundle Generator API',
+      description:
+        'API for generating Open Graph images for shops and bundle images from product collections',
     },
     servers,
   })

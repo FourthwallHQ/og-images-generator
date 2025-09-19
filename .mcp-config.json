@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7"],
+      "description": "Up-to-date documentation for libraries used in OG Image Generator"
+    }
+  },
+  "projectLibraries": [
+    "@vercel/og",
+    "hono",
+    "@hono/zod-openapi",
+    "zod",
+    "react",
+    "@storybook/react",
+    "vitest"
+  ],
+  "usage": {
+    "context7": "Add 'use context7' to get latest library documentation",
+  }
+}

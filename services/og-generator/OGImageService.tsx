@@ -1,8 +1,8 @@
 import React from 'react'
 import { ImageResponse } from '@vercel/og'
 import { OGImageShopRequest } from './schemas.js'
-import { parseShopStyles } from './styles-parser.js'
-import { loadFontsForImageResponse } from './font-loader.js'
+import { parseShopStyles } from './utils/styles-parser.js'
+import { loadFontsForImageResponse } from './utils/font-loader.js'
 import { LogoCenteredComponent } from './components/LogoCenteredComponent.js'
 
 export class OGImageService {

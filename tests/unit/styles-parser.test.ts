@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { parseShopStyles } from '../../services/og-generator/styles-parser'
+import { parseShopStyles } from '../../services/og-generator/utils/styles-parser'
 
 describe('parseShopStyles', () => {
   beforeEach(() => {
