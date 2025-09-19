@@ -3,32 +3,21 @@ import React from 'react'
 interface PoweredBySectionProps {
   placement?: 'vertical' | 'horizontal'
   primaryColor: string
-  size?: 'small' | 'medium'
 }
 
-export const PoweredBySection = ({ 
-  placement = 'vertical', 
+export const PoweredBySection = ({
+  placement = 'vertical',
   primaryColor,
-  size = 'small'
 }: PoweredBySectionProps) => {
-  const textStyles = size === 'medium' ? {
+  const textStyles = {
     fontSize: '24px',
     fontStyle: 'normal' as const,
     fontWeight: 400,
     lineHeight: 'normal',
     letterSpacing: '-0.36px',
-  } : {
-    fontSize: '16px',
-    fontStyle: 'normal' as const,
-    fontWeight: 400,
-    lineHeight: 'normal',
-    letterSpacing: '-0.24px',
   }
 
-  const logoStyles = size === 'medium' ? {
-    width: '180px',
-    height: '32px',
-  } : {
+  const logoStyles = {
     width: '124px',
     height: '22px',
   }
@@ -39,7 +28,7 @@ export const PoweredBySection = ({
         display: 'flex',
         flexDirection: placement === 'horizontal' ? 'row' : 'column',
         alignItems: placement === 'horizontal' ? 'center' : 'flex-start',
-        gap: placement === 'horizontal' ? '16px' : '8px',
+        gap: '8px',
       }}
     >
       <span
@@ -47,7 +36,7 @@ export const PoweredBySection = ({
           ...textStyles,
           fontFamily: '"Suisse Int\'l", sans-serif',
           color: primaryColor,
-          opacity: 0.6,
+          opacity: 0.4,
         }}
       >
         Powered by
@@ -60,7 +49,7 @@ export const PoweredBySection = ({
         fill="none"
         style={{
           ...logoStyles,
-          opacity: 0.6,
+          opacity: 0.4,
         }}
       >
         <path

@@ -192,10 +192,8 @@ export const createShopOGImageAsyncRoute = createRoute({
   description: `Generate an Open Graph image for a shop asynchronously. Returns immediately with accepted status while processing in background.
   
 Strategies:
-- **COMING_SOON**: Password/coming soon state with "Coming Soon" banner
-- **COMING_SOON_WITH_DATE**: Coming soon with launch date display
-- **EMPTY_SHOP**: Live shop with no products (no "Powered by Fourthwall")
-- **LIVE_WITH_PRODUCTS**: Live shop with products showing first product image`,
+- **LOGO_CENTERED**: Displays the shop logo centered with optional "Powered by Fourthwall" footer
+`,
   request: {
     body: {
       content: {
@@ -213,15 +211,17 @@ Strategies:
       description: 'Request accepted for processing',
       content: {
         'application/json': {
-          schema: z.object({
-            status: z.string(),
-            message: z.string(),
-          }).openapi({
-            example: {
-              status: 'accepted',
-              message: 'OG image generation request received and is being processed',
-            },
-          }),
+          schema: z
+            .object({
+              status: z.string(),
+              message: z.string(),
+            })
+            .openapi({
+              example: {
+                status: 'accepted',
+                message: 'OG image generation request received and is being processed',
+              },
+            }),
         },
       },
     },
