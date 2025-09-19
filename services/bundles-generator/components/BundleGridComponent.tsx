@@ -47,7 +47,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               left: 100,
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -62,7 +62,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               right: 100,
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
         </div>
@@ -107,7 +107,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               left: padding, // 100px from left
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -122,7 +122,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               right: padding, // 100px from right edge
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -137,7 +137,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               left: 320 + padding, // 320px + 100px padding = 420px from left
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
         </div>
@@ -185,7 +185,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               left: 128,
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -200,7 +200,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               right: 128,
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -215,7 +215,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               left: 128,
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -230,7 +230,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               right: 128,
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -246,7 +246,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               transform: 'translate(-50%, -50%)',
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
               zIndex: 1, // On top of other images
             }}
           />
@@ -292,7 +292,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               left: padding, // 100px from left
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -307,7 +307,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               right: padding, // 100px from right edge
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -322,7 +322,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               left: padding, // 100px from left edge
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
 
@@ -337,7 +337,7 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
               right: padding, // 100px from right edge
               width: productWidth,
               height: productHeight,
-              objectFit: 'cover',
+              objectFit: 'contain',
             }}
           />
         </div>
