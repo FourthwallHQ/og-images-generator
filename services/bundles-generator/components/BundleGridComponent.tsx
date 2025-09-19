@@ -145,6 +145,116 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
     )
   }
 
+  const renderFiveProducts = () => {
+    // Fixed dimensions for products
+    // Width: 563px with 3:4 aspect ratio
+    const productWidth = 563
+    const productHeight = Math.round(productWidth * (4 / 3)) // 751px
+
+    // Container dimensions for centering
+    const containerWidth = 1536
+    const containerHeight = 2048
+
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'transparent',
+        }}
+      >
+        {/* Wrapper for absolute positioned items */}
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            display: 'flex',
+          }}
+        >
+          {/* First image - top-left */}
+          <img
+            src={imageUrls[0]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              top: 143,
+              left: 128,
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Second image - top-right */}
+          <img
+            src={imageUrls[1]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              top: 246,
+              right: 128,
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Third image - bottom-left */}
+          <img
+            src={imageUrls[2]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              bottom: 246,
+              left: 128,
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Fourth image - bottom-right */}
+          <img
+            src={imageUrls[3]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              bottom: 143,
+              right: 128,
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Fifth image - centered with higher z-index */}
+          <img
+            src={imageUrls[4]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+              zIndex: 1, // On top of other images
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+
   const renderFourProducts = () => {
     // Fixed dimensions for products
     // Width: 615px with 3:4 aspect ratio
@@ -236,8 +346,8 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
   }
 
 
-  // Support only 2-4 products
-  if (productCount < 2 || productCount > 4) {
+  // For less than 2 products - show error
+  if (productCount < 2) {
     return (
       <div
         style={{
@@ -259,15 +369,31 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
             gap: '20px',
           }}
         >
-          <div>Only 2, 3 or 4 products supported</div>
+          <div>Minimum 2 products required</div>
           <div style={{ fontSize: '20px', opacity: 0.7, marginTop: '20px' }}>
-            Bundle must contain 2-4 products
+            Bundle must contain at least 2 products
           </div>
         </div>
       </div>
     )
   }
 
+  // For more than 5 products - use only first 5
+  if (productCount > 5) {
+    // Slice arrays to use only first 5
+    const limitedUrls = imageUrls.slice(0, 5)
+    const limitedAvailability = imageAvailability.slice(0, 5)
+
+    // Create a new component instance with limited data
+    return (
+      <BundleGridComponent
+        imageUrls={limitedUrls}
+        imageAvailability={limitedAvailability}
+      />
+    )
+  }
+
+  // Handle 2-5 products normally
   switch (productCount) {
     case 2:
       return renderTwoProducts()
@@ -275,6 +401,8 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
       return renderThreeProducts()
     case 4:
       return renderFourProducts()
+    case 5:
+      return renderFiveProducts()
     default:
       return null
   }

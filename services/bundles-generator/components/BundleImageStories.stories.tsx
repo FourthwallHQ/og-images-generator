@@ -40,7 +40,7 @@ type Story = StoryObj<typeof BundleGridComponent>
 const SAMPLE_URLS = [
   'https://cdn.staging.fourthwall.com/customizations/sh_5571d83e-a68b-40ae-a191-0659fb72a4e2/14bbd894-30f5-452f-928a-86efe6919e4a.webp',
   'https://storage.googleapis.com/popshop-staging-orders-customizations-single/sh_5571d83e-a68b-40ae-a191-0659fb72a4e2/720dced4-a1bd-4b24-9842-2e31f316f8b7.webp',
-  'https://cdn.staging.fourthwall.com/customizations/sh_5571d83e-a68b-40ae-a191-0659fb72a4e2/e97d3a33-477e-42da-ae4c-7fd90f1a7bdb.webp',
+  'https://storage.googleapis.com/cdn-single-staging-fourthwall-com/offer/sh_5571d83e-a68b-40ae-a191-0659fb72a4e2/bf6537ff-4fe1-4f70-91bd-42079fe8609a.webp',
   'https://cdn.staging.fourthwall.com/customizations/sh_5571d83e-a68b-40ae-a191-0659fb72a4e2/e1517ac2-88e2-4463-9ea0-9edb93d4d02c.webp',
   'https://cdn.staging.fourthwall.com/customizations/sh_5571d83e-a68b-40ae-a191-0659fb72a4e2/b9378402-27cf-4b5c-ac1c-bedd0ba43732.webp',
   'https://cdn.fourthwall.com/offer/sh_a770864c-ac52-45bc-9e66-4314ef3ef294/d7197c52-439b-49b0-849d-be8e8af89bd0.jpeg',
@@ -77,28 +77,12 @@ export const FourProducts: Story = {
   name: 'Four Products (Diamond Layout)',
 }
 
-export const TwoProductsDifferent: Story = {
+export const FiveProducts: Story = {
   args: {
-    imageUrls: [SAMPLE_URLS[5], SAMPLE_URLS[6]],
-    imageAvailability: [true, true],
+    imageUrls: SAMPLE_URLS.slice(0, 5),
+    imageAvailability: [true, true, true, true, true],
   },
-  name: 'Two Products (Alternative Images)',
-}
-
-export const ThreeProductsDifferent: Story = {
-  args: {
-    imageUrls: [SAMPLE_URLS[7], SAMPLE_URLS[8], SAMPLE_URLS[9]],
-    imageAvailability: [true, true, true],
-  },
-  name: 'Three Products (Alternative Images)',
-}
-
-export const FourProductsDifferent: Story = {
-  args: {
-    imageUrls: [SAMPLE_URLS[6], SAMPLE_URLS[7], SAMPLE_URLS[8], SAMPLE_URLS[9]],
-    imageAvailability: [true, true, true, true],
-  },
-  name: 'Four Products (Alternative Images)',
+  name: 'Five Products (Center Overlay)',
 }
 
 export const InvalidProductCount: Story = {
@@ -111,8 +95,8 @@ export const InvalidProductCount: Story = {
 
 export const TooManyProducts: Story = {
   args: {
-    imageUrls: SAMPLE_URLS.slice(0, 5),
-    imageAvailability: [true, true, true, true, true],
+    imageUrls: SAMPLE_URLS.slice(0, 8),
+    imageAvailability: [true, true, true, true, true, true, true, true],
   },
-  name: 'Too Many Products (5 - Shows Error)',
+  name: 'Too Many Products (8 products - Shows only first 5)',
 }
