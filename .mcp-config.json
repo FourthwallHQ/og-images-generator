@@ -1,0 +1,44 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7"],
+      "description": "Up-to-date documentation for libraries used in OG Image Generator"
+    },
+    "figma": {
+      "command": "node",
+      "args": ["figma-mcp-server"],
+      "description": "Figma Dev Mode integration for design-to-code workflow",
+      "requirements": {
+        "desktop": "Figma desktop app required",
+        "plan": "Dev or Full seat on Professional, Organization, or Enterprise plans",
+        "localServer": "http://127.0.0.1:3845/mcp"
+      }
+    }
+  },
+  "projectLibraries": [
+    "@vercel/og",
+    "hono",
+    "@hono/zod-openapi",
+    "zod",
+    "react",
+    "@storybook/react",
+    "vitest"
+  ],
+  "figmaIntegration": {
+    "components": {
+      "ogImages": "OG image components (1200x630px)",
+      "bundleImages": "Bundle image layouts (1536x2048px)",
+      "sharedComponents": "PoweredBySection, logos, typography"
+    },
+    "designTokens": {
+      "colors": "Brand colors, backgrounds",
+      "typography": "Suisse Int'l, PPTelegraf fonts",
+      "spacing": "Layout grid and spacing system"
+    }
+  },
+  "usage": {
+    "context7": "Add 'use context7' to get latest library documentation",
+    "figma": "Select frame in Figma desktop, then reference in prompts for design context"
+  }
+}

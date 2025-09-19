@@ -177,13 +177,53 @@ request body: [
 
 ```
 
+## MCP (Model Context Protocol) Support
+
+This project includes MCP configuration for enhanced AI-assisted development:
+
+### Context7 MCP
+Provides up-to-date documentation for libraries used in the project. To use:
+- In your AI code editor (Cursor, Claude Code, etc.), add `use context7` to your prompts
+- Example: "How do I create custom styles with @vercel/og? use context7"
+
+### Figma Dev Mode MCP
+Synchronizes Figma designs directly with code generation:
+
+**Setup Requirements:**
+1. Figma desktop app (required - doesn't work in browser)
+2. Dev or Full seat on Professional, Organization, or Enterprise plan
+3. Enable Dev Mode in Figma (Shift + D)
+4. Local server runs at `http://127.0.0.1:3845/mcp`
+
+**How to Use:**
+1. Open your design in Figma desktop app
+2. Switch to Dev Mode (Shift + D)
+3. Select the frame/component you want to implement
+4. In your AI editor, reference the selected Figma context
+5. The MCP will provide component properties, styles, variables, and layout data
+
+**Design Components in Figma:**
+- **OG Images**: 1200x630px templates for shop pages
+- **Bundle Images**: 1536x2048px (3:4) product grid layouts
+- **Shared Components**: PoweredBySection, logos, typography system
+- **Design Tokens**: Colors, spacing, Suisse Int'l & PPTelegraf fonts
+
+### Supported Libraries (Context7)
+- @vercel/og - Image generation
+- Hono & @hono/zod-openapi - Web framework and API documentation
+- Zod - Schema validation
+- React - Component development
+- Storybook - Component documentation
+- Vitest - Testing
+
 ## Architecture Notes
 
 - **Component Architecture**: OG image components are shared between the image generation service and Storybook for consistent rendering
 - **Image Size**: All OG images are generated at 1200x630px (standard OG image dimensions)
+- **Bundle Images**: Support for 1-5 product images in 1536x2048px format (3:4 aspect ratio)
 - **Storybook Integration**: Components are wrapped in `OGImageWrapper` to simulate the exact dimensions used in production
 - **Strategy Pattern**: Currently supports LOGO_CENTERED strategy with shared UI components in the `shared/` directory
-- **GCP Integration**: Mandatory upload to Cloud Storage and Pub/Sub notifications using service account authentication with async processing
+- **GCP Integration**: Optional upload to Cloud Storage and Pub/Sub notifications using service account authentication with async processing
 
 ## License
 

@@ -12,287 +12,204 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
 }) => {
   const productCount = imageUrls.length
 
-  const renderSingleProduct = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '120px',
-        backgroundColor: '#ffffff',
-      }}
-    >
-      <ProductImage
-        src={imageUrls[0]}
-        isAvailable={imageAvailability[0]}
-        width="100%"
-        height="100%"
-      />
-    </div>
-  )
+  const renderTwoProducts = () => {
+    // Fixed dimensions for products
+    const productWidth = 820
+    const productHeight = 1093 // 820 * (4/3) for 3:4 aspect ratio
 
-  const renderTwoProducts = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '40px',
-        padding: '80px',
-        backgroundColor: '#ffffff',
-      }}
-    >
-      {imageUrls.slice(0, 2).map((url, index) => (
+    // Container is 1536x2048, but we position relative to the full container
+    // Images will overlap in the middle
+
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          backgroundColor: 'transparent',
+        }}
+      >
+        {/* First image - top-left corner with 100px padding */}
         <div
-          key={index}
           style={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            position: 'absolute',
+            top: '100px',
+            left: '100px',
+            width: `${productWidth}px`,
+            height: `${productHeight}px`,
+            zIndex: 1,
           }}
         >
-          <ProductImage src={url} isAvailable={imageAvailability[index]} />
+          <ProductImage
+            src={imageUrls[0]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              width: `${productWidth}px`,
+              height: `${productHeight}px`,
+              objectFit: 'cover',
+              aspectRatio: '3 / 4',
+            }}
+          />
         </div>
-      ))}
-    </div>
-  )
 
-  const renderThreeProducts = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '30px',
-        padding: '60px',
-        backgroundColor: '#ffffff',
-      }}
-    >
-      {imageUrls.slice(0, 3).map((url, index) => (
+        {/* Second image - bottom-right corner with 100px padding */}
         <div
-          key={index}
           style={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            position: 'absolute',
+            bottom: '100px',
+            right: '100px',
+            width: `${productWidth}px`,
+            height: `${productHeight}px`,
+            zIndex: 2,
           }}
         >
-          <ProductImage src={url} isAvailable={imageAvailability[index]} />
+          <ProductImage
+            src={imageUrls[1]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              width: `${productWidth}px`,
+              height: `${productHeight}px`,
+              objectFit: 'cover',
+              aspectRatio: '3 / 4',
+            }}
+          />
         </div>
-      ))}
-    </div>
-  )
+      </div>
+    )
+  }
 
-  const renderFourProducts = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '30px',
-        padding: '60px',
-        backgroundColor: '#ffffff',
-      }}
-    >
-      {[0, 1].map((row) => (
+  const renderThreeProducts = () => {
+    // Fixed dimensions for products
+    const productWidth = 820
+    const productHeight = 1093 // 3:4 aspect ratio
+
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          backgroundColor: 'transparent',
+        }}
+      >
+        {/* First image - top-left */}
         <div
-          key={row}
           style={{
-            flex: 1,
-            display: 'flex',
-            gap: '30px',
+            position: 'absolute',
+            top: '100px',
+            left: '100px',
+            width: `${productWidth}px`,
+            height: `${productHeight}px`,
+            zIndex: 1,
           }}
         >
-          {[0, 1].map((col) => {
-            const index = row * 2 + col
-            return (
-              <div
-                key={col}
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <ProductImage
-                  src={imageUrls[index]}
-                  isAvailable={imageAvailability[index]}
-                />
-              </div>
-            )
-          })}
+          <ProductImage
+            src={imageUrls[0]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              width: `${productWidth}px`,
+              height: `${productHeight}px`,
+              objectFit: 'cover',
+              aspectRatio: '3 / 4',
+            }}
+          />
         </div>
-      ))}
-    </div>
-  )
 
-  const renderSixProducts = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '25px',
-        padding: '50px',
-        backgroundColor: '#ffffff',
-      }}
-    >
-      {[0, 1, 2].map((row) => (
+        {/* Second image - top-right */}
         <div
-          key={row}
           style={{
-            flex: 1,
-            display: 'flex',
-            gap: '25px',
+            position: 'absolute',
+            top: '100px',
+            right: '100px',
+            width: `${productWidth}px`,
+            height: `${productHeight}px`,
+            zIndex: 2,
           }}
         >
-          {[0, 1].map((col) => {
-            const index = row * 2 + col
-            if (index >= productCount) return null
-            return (
-              <div
-                key={col}
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <ProductImage
-                  src={imageUrls[index]}
-                  isAvailable={imageAvailability[index]}
-                />
-              </div>
-            )
-          })}
+          <ProductImage
+            src={imageUrls[1]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              width: `${productWidth}px`,
+              height: `${productHeight}px`,
+              objectFit: 'cover',
+              aspectRatio: '3 / 4',
+            }}
+          />
         </div>
-      ))}
-    </div>
-  )
 
-  const renderNineProducts = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-        padding: '40px',
-        backgroundColor: '#ffffff',
-      }}
-    >
-      {[0, 1, 2].map((row) => (
+        {/* Third image - bottom-center */}
         <div
-          key={row}
           style={{
-            flex: 1,
-            display: 'flex',
+            position: 'absolute',
+            bottom: '100px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: `${productWidth}px`,
+            height: `${productHeight}px`,
+            zIndex: 3,
+          }}
+        >
+          <ProductImage
+            src={imageUrls[2]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              width: `${productWidth}px`,
+              height: `${productHeight}px`,
+              objectFit: 'cover',
+              aspectRatio: '3 / 4',
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+
+
+  // Support only 2-3 products
+  // Less than 2 or more than 3 products not supported
+  if (productCount < 2 || productCount > 3) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          padding: '100px',
+        }}
+      >
+        <div
+          style={{
+            color: '#999',
+            fontSize: '32px',
+            textAlign: 'center',
+            flexDirection: 'column',
             gap: '20px',
           }}
         >
-          {[0, 1, 2].map((col) => {
-            const index = row * 3 + col
-            if (index >= productCount) return null
-            return (
-              <div
-                key={col}
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <ProductImage
-                  src={imageUrls[index]}
-                  isAvailable={imageAvailability[index]}
-                />
-              </div>
-            )
-          })}
+          <div>Only 2 or 3 products supported</div>
+          <div style={{ fontSize: '20px', opacity: 0.7, marginTop: '20px' }}>
+            Bundle must contain exactly 2 or 3 products
+          </div>
         </div>
-      ))}
-    </div>
-  )
-
-  const renderTwelveProducts = () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '15px',
-        padding: '35px',
-        backgroundColor: '#ffffff',
-      }}
-    >
-      {[0, 1, 2, 3].map((row) => (
-        <div
-          key={row}
-          style={{
-            flex: 1,
-            display: 'flex',
-            gap: '15px',
-          }}
-        >
-          {[0, 1, 2].map((col) => {
-            const index = row * 3 + col
-            if (index >= productCount) return null
-            return (
-              <div
-                key={col}
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <ProductImage
-                  src={imageUrls[index]}
-                  isAvailable={imageAvailability[index]}
-                />
-              </div>
-            )
-          })}
-        </div>
-      ))}
-    </div>
-  )
+      </div>
+    )
+  }
 
   switch (productCount) {
-    case 1:
-      return renderSingleProduct()
     case 2:
       return renderTwoProducts()
     case 3:
       return renderThreeProducts()
-    case 4:
-      return renderFourProducts()
-    case 5:
-    case 6:
-      return renderSixProducts()
-    case 7:
-    case 8:
-    case 9:
-      return renderNineProducts()
-    case 10:
-    case 11:
-    case 12:
-      return renderTwelveProducts()
     default:
-      return renderNineProducts()
+      return null
   }
 }

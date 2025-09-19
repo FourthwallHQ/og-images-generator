@@ -7,16 +7,14 @@ const BundleImageWrapper = ({ children }: { children: React.ReactNode }) => (
     style={{
       width: '768px',
       height: '1024px',
-      border: '2px solid #333',
-      borderRadius: '12px',
       overflow: 'hidden',
       boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
       position: 'relative',
-      backgroundColor: '#f5f5f5',
+      backgroundColor: 'transparent',
     }}
   >
     <div style={{ transform: 'scale(0.5)', transformOrigin: 'top left' }}>
-      <div style={{ width: '1536px', height: '2048px' }}>{children}</div>
+      <div style={{ width: '1536px', height: '2048px', backgroundColor: '#f5f5f5' }}>{children}</div>
     </div>
   </div>
 )
@@ -54,18 +52,13 @@ const SAMPLE_URLS = [
   'https://imgproxy.fourthwall.com/a1mt3Or3pPUwLBDyQgaPbZh8MC68XIUEXgGw2x8pyso/w:720/sm:1/enc/bexLTO-60ZQdS-u4.webp',
 ]
 
-export const SingleProduct: Story = {
-  args: {
-    imageUrls: [SAMPLE_URLS[0]],
-    imageAvailability: [true],
-  },
-}
-
+// Only 2-3 products supported
 export const TwoProducts: Story = {
   args: {
     imageUrls: SAMPLE_URLS.slice(0, 2),
     imageAvailability: [true, true],
   },
+  name: 'Two Products (Overlapping)',
 }
 
 export const ThreeProducts: Story = {
@@ -73,34 +66,37 @@ export const ThreeProducts: Story = {
     imageUrls: SAMPLE_URLS.slice(0, 3),
     imageAvailability: [true, true, true],
   },
+  name: 'Three Products (Triangle Layout)',
 }
 
-export const FourProducts: Story = {
+export const TwoProductsDifferent: Story = {
   args: {
-    imageUrls: SAMPLE_URLS.slice(0, 4),
-    imageAvailability: [true, true, true, true],
+    imageUrls: [SAMPLE_URLS[5], SAMPLE_URLS[6]],
+    imageAvailability: [true, true],
   },
+  name: 'Two Products (Alternative Images)',
 }
 
-export const FiveProducts: Story = {
+export const ThreeProductsDifferent: Story = {
+  args: {
+    imageUrls: [SAMPLE_URLS[7], SAMPLE_URLS[8], SAMPLE_URLS[9]],
+    imageAvailability: [true, true, true],
+  },
+  name: 'Three Products (Alternative Images)',
+}
+
+export const InvalidProductCount: Story = {
+  args: {
+    imageUrls: [SAMPLE_URLS[0]],
+    imageAvailability: [true],
+  },
+  name: 'Invalid Count (1 product - Shows Error)',
+}
+
+export const TooManyProducts: Story = {
   args: {
     imageUrls: SAMPLE_URLS.slice(0, 5),
     imageAvailability: [true, true, true, true, true],
   },
-}
-
-export const MixedAvailability: Story = {
-  args: {
-    imageUrls: SAMPLE_URLS.slice(0, 5),
-    imageAvailability: [true, false, true, true, false],
-  },
-  name: 'Mixed Available/Unavailable (5 products)',
-}
-
-export const AllUnavailable: Story = {
-  args: {
-    imageUrls: SAMPLE_URLS.slice(0, 4),
-    imageAvailability: [false, false, false, false],
-  },
-  name: 'All Images Unavailable',
+  name: 'Too Many Products (5 - Shows Error)',
 }
