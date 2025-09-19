@@ -17,62 +17,52 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
     const productWidth = 820
     const productHeight = 1093 // 820 * (4/3) for 3:4 aspect ratio
 
-    // Container is 1536x2048, but we position relative to the full container
-    // Images will overlap in the middle
-
     return (
       <div
         style={{
           width: '100%',
           height: '100%',
-          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
           backgroundColor: 'transparent',
         }}
       >
-        {/* First image - top-left corner with 100px padding */}
+        {/* Wrapper for absolute positioned items */}
         <div
           style={{
-            position: 'absolute',
-            top: '100px',
-            left: '100px',
-            width: `${productWidth}px`,
-            height: `${productHeight}px`,
-            zIndex: 1,
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            display: 'flex',
           }}
         >
-          <ProductImage
+          {/* First image - top-left corner with 100px padding */}
+          <img
             src={imageUrls[0]}
             width={productWidth}
             height={productHeight}
             style={{
-              width: `${productWidth}px`,
-              height: `${productHeight}px`,
+              position: 'absolute',
+              top: 100,
+              left: 100,
+              width: productWidth,
+              height: productHeight,
               objectFit: 'cover',
-              aspectRatio: '3 / 4',
             }}
           />
-        </div>
 
-        {/* Second image - bottom-right corner with 100px padding */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '100px',
-            right: '100px',
-            width: `${productWidth}px`,
-            height: `${productHeight}px`,
-            zIndex: 2,
-          }}
-        >
-          <ProductImage
+          {/* Second image - bottom-right corner with 100px padding */}
+          <img
             src={imageUrls[1]}
             width={productWidth}
             height={productHeight}
             style={{
-              width: `${productWidth}px`,
-              height: `${productHeight}px`,
+              position: 'absolute',
+              bottom: 100,
+              right: 100,
+              width: productWidth,
+              height: productHeight,
               objectFit: 'cover',
-              aspectRatio: '3 / 4',
             }}
           />
         </div>
@@ -90,79 +80,63 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
         style={{
           width: '100%',
           height: '100%',
-          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
           backgroundColor: 'transparent',
         }}
       >
-        {/* First image - top-left */}
+        {/* Wrapper for absolute positioned items */}
         <div
           style={{
-            position: 'absolute',
-            top: '100px',
-            left: '100px',
-            width: `${productWidth}px`,
-            height: `${productHeight}px`,
-            zIndex: 1,
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            display: 'flex',
           }}
         >
-          <ProductImage
+          {/* First image - top-left */}
+          <img
             src={imageUrls[0]}
             width={productWidth}
             height={productHeight}
             style={{
-              width: `${productWidth}px`,
-              height: `${productHeight}px`,
+              position: 'absolute',
+              top: 100,
+              left: 100,
+              width: productWidth,
+              height: productHeight,
               objectFit: 'cover',
-              aspectRatio: '3 / 4',
             }}
           />
-        </div>
 
-        {/* Second image - top-right */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '100px',
-            right: '100px',
-            width: `${productWidth}px`,
-            height: `${productHeight}px`,
-            zIndex: 2,
-          }}
-        >
-          <ProductImage
+          {/* Second image - top-right */}
+          <img
             src={imageUrls[1]}
             width={productWidth}
             height={productHeight}
             style={{
-              width: `${productWidth}px`,
-              height: `${productHeight}px`,
+              position: 'absolute',
+              top: 100,
+              right: 100,
+              width: productWidth,
+              height: productHeight,
               objectFit: 'cover',
-              aspectRatio: '3 / 4',
             }}
           />
-        </div>
 
-        {/* Third image - bottom-center */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '100px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: `${productWidth}px`,
-            height: `${productHeight}px`,
-            zIndex: 3,
-          }}
-        >
-          <ProductImage
+          {/* Third image - bottom-center */}
+          <img
             src={imageUrls[2]}
             width={productWidth}
             height={productHeight}
             style={{
-              width: `${productWidth}px`,
-              height: `${productHeight}px`,
+              position: 'absolute',
+              bottom: 100,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: productWidth,
+              height: productHeight,
               objectFit: 'cover',
-              aspectRatio: '3 / 4',
             }}
           />
         </div>
