@@ -66,7 +66,15 @@ export const ThreeProducts: Story = {
     imageUrls: SAMPLE_URLS.slice(0, 3),
     imageAvailability: [true, true, true],
   },
-  name: 'Three Products (Triangle Layout)',
+  name: 'Three Products (Custom Positioning)',
+}
+
+export const FourProducts: Story = {
+  args: {
+    imageUrls: SAMPLE_URLS.slice(0, 4),
+    imageAvailability: [true, true, true, true],
+  },
+  name: 'Four Products (Diamond Layout)',
 }
 
 export const TwoProductsDifferent: Story = {
@@ -83,6 +91,14 @@ export const ThreeProductsDifferent: Story = {
     imageAvailability: [true, true, true],
   },
   name: 'Three Products (Alternative Images)',
+}
+
+export const FourProductsDifferent: Story = {
+  args: {
+    imageUrls: [SAMPLE_URLS[6], SAMPLE_URLS[7], SAMPLE_URLS[8], SAMPLE_URLS[9]],
+    imageAvailability: [true, true, true, true],
+  },
+  name: 'Four Products (Alternative Images)',
 }
 
 export const InvalidProductCount: Story = {

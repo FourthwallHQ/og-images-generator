@@ -145,10 +145,99 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
     )
   }
 
+  const renderFourProducts = () => {
+    // Fixed dimensions for products
+    // Width: 615px with 3:4 aspect ratio
+    const productWidth = 615
+    const productHeight = Math.round(productWidth * (4 / 3)) // 820px
+    const padding = 100
 
-  // Support only 2-3 products
-  // Less than 2 or more than 3 products not supported
-  if (productCount < 2 || productCount > 3) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'transparent',
+        }}
+      >
+        {/* Wrapper for absolute positioned items */}
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            display: 'flex',
+          }}
+        >
+          {/* First image - top-left corner */}
+          <img
+            src={imageUrls[0]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              top: padding, // 100px from top
+              left: padding, // 100px from left
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Second image - right edge, 220px from top (including 100px padding) */}
+          <img
+            src={imageUrls[1]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              top: 220, // 220px from top edge (including padding)
+              right: padding, // 100px from right edge
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Third image - left edge, 220px from bottom (including 100px padding) */}
+          <img
+            src={imageUrls[2]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              bottom: 220, // 220px from bottom edge (including padding)
+              left: padding, // 100px from left edge
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Fourth image - bottom-right corner */}
+          <img
+            src={imageUrls[3]}
+            width={productWidth}
+            height={productHeight}
+            style={{
+              position: 'absolute',
+              bottom: padding, // 100px from bottom
+              right: padding, // 100px from right edge
+              width: productWidth,
+              height: productHeight,
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+
+
+  // Support only 2-4 products
+  if (productCount < 2 || productCount > 4) {
     return (
       <div
         style={{
@@ -170,9 +259,9 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
             gap: '20px',
           }}
         >
-          <div>Only 2 or 3 products supported</div>
+          <div>Only 2, 3 or 4 products supported</div>
           <div style={{ fontSize: '20px', opacity: 0.7, marginTop: '20px' }}>
-            Bundle must contain exactly 2 or 3 products
+            Bundle must contain 2-4 products
           </div>
         </div>
       </div>
@@ -184,6 +273,8 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
       return renderTwoProducts()
     case 3:
       return renderThreeProducts()
+    case 4:
+      return renderFourProducts()
     default:
       return null
   }
