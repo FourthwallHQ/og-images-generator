@@ -72,8 +72,10 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
 
   const renderThreeProducts = () => {
     // Fixed dimensions for products
-    const productWidth = 820
-    const productHeight = 1093 // 3:4 aspect ratio
+    // Width: 715px with 3:4 aspect ratio
+    const productWidth = 715
+    const productHeight = Math.round(productWidth * (4 / 3)) // 953px
+    const padding = 100
 
     return (
       <div
@@ -94,46 +96,45 @@ export const BundleGridComponent: React.FC<BundleGridComponentProps> = ({
             display: 'flex',
           }}
         >
-          {/* First image - top-left */}
+          {/* First image - top-left corner with 100px padding */}
           <img
             src={imageUrls[0]}
             width={productWidth}
             height={productHeight}
             style={{
               position: 'absolute',
-              top: 100,
-              left: 100,
+              top: padding, // 100px from top
+              left: padding, // 100px from left
               width: productWidth,
               height: productHeight,
               objectFit: 'cover',
             }}
           />
 
-          {/* Second image - top-right */}
+          {/* Second image - right edge, 420px from top (plus 100px padding) */}
           <img
             src={imageUrls[1]}
             width={productWidth}
             height={productHeight}
             style={{
               position: 'absolute',
-              top: 100,
-              right: 100,
+              top: 420 + padding, // 420px + 100px padding = 520px from top
+              right: padding, // 100px from right edge
               width: productWidth,
               height: productHeight,
               objectFit: 'cover',
             }}
           />
 
-          {/* Third image - bottom-center */}
+          {/* Third image - bottom edge, 320px from left (plus 100px padding) */}
           <img
             src={imageUrls[2]}
             width={productWidth}
             height={productHeight}
             style={{
               position: 'absolute',
-              bottom: 100,
-              left: '50%',
-              transform: 'translateX(-50%)',
+              bottom: padding, // 100px from bottom
+              left: 320 + padding, // 320px + 100px padding = 420px from left
               width: productWidth,
               height: productHeight,
               objectFit: 'cover',
