@@ -112,7 +112,7 @@ export const LogoCenteredComponent = ({
             justifyContent: 'center',
           }}
         >
-          <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} size="small" />
+          <PoweredBySection primaryColor={primaryColor} placement={'horizontal'} />
         </div>
       )}
     </div>
