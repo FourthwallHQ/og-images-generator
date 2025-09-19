@@ -125,6 +125,62 @@ Project requires Node.js 20.19.0+ for Storybook compatibility. If using version 
 
 - **fnm**: `fnm use 20` or `fnm install 20 && fnm use 20`
 - **nvm**: `nvm use 20` or `nvm install 20 && nvm use 20`
+## Critical @vercel/og Limitations - MUST READ
+
+### ⚠️ Common Errors and How to Fix Them
+
+#### Error: "Expected style zIndex to be unitless"
+**Cause:** Using `zIndex: 1px` or any unit with zIndex
+**Solution:**
+```jsx
+// ❌ WRONG
+style={{ zIndex: '1px' }} // or zIndex: 1px
+
+// ✅ CORRECT
+style={{ zIndex: 1 }} // or just omit zIndex entirely
+```
+
+#### Error: "Expected <div> to have explicit display: flex, display: contents, or display: none"
+**Cause:** Container with multiple children lacks display property
+**Solution:**
+```jsx
+// ❌ WRONG
+<div>
+  <Child1 />
+  <Child2 />
+</div>
+
+// ✅ CORRECT
+<div style={{ display: 'flex' }}>
+  <Child1 />
+  <Child2 />
+</div>
+```
+
+### Bundle Images Specific Rules
+
+For overlapping images with absolute positioning:
+```jsx
+// ✅ CORRECT PATTERN
+<div style={{ display: 'flex', flexDirection: 'column' }}>
+  <div style={{ position: 'relative', display: 'flex', width: '100%', height: '100%' }}>
+    <img style={{
+      position: 'absolute',
+      top: 100,    // Numeric, not '100px'
+      left: 100,   // Numeric, not '100px'
+      width: 820,  // Numeric, not '820px'
+      height: 1093 // Numeric, not '1093px'
+    }} />
+  </div>
+</div>
+```
+
+**Key Rules:**
+1. Use numeric values without 'px' for styles (top, left, width, height)
+2. Use native `<img>` tags, not custom components
+3. Always add `display: 'flex'` to containers with multiple children
+4. Avoid zIndex or use it without units
+
 # Notatki dotyczące OG Image Generator - Claude
 
 ## Problem z logo w @vercel/og (październik 2024)
