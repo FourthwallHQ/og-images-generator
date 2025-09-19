@@ -1,7 +1,7 @@
 import { z } from '@hono/zod-openapi'
 
 export const BundleImageRequestSchema = z
-  .array(z.string().url())
+  .array(z.url())
   .min(1)
   .max(12)
   .openapi({

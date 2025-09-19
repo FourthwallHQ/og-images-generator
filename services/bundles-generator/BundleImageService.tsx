@@ -2,7 +2,7 @@ import React from 'react'
 import { ImageResponse } from '@vercel/og'
 import { BundleImageRequest } from './schemas.js'
 import { BundleGridComponent } from './components/BundleGridComponent.js'
-import { ImageConverter } from './image-converter.js'
+import { ImageConverter } from './utils/image-converter.js'
 
 export class BundleImageService {
   static async checkImageAvailability(imageUrl: string): Promise<boolean> {
@@ -31,7 +31,7 @@ export class BundleImageService {
 
     // Check availability of all images (including converted ones)
     const imageAvailability = await this.checkAllImagesAvailability(
-      convertedImages.map((img) => img.originalUrl)
+      convertedImages.map((img) => img.originalUrl),
     )
 
     return new ImageResponse(
